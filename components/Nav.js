@@ -8,7 +8,7 @@ export default function Nav() {
         <Link href="/" passHref className="cursor-pointer">
 
           <span className="text-lg pt-1 font-bold">
-              Shopify + Next.js
+              Forensic Drone
           </span>
 
         </Link>
