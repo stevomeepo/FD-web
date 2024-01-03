@@ -3,7 +3,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
 import Image from 'next/image'
 import Link from 'next/link'
-import { CartContext } from '../context/ShopContext'
+import { CartContext } from '../context/shopContext'
 import { formatter } from '../utils/helpers'
 
 

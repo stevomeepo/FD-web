@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { useContext } from 'react'
-import { CartContext } from '../context/ShopContext'
+import { CartContext } from '../context/shopContext'
 import MiniCart from './MiniCart'
 
 export default function Nav() {
