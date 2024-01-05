@@ -12,7 +12,6 @@ export default function ShopProvider({ children }) {
 
 
   useEffect(() => {
-    console.log(localStorage.checkout_id)
     if (localStorage.checkout_id) {
       const cartObject = JSON.parse(localStorage.checkout_id)
       if (cartObject[0].id) {
@@ -30,9 +29,7 @@ export default function ShopProvider({ children }) {
 
   async function addToCart(addedItem) {
     const newItem = {...addedItem}
-    console.log(newItem)
     setCartOpen(true)
-
     if (cart.length === 0) {
       setCart([newItem])
 
