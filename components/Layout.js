@@ -1,5 +1,6 @@
 import React from 'react'
 import Nav from './Nav'
+import Footer from './Footer'
 
 export default function Layout({ children }) {
   return (
@@ -8,9 +9,7 @@ export default function Layout({ children }) {
         <main>
             {children}
         </main>
-        <footer>
-            Footer
-        </footer>
+        <Footer />
     </div>
   )
 }
