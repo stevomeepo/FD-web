@@ -1,6 +1,7 @@
 import React from 'react'
 import Nav from './Nav'
 import Footer from './Footer'
+import Newsletter from './Newsletter'
 
 export default function Layout({ children }) {
   return (
@@ -9,6 +10,7 @@ export default function Layout({ children }) {
         <main>
             {children}
         </main>
+        <Newsletter />
         <Footer />
     </div>
   )
