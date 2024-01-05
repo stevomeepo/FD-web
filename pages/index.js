@@ -13,7 +13,6 @@ export default function Home({ products }) {
       </Head>
       <Hero />
       <ProductList products={products} />
-      <Newsletter />
     </div>
   )
 }

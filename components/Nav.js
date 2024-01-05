@@ -18,7 +18,7 @@ export default function Nav() {
     <header className="border-b sticky top-0 z-20 bg-white">
       <div className="flex items-center justify-between max-w-6xl pt-4 pb-2 px-4 mx-auto lg:max-w-screen-xl">
         <button onClick={() => setSidebarOpen(!sidebarOpen)}>
-          <img src="https://cdn.shopify.com/s/files/1/0852/4529/6941/files/menu.png?v=1704455760" alt="Menu" width={20} height={20} />
+          <Image src="https://cdn.shopify.com/s/files/1/0852/4529/6941/files/menu.png?v=1704455760" alt="Menu" width={20} height={20} />
         </button>
         <Link href="/" passHref className="cursor-pointer">
           <Image src="https://cdn.shopify.com/s/files/1/0852/4529/6941/files/Forensic-Drone-Logo.jpg?v=1704444978" 
@@ -27,6 +27,7 @@ export default function Nav() {
           />
         </Link>
         <Link href="/products" passHref className="text-md font-bold cursor-pointer">Products</Link>
+        <Link href="/shipping-and-returns" className="text-md font-bold cursor-pointer">Shipping & Returns</Link>
         <a 
           className="text-md font-bold cursor-pointer"
           onClick={() => setCartOpen(!cartOpen)}
