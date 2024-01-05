@@ -1,19 +1,14 @@
 import { getProductInCollection } from '../lib/shopify'
 import ProductList from '../components/ProductList'
-import Hero from "../components/Hero"
 import Head from 'next/head'
-import Newsletter from "../components/Newsletter"
 
-export default function Home({ products }) {
-
+export default function Products({ products }) {
   return (
     <div className="">
       <Head>
-        <title>Forensic Drone</title>
+        <title>Products - Forensic Drone</title>
       </Head>
-      <Hero />
       <ProductList products={products} />
-      <Newsletter />
     </div>
   )
 }
