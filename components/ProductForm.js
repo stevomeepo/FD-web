@@ -5,7 +5,6 @@ import { CartContext } from "../context/shopContext"
 import axios from "axios"
 import useSWR from 'swr'
 
-// setup inventory fetcher
 const fetchInventory = (url, id) =>
   axios
     .get(url, {
