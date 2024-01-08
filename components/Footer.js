@@ -1,7 +1,8 @@
 const navigation = [
     { name: 'About', href: '#' },
     { name: 'Products', href: '/products' },
-    { name: 'Contact Us', href: '#' },
+    { name: 'Contact Us', href: '/contact' },
+    { name: 'Shipping & Returns', href: "/shipping-and-returns" },
     { name: 'Terms and Conditions', href: '#' }
 
   ]

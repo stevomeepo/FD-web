@@ -30,9 +30,7 @@ export default function Nav() {
         </Link>
         <nav className="hidden lg:flex justify-center space-x-7">
           <Link href="/products" passHref className="text-md font-bold cursor-pointer">Products</Link>
-          <Link href="/shipping-and-returns" className="text-md font-bold cursor-pointer">Shipping & Returns</Link>
         </nav>
-        {/* Cart Icon */}
         <div className="relative">
           <button
             type="button"
@@ -46,13 +44,10 @@ export default function Nav() {
             <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{cartQuantity}</span>
             <span className="sr-only">items in cart, view bag</span>
           </button>
-
-          {/* Conditionally render MiniCart based on cartOpen state */}
           {cartOpen && <MiniCart cart={cart} />}
         </div>
       </div>
       <Transition.Root show={sidebarOpen} as={Fragment}>
-        {/* ... rest of the sidebar code */}
       </Transition.Root>
     </header>
   );
