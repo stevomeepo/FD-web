@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import ProductForm from './ProductForm'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import SwiperCore, { Navigation, Pagination } from 'swiper'
+import SwiperCore, { Navigation, Pagination } from 'swiper/modules'
 import RecommendedList from './RecommendedList'
 
 export default function ProductPageContent({ product }) {
@@ -15,8 +15,6 @@ export default function ProductPageContent({ product }) {
       </SwiperSlide>
     )
   })
-
-  SwiperCore.use([Navigation, Pagination])
 
   return (
     <div>
