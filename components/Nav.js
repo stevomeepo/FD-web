@@ -23,7 +23,8 @@ export default function Nav() {
           <Image src="https://cdn.shopify.com/s/files/1/0852/4529/6941/files/menu.png?v=1704455760" alt="Menu" width={20} height={20} />
         </button>
         <Link href="/" passHref className="cursor-pointer">
-          <Image src="https://cdn.shopify.com/s/files/1/0852/4529/6941/files/Forensic-Drone-Logo.jpg?v=1704444978" 
+          <Image src="https://cdn.shopify.com/s/files/1/0852/4529/6941/files/Forensic-Drone-Logo.jpg?v=1704444978"
+            alt="logo" 
             width={150}
             height={100}
           />
