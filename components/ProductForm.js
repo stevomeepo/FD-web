@@ -106,7 +106,7 @@ export default function ProductForm({ product }) {
             onClick={() => {
               addToCart(selectedVariant)
             }}
-            className="px-2 py-3 mt-3 text-white bg-black rounded-lg hover:bg-gray-800">Add To Cart
+            className="px-2 py-3 mt-3 text-white bg-black rounded-lg hover:bg-red-500">Add To Cart
           </button> :
           <button
             className="px-2 py-3 mt-3 text-white bg-gray-800 rounded-lg cursor-not-allowed">
