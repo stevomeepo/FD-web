@@ -1,7 +1,7 @@
 import Airtable from 'airtable';
 import React, { useState } from 'react';
 
-const base = new Airtable({apiKey: 'pat31F36iuXMMMzH9.e62fce6ef63252df641277f157be5cf04d502a70daf8bf7138abd81211ca5d41'}).base('app3awdoqk11Oqz6c');
+const base = new Airtable({apiKey: process.env.NEXT_PUBLIC_AIRTABLE_API_KEY}).base(process.env.NEXT_PUBLIC_AIRTABLE_BASE_ID);
 
 export default function Newsletter() {
   const [message, setMessage] = useState('');
@@ -38,7 +38,7 @@ export default function Newsletter() {
         {!isSubmitted ? (
           <form onSubmit={handleSubmit} className="flex">
             <input input type="email" placeholder="Your email" className="flex-grow max-w-lg rounded-l-md p-2 border-t mr-0 border-b border-l border-gray-200 focus:outline-none focus:border-blue-500" />
-            <button type="submit" className="px-8 rounded-r-md bg-red-500 hover:bg-black text-white hover:text-white font-bold p-2 uppercase border-red border-t border-b border-r">Join</button>
+            <button type="submit" className="px-8 rounded-r-md bg-black hover:hover:bg-red-500 text-white hover:text-white font-bold p-2 uppercase border-red border-t border-b border-r">Join</button>
           </form>
         ) : null}
         <p className={`transition duration-2000 opacity-0 ${isSubmitted ? 'opacity-100' : ''}`}>{message}</p>
