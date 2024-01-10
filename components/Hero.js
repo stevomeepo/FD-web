@@ -10,7 +10,7 @@ export default function Hero() {
           <div className="flex flex-col items-center space-y-8 text-center">
             <div className="space-y-2">
               <h1 className="text-3xl font-bold tracking-tighter text-black sm:text-4xl md:text-5xl lg:text-6xl">
-                Discover the Future of Forensic Technology
+                Discover the Future of Forensic Technology!
               </h1>
             </div>
             <div className="space-x-4">
