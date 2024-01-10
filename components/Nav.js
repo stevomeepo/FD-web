@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { useContext, useState, useRef, Fragment } from 'react';
+import { useContext, useState, useRef } from 'react';
 import { CartContext } from '../context/shopContext';
 import MiniCart from './MiniCart';
 import { Dialog, Transition } from '@headlessui/react';
@@ -9,7 +9,6 @@ import { XIcon, ShoppingCartIcon } from '@heroicons/react/outline'; // Import th
 export default function Nav() {
   const { cart, cartOpen, setCartOpen } = useContext(CartContext);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const cancelButtonRef = useRef(null);
 
   let cartQuantity = 0;
   cart.map(item => {
@@ -33,8 +32,6 @@ export default function Nav() {
         </Link>
         <nav className="hidden lg:flex justify-center space-x-7">
           <Link href="/" passHref className="text-md font-bold cursor-pointer">Home</Link>
-        </nav>        
-        <nav className="hidden lg:flex justify-center space-x-7">
           <Link href="/products" passHref className="text-md font-bold cursor-pointer">Products</Link>
         </nav>
         <div className="relative">
@@ -53,8 +50,17 @@ export default function Nav() {
           {cartOpen && <MiniCart cart={cart} />}
         </div>
       </div>
-      <Transition.Root show={sidebarOpen} as={Fragment}>
-      </Transition.Root>
+      {sidebarOpen && (
+        <div className="absolute top-0 left-0 w-full h-screen bg-white flex flex-col p-8">
+          <button onClick={() => setSidebarOpen(false)} className="mb-4 self-end">
+            <XIcon className="h-6 w-6" />
+          </button>
+          <nav className="flex flex-col space-y-4">
+            <Link href="/" passHref className="text-md font-bold cursor-pointer">Home</Link>
+            <Link href="/products" passHref className="text-md font-bold cursor-pointer">Products</Link>
+          </nav>
+        </div>
+      )}
     </header>
   );
 }
