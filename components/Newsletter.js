@@ -7,10 +7,18 @@ export default function Newsletter() {
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
 
     const handleSubmit = async (event) => {
       event.preventDefault()
       const email = event.target.elements[0].value
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if(!emailRegex.test(email)) {
+        setMessage("Please enter a valid email.")
+        setShowMessage(true);
+        return;
+      }
       
       base('Email').create([
         {
@@ -23,11 +31,13 @@ export default function Newsletter() {
           console.error('Error creating record:', err);
           setMessage('Error submitting form. Please try again.');
           setIsLoading(false);
+          setShowMessage(true);
           return;
         }
         setMessage('Thanks for joining!');
         setIsLoading(false);
         setIsSubmitted(true);
+        setShowMessage(true);
       });
     };
   
@@ -38,10 +48,10 @@ export default function Newsletter() {
         {!isSubmitted ? (
           <form onSubmit={handleSubmit} className="flex">
             <input input type="email" placeholder="Your email" className="flex-grow max-w-lg rounded-l-md p-2 border-t mr-0 border-b border-l border-gray-200 focus:outline-none focus:border-blue-500" />
-            <button type="submit" className="px-8 rounded-r-md bg-black hover:hover:bg-red-500 text-white hover:text-white font-bold p-2 uppercase border-red border-t border-b border-r">Join</button>
+            <button type="submit" className="px-8 rounded-r-md bg-black hover:hover:bg-red-500 text-white hover:text-white font-bold p-2 uppercase border-red border-t border-b border-r">Subscribe</button>
           </form>
         ) : null}
-        <p className={`transition duration-2000 opacity-0 ${isSubmitted ? 'opacity-100' : ''}`}>{message}</p>
+        <p className={`transition duration-2000 ${showMessage ? 'opacity-100' : 'opacity-0'}`}>{message}</p>
       </div>
     )
   }
