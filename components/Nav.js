@@ -56,8 +56,8 @@ export default function Nav() {
             <XIcon className="h-6 w-6" />
           </button>
           <nav className="flex flex-col space-y-4">
-            <Link href="/" passHref className="text-md font-bold cursor-pointer">Home</Link>
-            <Link href="/products" passHref className="text-md font-bold cursor-pointer">Products</Link>
+            <Link href="/" passHref className="text-md font-bold cursor-pointer" onClick={() => setSidebarOpen(false)}>Home</Link>
+            <Link href="/products" passHref className="text-md font-bold cursor-pointer" onClick={() => setSidebarOpen(false)}>Products</Link>
           </nav>
         </div>
       )}
