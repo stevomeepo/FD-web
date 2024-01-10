@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { PhoneIcon, LocationMarkerIcon } from '@heroicons/react/outline'; // Import the location marker icon
 
 export default function Contact() {
     return (
@@ -7,17 +8,21 @@ export default function Contact() {
                 <div className="w-full lg:w-1/2 p-4">
                     <h2 className="text-4xl font-bold text-black mb-4">CONTACT US</h2>
                     <div className="text-black">
-                        <p>1200 N. Van Buren St. STE A</p>
-                        <p>Anaheim, CA 92807</p>
-                        <p className="my-4">Call us (714)-238-8888</p>
+                        <p className="flex items-center">
+                            <LocationMarkerIcon className="h-5 w-5 mr-2" />
+                            1200 N. Van Buren St. STE A, Anaheim, CA 92807
+                        </p>
+                        <p className="my-4 flex items-center">
+                            <PhoneIcon className="h-5 w-5 mr-2" />
+                            Call us (714)-238-8888
+                        </p>
                     </div>
                     <div className="mt-8">
                         <Image src="https://cdn.shopify.com/s/files/1/0852/4529/6941/files/IMG_0649.jpg?v=1704874587" width={550} height={550}/>
                     </div>
                 </div>
-                {/* Contact Form */}
                 <div className="w-full lg:w-1/2 p-4">
-                    <div className="bg-white p-8 rounded-lg shadow-lg">
+                    <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-300">
                         <form>
                             <div className="mb-4">
                                 <input type="text" placeholder="Name" className="w-full p-2 border border-gray-300 rounded" />
