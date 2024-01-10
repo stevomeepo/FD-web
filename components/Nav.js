@@ -33,6 +33,7 @@ export default function Nav() {
         <nav className="hidden lg:flex justify-center space-x-7">
           <Link href="/" passHref className="text-md font-bold cursor-pointer hover:text-red-500">Home</Link>
           <Link href="/products" passHref className="text-md font-bold cursor-pointer hover:text-red-500">Products</Link>
+          <Link href="/signup" passHref className="text-md font-bold cursor-pointer hover:text-red-500">Signup</Link>
         </nav>
         <div className="relative">
           <button
