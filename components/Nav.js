@@ -24,11 +24,16 @@ export default function Nav() {
         </button>
         <Link href="/" passHref className="cursor-pointer">
           <Image src="https://cdn.shopify.com/s/files/1/0852/4529/6941/files/Forensic-Drone-Logo.jpg?v=1704444978"
-            alt="logo" 
+            alt="Forensic Drone Logo" 
             width={150}
             height={100}
+            priority
+            objectFit="contain"
           />
         </Link>
+        <nav className="hidden lg:flex justify-center space-x-7">
+          <Link href="/" passHref className="text-md font-bold cursor-pointer">Home</Link>
+        </nav>        
         <nav className="hidden lg:flex justify-center space-x-7">
           <Link href="/products" passHref className="text-md font-bold cursor-pointer">Products</Link>
         </nav>
