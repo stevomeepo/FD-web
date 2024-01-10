@@ -10,7 +10,7 @@ export default function Products({ products }) {
     const handleSearch = (searchTerm) => {
         setFilteredProducts(
             products.filter((product) =>
-            product && product.title && product.title.toLowerCase().includes(searchTerm.toLowerCase())
+            product.node && product.node.title && product.node.title.toLowerCase().includes(searchTerm.toLowerCase())
                 )
             );
         };
@@ -25,7 +25,7 @@ export default function Products({ products }) {
             <title>Products - Forensic Drone</title>
         </Head>
         <SearchBar onSearch={handleSearch} />
-        <ProductList products={products} />
+        <ProductList products={filteredProducts} />
         </div>
     )
 }
