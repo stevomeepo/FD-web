@@ -9,17 +9,35 @@ export default function Newsletter() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
 
-    const handleSubmit = async (event) => {
-      event.preventDefault()
-      const email = event.target.elements[0].value
-
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if(!emailRegex.test(email)) {
-        setMessage("Please enter a valid email.")
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const email = event.target.elements[0].value;
+  
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setMessage("Please enter a valid email.");
+      setShowMessage(true);
+      return;
+    }
+  
+    // Check if email already exists in Airtable
+    base('Email').select({
+      filterByFormula: `{Email} = '${email}'`,
+    }).firstPage((err, records) => {
+      if (err) {
+        console.error('Error fetching records:', err);
+        setMessage('Error submitting form. Please try again.');
+        setIsLoading(false);
         setShowMessage(true);
         return;
       }
-      
+      if (records.length > 0) {
+        setMessage('This email is already subscribed.');
+        setIsLoading(false);
+        setShowMessage(true);
+        return;
+      }
+  
       base('Email').create([
         {
           "fields": {
@@ -39,7 +57,8 @@ export default function Newsletter() {
         setIsSubmitted(true);
         setShowMessage(true);
       });
-    };
+    });
+  };
   
     return (
       <div className="newsletter bg-gray-100 p-10 rounded-md mt-10">
