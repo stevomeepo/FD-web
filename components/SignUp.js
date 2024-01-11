@@ -1,5 +1,6 @@
 // components/SignUp.js
 import { useState } from 'react';
+import Image from 'next/image';
 
 export default function Signup() {
   const [username, setUsername] = useState('');
@@ -8,8 +9,6 @@ export default function Signup() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // Add validation for the inputs here
 
     const response = await fetch('/api/signup', {
       method: 'POST',
@@ -21,8 +20,6 @@ export default function Signup() {
         password,
       }),
     });
-
-    // Handle the response from the API here
   };
 
   return (
@@ -49,6 +46,15 @@ export default function Signup() {
         <button className="bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
           Submit
         </button>
+        <Image 
+          src="https://cdn.shopify.com/s/files/1/0852/4529/6941/files/Forensic-Drone-Logo.jpg?v=1704444978"
+          alt="Forensic Drone Logo" 
+          width={100}
+          height={100}
+          priority
+          objectFit="contain"
+          className="mr-4"
+        />
       </div>
     </form>
   );
