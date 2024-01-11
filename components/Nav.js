@@ -59,6 +59,7 @@ export default function Nav() {
           <nav className="flex flex-col space-y-4">
             <Link href="/" passHref className="text-md font-bold cursor-pointer" onClick={() => setSidebarOpen(false)}>Home</Link>
             <Link href="/products" passHref className="text-md font-bold cursor-pointer" onClick={() => setSidebarOpen(false)}>Products</Link>
+            <Link href="/signup" passHref className="text-md font-bold cursor-pointer hover:text-red-500" onClick={() => setSidebarOpen(false)}>Signup</Link>
           </nav>
         </div>
       )}
