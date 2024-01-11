@@ -1,5 +1,6 @@
 import Airtable from 'airtable';
 import React, { useState } from 'react';
+import Confetti from 'react-dom-confetti';
 
 const base = new Airtable({apiKey: process.env.NEXT_PUBLIC_AIRTABLE_API_KEY}).base(process.env.NEXT_PUBLIC_AIRTABLE_BASE_ID);
 
@@ -59,10 +60,23 @@ export default function Newsletter() {
       });
     });
   };
+
+  const confettiConfig = {
+    angle: 90,
+    spread: 360,
+    startVelocity: 20,
+    elementCount: 70,
+    dragFriction: 0.12,
+    duration: 3000,
+    stagger: 3,
+    width: "10px",
+    height: "10px",
+    colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"]
+  };
   
     return (
       <div className="newsletter bg-gray-100 p-10 rounded-md mt-10">
-        <h2 className="text-2xl font-bold mb-2">Newsletters</h2>
+        <h2 className="text-2xl font-bold mb-2">Newsletters 📰</h2>
         <p className="text-gray-700 mb-5">Sign up to receive updates on new arrivals and special offers.</p>
         {!isSubmitted ? (
           <form onSubmit={handleSubmit} className="flex">
@@ -71,6 +85,9 @@ export default function Newsletter() {
           </form>
         ) : null}
         <p className={`transition duration-2000 ${showMessage ? 'opacity-100' : 'opacity-0'}`}>{message}</p>
+        <div className="ml-40">
+          <Confetti active={ isSubmitted } config={ confettiConfig } />
+        </div>
       </div>
     )
   }
