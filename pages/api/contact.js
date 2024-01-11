@@ -1,6 +1,5 @@
 // pages/api/contact.js
 import axios from 'axios';
-import nodemailer from 'nodemailer';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
