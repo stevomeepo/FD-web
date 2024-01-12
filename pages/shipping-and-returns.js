@@ -1,6 +1,11 @@
+import Head from 'next/head'
+
 export default function ShippingAndReturns() {
     return (
         <div className="flex flex-col items-center justify-center prose prose-lg mx-auto p-4 max-w-2xl text-center">
+            <Head>
+            <title>Shipping & Returns - Forensic Drone</title>
+            </Head>
             <h1 className="text-4xl font-bold pb-7">Shipping Policy</h1>
             <p>Thank you for visiting and shopping at ForensicDrone. Following are the terms and conditions that constitute our Shipping Policy.</p>
             <h1 className="font-bold pt-7">Shipment Rate Calculations</h1>

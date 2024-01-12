@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { PhoneIcon, LocationMarkerIcon } from '@heroicons/react/outline';
+import Head from 'next/head'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -42,6 +43,9 @@ export default function Contact() {
 
   return (
     <div className="bg-black-600 min-h-screen flex items-center justify-center">
+      <Head>
+        <title>Contact Us - Forensic Drone</title>
+      </Head>
       <div className="container mx-auto p-4 flex flex-wrap items-start">
         <div className="w-full lg:w-1/2 p-4">
           <h2 className="text-4xl font-bold text-black mb-4">CONTACT US</h2>

@@ -80,8 +80,8 @@ export default function Newsletter() {
         <p className="text-gray-700 mb-5">Sign up to receive updates on new arrivals and special offers.</p>
         {!isSubmitted ? (
           <form onSubmit={handleSubmit} className="flex">
-            <input input type="email" placeholder="Your email" className="flex-grow max-w-lg rounded-l-md p-2 border-t mr-0 border-b border-l border-gray-200 focus:outline-none focus:border-blue-500" />
-            <button type="submit" className="px-8 rounded-r-md bg-black hover:hover:bg-red-500 text-white hover:text-white font-bold p-2 uppercase border-red border-t border-b border-r">Subscribe</button>
+            <input input type="email" placeholder="Your email" className="flex-grow max-w-lg rounded-l-md p-2 border-t mr-0 border-b border-l border-gray-200 focus:outline" />
+            <button type="submit" className="px-6 rounded-r-md bg-black hover:hover:bg-red-500 text-white hover:text-white font-bold p-2 uppercase border-red border-t border-b border-r">Subscribe</button>
           </form>
         ) : null}
         <p className={`transition duration-2000 ${showMessage ? 'opacity-100' : 'opacity-0'}`}>{message}</p>
