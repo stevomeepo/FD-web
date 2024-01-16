@@ -34,6 +34,7 @@ export default function Nav() {
         <nav className="hidden lg:flex justify-center space-x-7">
           <Link href="/" passHref className="text-md font-bold cursor-pointer hover:text-red-500">Home</Link>
           <Link href="/products" passHref className="text-md font-bold cursor-pointer hover:text-red-500">Products</Link>
+          <Link href="/classes" passHref className="text-md font-bold cursor-pointer hover:text-red-500">Classes</Link>
         </nav>
         <div className="flex items-center space-x-4">
           <Menu as="div" className="relative inline-block text-left">
@@ -59,7 +60,7 @@ export default function Nav() {
                           active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
                         } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                       >
-                        Signup
+                        SignUp/Login
                       </Link>
                     )}
                   </Menu.Item>

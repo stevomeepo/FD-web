@@ -1,14 +1,38 @@
-// components/SignUp.js
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Signup() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const [showMessage, setShowMessage] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setMessage("Please enter a valid email address.");
+      setShowMessage(true);
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setMessage("Password does not match. Please retry.");
+      setShowMessage(true);
+      return;
+    }
+
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d{2,}).{8,}$/;
+    if (!passwordRegex.test(password)) {
+      setMessage("Password must be at least 8 characters, include at least one uppercase letter, and include at least two numbers.");
+      setShowMessage(true);
+      return;
+    }
 
     const response = await fetch('/api/signup', {
       method: 'POST',
@@ -16,19 +40,30 @@ export default function Signup() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username,
+        email,
         password,
       }),
     });
+
+    if (response.ok) {
+      setMessage("User created successfully!")
+      setShowMessage(true);
+      router.push("/");
+    } else {
+      const errorData = await response.json();
+      console.log('Error submitting form:', errorData);
+      setMessage(errorData.message);
+      setShowMessage(true);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="mb-6">
-        <label className="block text-black text-sm font-bold mb-2" htmlFor="username">
-          Username
+        <label className="block text-black text-sm font-bold mb-2" htmlFor="email">
+          Email
         </label>
-        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline" id="email" type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
       </div>
       <div className="mb-6">
         <label className="block text-black text-sm font-bold mb-2" htmlFor="password">
@@ -41,6 +76,7 @@ export default function Signup() {
           Confirm Password
         </label>
         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-black mb-3 leading-tight focus:outline-none focus:shadow-outline" id="confirmPassword" type="password" placeholder="********" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+        <p className={`transition duration-2000 text-red-500 font-bold ${showMessage ? 'opacity-100' : 'opacity-0'}`}>{message}</p>
       </div>
       <div className="flex items-center justify-between">
         <button className="bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
@@ -56,6 +92,7 @@ export default function Signup() {
           className="mr-4"
         />
       </div>
+      <p className="mt-4 text-center">Already have an account? <Link href="/login" className="text-red-500 font-bold">Login Here!</Link></p>
     </form>
   );
 }

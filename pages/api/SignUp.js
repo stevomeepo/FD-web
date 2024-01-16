@@ -1,30 +1,34 @@
-// pages/api/signup.js
-import { Pool } from 'pg';
+import { dbConnect } from '/utils/dbConnect';
 import bcrypt from 'bcryptjs';
 
-export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    const { username, password } = req.body;
+export default async function signup(req, res) {
+  const { method } = req;
 
-    const pool = new Pool({
-      connectionString: process.env.POSTGRESQL_URI,
-    });
+  switch (method) {
+    case 'POST':
+      try {
+        const { email, password } = req.body;
 
-    const client = await pool.connect();
+        const db = await dbConnect();
+        let user = await db.collection('users').findOne({ email });
 
-    const existingUser = await client.query('SELECT * FROM users WHERE username = $1', [username]);
+        if (user) {
+          return res.status(400).json({ success: false, message: 'Email already exists' });
+        }
 
-    if (existingUser.rows.length > 0) {
-      res.status(422).json({ message: 'User exists already!' });
-      client.release();
-      return;
-    }
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-    const hashedPassword = await bcrypt.hash(password, 12);
+        user = await db.collection('users').insertOne({ email, password: hashedPassword });
+        const insertedUser = await db.collection('users').findOne({ _id: user.insertedId });
 
-    await client.query('INSERT INTO users (username, password) VALUES ($1, $2)', [username, hashedPassword]);
+        res.status(201).json({ success: true, data: insertedUser });
+      } catch (error) {
+        res.status(400).json({ success: false, error: error.message });
+      }
+      break;
 
-    res.status(201).json({ message: 'Created user!' });
-    client.release();
+    default:
+      res.status(400).json({ success: false });
+      break;
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
-import * as actions from '@/actions';
 
-export default function SignIn() {
+
+export default function Login() {
   const handleSignIn = async () => {
     try {
       await actions.signIn();
@@ -12,7 +12,7 @@ export default function SignIn() {
 
   return (
     <button onClick={handleSignIn}>
-      Sign In
+      Login
     </button>
   );
 }

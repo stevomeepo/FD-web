@@ -1,6 +1,7 @@
 import SignUp from '../components/SignUp';
 import Image from 'next/image';
 import Head from 'next/head'
+import Link from 'next/link';
 
 export default function Signup() {
   return (
