@@ -1,18 +1,18 @@
-import React from 'react';
+// import React from 'react';
 
 
-export default function Login() {
-  const handleSignIn = async () => {
-    try {
-      await actions.signIn();
-    } catch (error) {
-      console.error(error);
-    }
-  };
+// export default function Login() {
+//   const handleSignIn = async () => {
+//     try {
+//       await actions.signIn();
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
 
-  return (
-    <button onClick={handleSignIn}>
-      Login
-    </button>
-  );
-}
+//   return (
+//     <button onClick={handleSignIn}>
+//       Login
+//     </button>
+//   );
+// }
