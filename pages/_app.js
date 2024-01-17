@@ -6,6 +6,7 @@ import Layout from '../components/Layout'
 import ShopProvider from '../context/shopContext'
 import { useRouter } from 'next/router'
 import { NextUIProvider } from '@nextui-org/react'
+import { UserProvider } from '../context/userContext';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
@@ -13,9 +14,11 @@ function MyApp({ Component, pageProps }) {
   return (
     <NextUIProvider>
       <ShopProvider>
-        <Layout>
-          <Component {...pageProps} key={router.asPath} />
-        </Layout>
+        <UserProvider>
+          <Layout>
+            <Component {...pageProps} key={router.asPath} />
+          </Layout>
+        </UserProvider>
       </ShopProvider>
     </NextUIProvider>
   )

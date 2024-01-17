@@ -1,20 +1,33 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { useContext, useState, useRef } from 'react';
+import { useContext, useState, useRef, useEffect } from 'react';
 import { CartContext } from '../context/shopContext';
 import MiniCart from './MiniCart';
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon, ShoppingCartIcon, UserIcon } from '@heroicons/react/outline';
 import { Menu } from '@headlessui/react';
+import { UserContext } from '../context/userContext';
+import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
 
 export default function Nav() {
   const { cart, cartOpen, setCartOpen } = useContext(CartContext);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { user, setUser } = useContext(UserContext);
+  console.log(user);
+  const router = useRouter();
 
   let cartQuantity = 0;
   cart.map(item => {
     return (cartQuantity += item?.variantQuantity);
   });
+
+  useEffect(() => {
+    const userCookie = Cookies.get('user');
+    if (userCookie) {
+      setUser(JSON.parse(userCookie));
+    }
+  }, []);
 
   return (
     <header className="border-b sticky top-0 z-20 bg-white">
@@ -51,19 +64,99 @@ export default function Nav() {
             >
               <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="px-1 py-1">
-                  <Menu.Item>
-                    {({ active}) => (
-                      <Link
-                        href="/signup"
-                        passHref
-                        className={`${
-                          active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
-                        } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                      >
-                        SignUp/Login
-                      </Link>
-                    )}
-                  </Menu.Item>
+                  {!user && (
+                    <>
+                      <Menu.Item>
+                        {({ active}) => (
+                          <Link
+                            href="/signup"
+                            passHref
+                            className={`${
+                              active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                            } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                          >
+                            Sign Up
+                          </Link>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <Link
+                            href="/login"
+                            passHref
+                            className={`${
+                              active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                            } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                          >
+                            Login
+                          </Link>
+                        )}
+                      </Menu.Item>
+                    </>
+                  )}
+                  {user && (
+                    <>
+                      <div className="px-4 py-2">
+                        Welcome, {user.firstName}!
+                      </div>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <Link
+                              href="/profile"
+                              passHref
+                              className={`${
+                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                              } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                            >
+                              Profile
+                            </Link>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <Link
+                              href="/orders"
+                              passHref
+                              className={`${
+                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                              } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                            >
+                              Orders
+                            </Link>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <Link
+                              href="/account-settings"
+                              passHref
+                              className={`${
+                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                              } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                            >
+                              Account Settings
+                            </Link>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <button
+                              onClick={async () => {
+                                await fetch('/api/logout', { method: 'POST' });
+                                setUser(null);
+                                Cookies.remove('user');
+                                router.push('/');
+                              }}
+                              className={`${
+                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                              } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                            >
+                              Logout
+                            </button>
+                          )}
+                        </Menu.Item>
+                    </>
+                  )}
                 </div>
               </Menu.Items>
             </Transition>

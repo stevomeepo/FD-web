@@ -1,14 +1,19 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
+import { UserContext } from '../context/userContext';
+import Cookies from 'js-cookie';
 
 export default function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
   const [showMessage, setShowMessage] = useState(false);
+  const { setUser } = useContext(UserContext);
   const router = useRouter();
 
   const handleSubmit = async (event) => {
@@ -40,12 +45,18 @@ export default function Signup() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        firstName,
+        lastName,
         email,
         password,
       }),
     });
 
     if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      setUser({ email: data.data.email, firstName: data.data.firstName });
+      Cookies.set('user', JSON.stringify({ email: data.data.email, firstName: data.data.firstName }));
       setMessage("User created successfully!")
       setShowMessage(true);
       router.push("/");
@@ -59,6 +70,18 @@ export default function Signup() {
 
   return (
     <form onSubmit={handleSubmit}>
+      <div className="mb-6">
+        <label className="block text-black text-sm font-bold mb-2" htmlFor="firstName">
+          First Name
+        </label>
+        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline" id="firstName" type="text" placeholder="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+      </div>
+      <div className="mb-6">
+        <label className="block text-black text-sm font-bold mb-2" htmlFor="lastName">
+          Last Name
+        </label>
+        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline" id="lastName" type="text" placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+      </div>
       <div className="mb-6">
         <label className="block text-black text-sm font-bold mb-2" htmlFor="email">
           Email
