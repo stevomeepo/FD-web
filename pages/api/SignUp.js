@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import Cors from 'cors';
 import initMiddleware from '/utils/init-middleware';
 
-const cors = initMiddleware(
+const corsMiddleware = initMiddleware(
   Cors({
     methods: ['POST', 'HEAD'],
     origin: 'https://fd-ft6isgvpe-stevomeepo.vercel.app/',
@@ -12,7 +12,7 @@ const cors = initMiddleware(
 );
 
 export default async function signup(req, res) {
-  await cors(req, res);
+  await corsMiddleware(req, res);
 
   const { method } = req;
 
