@@ -1,8 +1,19 @@
 import { dbConnect } from '/utils/dbConnect';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import Cors from 'cors';
+import initMiddleware from '/utils/init-middleware';
+
+const cors = initMiddleware(
+  Cors({
+    methods: ['POST', 'HEAD'],
+    origin: 'https://fd-ft6isgvpe-stevomeepo.vercel.app/',
+  })
+);
 
 export default async function signup(req, res) {
+  await cors(req, res);
+
   const { method } = req;
 
   switch (method) {
@@ -42,7 +53,7 @@ export default async function signup(req, res) {
       break;
 
     default:
-      res.status(400).json({ success: false });
-      break;
+      res.setHeader('Allow', ['POST']);
+      res.status(405).end(`Method ${method} Not Allowed`);
   }
 }
