@@ -1,5 +1,4 @@
 import { getProductInCollection } from '../lib/shopify'
-import ProductList from '../components/ProductList'
 import Hero from "../components/Hero"
 import Head from 'next/head'
 

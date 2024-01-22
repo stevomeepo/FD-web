@@ -82,7 +82,7 @@ export default function Contact() {
                   <textarea name="message" placeholder="Type your message here..." className="w-full p-2 border border-gray-300 rounded h-32" onChange={handleChange}></textarea>
                 </div>
                 {error && <p>{error}</p>}
-                <button type="submit" className="w-full p-3 bg-black text-white rounded hover:bg-red-500">Submit</button>
+                <button type="submit" className="w-full px-6 rounded-r-md bg-black hover:hover:bg-red-500 text-white hover:text-white font-bold p-2 uppercase border-red border-t border-b border-r">Submit</button>
               </form>
             )}
           </div>

@@ -10,10 +10,8 @@ async function connectToDatabase(uri) {
   let client;
 
   try {
-    client = await MongoClient.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    client = new MongoClient(uri);
+    await client.connect();
   } catch (error) {
     throw error;
   }
