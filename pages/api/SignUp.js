@@ -54,6 +54,6 @@ export default async function signup(req, res) {
 
     default:
       res.setHeader('Allow', ['POST']);
-      res.status(405).end(`Method ${method} Not Allowed`);
+      res.status(405).json({ success: false, message: `Method ${method} Not Allowed` });
   }
 }
