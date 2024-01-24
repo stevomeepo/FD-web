@@ -16,6 +16,10 @@ export default function ProductPageContent({ product }) {
     )
   })
 
+  const recommendedProducts = product.collections && product.collections.edges.length > 0 
+    ? product.collections.edges[0].node.products.edges
+    : [];
+
   return (
     <div>
       <div className="flex flex-col items-center justify-center w-11/12 max-w-6xl mx-auto space-y-8 md:flex-row md:items-start md:space-y-0 md:space-x-4 lg:space-x-8">
@@ -40,7 +44,7 @@ export default function ProductPageContent({ product }) {
         <ProductForm product={product} />
       </div>
       <p className="pt-16 space-y-8 md:space-x-4 lg:space-x-8 max-w-3xl w-11/12 mx-auto">{product.description}</p>
-      <RecommendedList current={product.id} products={product.collections.edges[0].node.products.edges} />
+      <RecommendedList current={product.id} products={recommendedProducts} />
     </div>
   )
 }

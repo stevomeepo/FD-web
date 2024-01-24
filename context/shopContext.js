@@ -14,16 +14,20 @@ export default function ShopProvider({ children }) {
   useEffect(() => {
     if (localStorage.checkout_id) {
       const cartObject = JSON.parse(localStorage.checkout_id)
-      if (cartObject[0].id) {
+      if (cartObject[0].id && typeof cartObject[0] === 'object' && 'id' in cartObject[0]) {
         setCart([cartObject[0]])
-      } else if (cartObject[0].length > 0) {
-        setCart(...[cartObject[0]])
+      } else if (Array.isArray(cartObject[0]) && cartObject[0].length > 0) {
+        setCart(cartObject[0]);
       }
 
-      setCheckoutId(cartObject[1].id)
-      setCheckoutUrl(cartObject[1].webUrl)
+      if (cartObject[1] && typeof cartObject[1] === 'object') {
+        setCheckoutId(cartObject[1].id);
+        setCheckoutUrl(cartObject[1].webUrl);
+      } else {
+        setCheckoutId('');
+        setCheckoutUrl('');
+      }
     }
-
   }, [])
 
 
@@ -128,6 +132,38 @@ export default function ShopProvider({ children }) {
 
   }
 
+  async function getCheckoutStatus(checkoutId) {
+    try {
+      const response = await fetch(`https://${process.env.SHOPIFY_STORE_DOMAIN}.myshopify.com/admin/api/2023-01/checkouts/${checkoutId}.json`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Access-Token': process.env.SHOPIFY_STOREFRONT_ACCESSTOKEN
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`API call failed with status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.checkout.status;
+    } catch (error) {
+      console.error("Failed to get checkout status:", error);
+    }
+  }
+
+  async function checkAndClearCartAfterCheckout() {
+    const checkoutStatus = await getCheckoutStatus(checkoutId);
+
+    if (checkoutStatus === 'completed') {
+      clearCart();
+      setCheckoutId('');
+      setCheckoutUrl('');
+      localStorage.removeItem("checkout_id");
+    }
+  }
+
 
   return (
     <CartContext.Provider value={{
@@ -140,7 +176,8 @@ export default function ShopProvider({ children }) {
       clearCart,
       cartLoading,
       incrementCartItem,
-      decrementCartItem
+      decrementCartItem,
+      checkAndClearCartAfterCheckout,
     }}>
       {children}
     </CartContext.Provider>

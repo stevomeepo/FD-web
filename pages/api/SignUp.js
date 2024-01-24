@@ -4,12 +4,23 @@ import jwt from 'jsonwebtoken';
 import Cors from 'cors';
 import initMiddleware from '/utils/init-middleware';
 
+const allowedOrigins = [
+  'https://fd-ft6isgvpe-stevomeepo.vercel.app',
+];
+
 const corsMiddleware = initMiddleware(
   Cors({
     methods: ['POST', 'HEAD'],
-    origin: 'https://fd-ft6isgvpe-stevomeepo.vercel.app/',
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
   })
 );
+
 
 export default async function signup(req, res) {
   await corsMiddleware(req, res);

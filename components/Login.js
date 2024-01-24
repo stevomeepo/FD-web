@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import Link from 'next/link';
 import { UserContext } from '../context/userContext';
 import Cookies from 'js-cookie';
 
@@ -71,6 +72,7 @@ export default function Login() {
           className="mr-4"
         />
       </div>
+      <p className="mt-4 text-center">Don't have an account? <Link href="/signup" className="text-red-500 font-bold">Sign Up Here!</Link></p>
     </form>
   );
 }
