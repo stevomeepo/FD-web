@@ -11,18 +11,21 @@ export default function Profile() {
   useEffect(() => {
     const checkUserAuthentication = async () => {
         try {
-            const response = await fetch('/api/auth/check');
+            const response = await fetch('/api/auth/check', {
+              method: 'GET',
+              credentials: 'include',
+            });
             if (response.ok) {
                 const data = await response.json();
                 setUser(data.user);
                 setFormData(data.user);
             } else {
                 console.error('Authentication check failed', response.status);
-                router.push('/login');
+                // router.push('/login');
             }
         } catch (error) {
             console.error('Error during authentication check', error);
-            router.push('/login');
+            // router.push('/login');
         }
     };
 

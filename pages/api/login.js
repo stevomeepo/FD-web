@@ -8,7 +8,8 @@ export default async function login(req, res) {
   switch (method) {
     case 'POST':
       try {
-        const { email, password } = req.body;
+        let { email, password } = req.body;
+        email = email.toLowerCase();
 
         const db = await dbConnect();
         let user = await db.collection('users').findOne({ email });

@@ -6,12 +6,14 @@ import initMiddleware from '/utils/init-middleware';
 
 const allowedOrigins = [
   'https://fd-ft6isgvpe-stevomeepo.vercel.app',
+  'http://localhost:3000',
 ];
 
 const corsMiddleware = initMiddleware(
   Cors({
     methods: ['POST', 'HEAD'],
     origin: (origin, callback) => {
+      console.log('Incoming origin:', origin);
       if (!origin || allowedOrigins.indexOf(origin) !== -1) {
         callback(null, true);
       } else {
@@ -30,8 +32,8 @@ export default async function signup(req, res) {
   switch (method) {
     case 'POST':
       try {
-        const { firstName, lastName, email, password } = req.body;
-
+        let { firstName, lastName, email, password } = req.body;
+        email = email.toLowerCase();
         const db = await dbConnect();
         const existingUser = await db.collection('users').findOne({ email });
 
