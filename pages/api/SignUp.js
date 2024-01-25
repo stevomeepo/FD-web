@@ -5,7 +5,7 @@ import Cors from 'cors';
 import initMiddleware from '/utils/init-middleware';
 
 const allowedOrigins = [
-  'https://fd-ft6isgvpe-stevomeepo.vercel.app',
+  'https://fd-web-weld.vercel.app/',
   'http://localhost:3000',
 ];
 
