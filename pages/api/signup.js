@@ -12,14 +12,13 @@ const allowedOrigins = [
 const corsMiddleware = initMiddleware(
   Cors({
     methods: ['POST', 'HEAD'],
-    // origin: (origin, callback) => {
-    //   if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-    //     callback(null, true);
-    //   } else {
-    //     callback(new Error('Not allowed by CORS'));
-    //   }
-    // },
-    origin: true,
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
   })
 );
 
