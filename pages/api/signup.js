@@ -10,17 +10,18 @@ const allowedOrigins = [
 ];
 
 const corsMiddleware = initMiddleware(
-  Cors({
-    methods: ['POST', 'HEAD'],
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-  })
-);
+    Cors({
+        methods: ['POST', 'HEAD'],
+        origin: (origin, callback) => {
+          console.log('Request origin:', origin); // Log the actual origin
+          if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+          } else {
+            callback(new Error('Not allowed by CORS'));
+          }
+        },
+      })
+    );
 
 
 export default async function signup(req, res) {
