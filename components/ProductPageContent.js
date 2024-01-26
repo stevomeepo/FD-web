@@ -43,7 +43,6 @@ export default function ProductPageContent({ product }) {
         </div>
         <ProductForm product={product} />
       </div>
-      <p className="pt-16 space-y-8 md:space-x-4 lg:space-x-8 max-w-3xl w-11/12 mx-auto">{product.description}</p>
       <RecommendedList current={product.id} products={recommendedProducts} />
     </div>
   )

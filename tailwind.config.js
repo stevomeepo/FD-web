@@ -1,4 +1,5 @@
 const { nextui } = require("@nextui-org/react");
+const typography = require('@tailwindcss/typography');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -11,8 +12,20 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            color: '#000',
+            '--tw-prose-bullets': '#000',
+            'ul > li::before': { backgroundColor: 'var(--tw-prose-bullets)' },
+          },
+        },
+      },
+    },
   },
   darkMode: "class",
-  plugins: [nextui()],
+  plugins: [
+    nextui(),
+    typography],
 }
