@@ -5,7 +5,7 @@ import Cors from 'cors';
 import initMiddleware from '/utils/init-middleware';
 
 const allowedOrigins = [
-  'https://fd-web-weld.vercel.app/',
+  'https://fd-web-weld.vercel.app',
   'http://localhost:3000',
 ];
 
@@ -14,7 +14,7 @@ const corsMiddleware = initMiddleware(
         methods: ['POST', 'HEAD'],
         origin: (origin, callback) => {
           console.log('Request origin:', origin); // Log the actual origin
-          if (origin === null || allowedOrigins.includes(origin)) {
+          if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
           } else {
             callback(new Error('Not allowed by CORS'));
