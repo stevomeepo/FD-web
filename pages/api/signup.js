@@ -14,7 +14,7 @@ const corsMiddleware = initMiddleware(
         methods: ['POST', 'HEAD'],
         origin: (origin, callback) => {
           console.log('Request origin:', origin); // Log the actual origin
-          if (!origin || allowedOrigins.includes(origin)) {
+          if (origin === null || allowedOrigins.includes(origin)) {
             callback(null, true);
           } else {
             callback(new Error('Not allowed by CORS'));
