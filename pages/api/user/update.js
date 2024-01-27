@@ -1,63 +1,69 @@
 import { dbConnect } from '/utils/dbConnect';
-import { verifyToken } from '/utils/auth';
+import jwt from 'jsonwebtoken';
 import { ObjectId } from 'mongodb';
-import initMiddleware from '/utils/init-middleware';
-import Cors from 'cors';
-
-// Reuse the CORS middleware from your signup.js
-const corsMiddleware = initMiddleware(
-    Cors({
-      methods: ['POST', 'HEAD'],
-      origin: (origin, callback) => {
-        console.log('Incoming origin:', origin);
-        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-          callback(null, true);
-        } else {
-          callback(new Error('Not allowed by CORS'));
-        }
-      },
-    })
-  );
 
 export default async function update(req, res) {
-  await corsMiddleware(req, res);
-
   if (req.method !== 'POST') {
-    res.setHeader('Allow', ['POST']);
-    return res.status(405).json({ success: false, message: 'Method Not Allowed' });
+    return res.status(405).json({ message: 'Method not allowed' });
   }
 
   try {
-    // Verify the user's token and get their ID
-    const token = req.cookies.token;
-    const decoded = verifyToken(token);
-
-    // Connect to the database
-    const db = await dbConnect();
-
-    // Extract additional fields from the request body
-    const { firstName, lastName, email, address, phoneNumber, shippingAddress } = req.body;
-
-    // Update the user's data in the database
-    if (email) {
-        const existingUser = await db.collection('users').findOne({ email });
-        if (existingUser && existingUser._id.toString() !== decoded.userId) {
-          return res.status(409).json({ success: false, message: 'Email already in use' });
-        }
-      }
-  
-      // Update the user's data in the database
-      const updateResult = await db.collection('users').updateOne(
-        { _id: new ObjectId(decoded.userId) }, // Convert to ObjectId
-        { $set: { firstName, lastName, email, address, phoneNumber, shippingAddress } }
-      );
-  
-      if (!updateResult.matchedCount) {
-        return res.status(404).json({ success: false, message: 'User not found' });
-      }
-  
-      res.status(200).json({ success: true, message: 'User updated successfully' });
-    } catch (error) {
-      res.status(500).json({ success: false, error: error.message });
+    const { token } = req.cookies;
+    if (!token) {
+      return res.status(401).json({ message: 'Authentication required' });
     }
+
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (error) {
+      if (error instanceof jwt.JsonWebTokenError) {
+        return res.status(401).json({ message: 'Invalid token' });
+      } else if (error instanceof jwt.TokenExpiredError) {
+        return res.status(401).json({ message: 'Token expired' });
+      } else {
+        throw error;
+      }
+    }
+
+    const userId = new ObjectId(decoded.userId);
+    const { 
+      phoneNumber, 
+      streetAddress1, 
+      streetAddress2, 
+      country, 
+      state, 
+      city, 
+      zipcode
+    } = req.body;
+
+    // Basic validation example
+    if (!phoneNumber || !streetAddress1 || !state || !city || !zipcode) {
+      return res.status(400).json({ message: 'All address fields except Street Address 2 are required' });
+    }
+
+    const address = {
+      streetAddress1,
+      streetAddress2,
+      country,
+      state,
+      city,
+      zipcode
+    }
+
+    const db = await dbConnect();
+    const updateResult = await db.collection('users').updateOne(
+      { _id: userId },
+      { $set: { phoneNumber, address } }
+    );
+
+    if (!updateResult.modifiedCount) {
+      return res.status(404).json({ message: 'User not found or data not modified' });
+    }
+
+    res.status(200).json({ message: 'Profile updated successfully' });
+  } catch (error) {
+    console.error('Error in profile update:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
+}
