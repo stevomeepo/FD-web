@@ -102,7 +102,18 @@ export default function Profile() {
       })
 
       if (response.ok) {
-        setUser({ ...user, ...formData });
+        setUser({
+          ...user,
+          phoneNumber: formData.phoneNumber,
+          address: {
+            streetAddress1: formData.streetAddress1,
+            streetAddress2: formData.streetAddress2,
+            country: formData.country,
+            state: formData.state,
+            city: formData.city,
+            zipcode: formData.zipcode
+          }
+        });
         setEditMode(false);
       } else {
         const errorData = await response.json();
