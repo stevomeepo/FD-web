@@ -1,7 +1,7 @@
 export default async  function handler(req, res) {
     const { customerId } = req.query;
     try {
-        const response = await fetch(`https:/${process.env.SHOPIFY_STORE_DOMAIN}/admin/api/2022-01/customers/${customerId}.json`, {
+        const response = await fetch(`https://${process.env.SHOPIFY_STORE_DOMAIN}/admin/api/2022-01/customers/${customerId}.json`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

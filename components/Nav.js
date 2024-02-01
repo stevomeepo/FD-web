@@ -14,7 +14,6 @@ export default function Nav() {
   const { cart, cartOpen, setCartOpen } = useContext(CartContext);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user, setUser } = useContext(UserContext);
-  console.log(user);
   const router = useRouter();
 
   let cartQuantity = 0;
