@@ -21,22 +21,23 @@ export default function Profile() {
   });
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchShopifyUserData = async (shopifyCustomerId) => {
-      try {
-        const response = await fetch(`/api/user/getCustomer?customerId=${shopifyCustomerId}`);
-    
-        if (!response.ok) {
-          throw new Error('Failed to fetch user data');
-        }
-    
-        const data = await response.json();
-        return data;
-      } catch (error) {
-        console.error('Error fetching Shopify user data:', error);
+  const fetchShopifyUserData = async (shopifyCustomerId) => {
+    try {
+      const response = await fetch(`/api/user/getCustomer?customerId=${shopifyCustomerId}`);
+  
+      if (!response.ok) {
+        throw new Error('Failed to fetch user data');
       }
-    };
+  
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching Shopify user data:', error);
+    }
+  };
 
+
+  useEffect(() => {
     const checkUserAuthentication = async () => {
         try {
             const response = await fetch('/api/auth/check', {
@@ -180,6 +181,7 @@ export default function Profile() {
         console.error('Failed to fetch updated data from Shopify');
       }
     } catch (error) {
+      console.log(error)
       console.error('Failed to update user data');
     }
   };
