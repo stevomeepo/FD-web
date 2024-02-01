@@ -91,21 +91,49 @@ export default function Profile() {
     }
   }, [user, router]);
 
+  useEffect(() => {
+    const updateFormData = async () => {
+      // Check if user exists and has a shopifyCustomerId before proceeding
+      if (user && user.shopifyCustomerId) {
+        const shopifyUserData = await fetchShopifyUserData(user.shopifyCustomerId);
+        if (shopifyUserData) {
+          setUser(prevUser => ({
+            ...prevUser,
+            ...shopifyUserData,
+          }));
+  
+          setFormData(prevFormData => ({
+            ...prevFormData,
+            ...shopifyUserData,
+            addresses: shopifyUserData.addresses || prevFormData.addresses,
+          }));
+        }
+      }
+    };
+  
+    if (user) {
+      updateFormData();
+    }
+  }, [user]);
+
   const handleEdit = () => {
     setEditMode(true);
     console.log('Editing user:', user); // Debug: Log the user data being used
+
+    const userAddress = user.addresses && user.addresses[0] ? user.addresses[0] : {};
+    
     setFormData({
       firstName: user.firstName || '',
       lastName: user.lastName || '',
       email: user.email || '',
       phoneNumber: user.phoneNumber || '',
       addresses: user.addresses || [{ // Make sure this is the correct path
-        address1: '',
-        address2: '',
-        city: '',
-        province: '',
-        country: 'United States',
-        zip: ''
+        address1: userAddress.address1 || '',
+        address2: userAddress.address2 || '',
+        city: userAddress.city || '',
+        province: userAddress.province || '',
+        country: userAddress.country || 'United States',
+        zip: userAddress.zip || ''
       }]
     });
   };
@@ -324,7 +352,7 @@ export default function Profile() {
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
                   id="province"
                   name="province"
-                  value={formData.addresses && formData.addresses[0] ? formData.addresses[0].province : ''}
+                  value={formData.addresses[0].province}
                   onChange={handleChange}
                 >
                   <option value="">Select a State</option>
@@ -409,7 +437,7 @@ export default function Profile() {
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
                   id="country"
                   name="country"
-                  value={formData.addresses && formData.addresses[0] ? formData.addresses[0].country : ''}
+                  value={formData.addresses[0].country}
                   onChange={handleChange}
                 >
                   <option value="">Select a Country</option>
