@@ -1,9 +1,9 @@
-import { dbConnect } from '/utils/dbConnect';
 import jwt from 'jsonwebtoken';
-import { ObjectId } from 'mongodb';
+import fetch from 'node-fetch';
+import { dbConnect } from '/utils/dbConnect';
 
 export default async function update(req, res) {
-  if (req.method !== 'POST') {
+  if (req.method !== 'PUT') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
@@ -12,6 +12,8 @@ export default async function update(req, res) {
     if (!token) {
       return res.status(401).json({ message: 'Authentication required' });
     }
+
+    console.log('Token:', token);
 
     let decoded;
     try {
@@ -26,44 +28,63 @@ export default async function update(req, res) {
       }
     }
 
-    const userId = new ObjectId(decoded.userId);
-    const { 
-      phoneNumber, 
-      streetAddress1, 
-      streetAddress2, 
-      country, 
-      state, 
-      city, 
-      zipcode
-    } = req.body;
+    console.log('Decoded:', decoded);
 
-    // Basic validation example
-    if (!phoneNumber || !streetAddress1 || !state || !city || !zipcode) {
-      return res.status(400).json({ message: 'All address fields except Street Address 2 are required' });
+    const shopifyCustomerId = decoded.shopifyCustomerId;
+    if (!shopifyCustomerId) {
+      return res.status(400).json({ message: 'Shopify customer ID not found in token' });
     }
 
-    const address = {
-      streetAddress1,
-      streetAddress2,
-      country,
-      state,
-      city,
-      zipcode
+    const { firstName, lastName, email, phoneNumber, address } = req.body;
+
+    // Validate input data as needed
+
+    const shopifyUpdateData = {
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      phone: phoneNumber,
+      addresses: [address], // Ensure this matches Shopify's expected address format
+    };
+
+    console.log('Received req.body:', req.body);
+    console.log('shopifyUpdateData:', shopifyUpdateData);
+
+    const response = await fetch(`https://${process.env.SHOPIFY_STORE_DOMAIN}/admin/api/2022-01/customers/${shopifyCustomerId}.json`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Access-Token': process.env.SHOPIFY_ADMIN_ACCESSTOKEN,
+      },
+      body: JSON.stringify({ customer: shopifyUpdateData }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to update customer');
     }
 
-    const db = await dbConnect();
-    const updateResult = await db.collection('users').updateOne(
-      { _id: userId },
-      { $set: { phoneNumber, address } }
+    const shopifyResponse = await response.json();
+
+    const { db } = await dbConnect();
+    const mongoUpdateResult = await db.collection('users').updateOne(
+      { shopifyCustomerId: shopifyCustomerId },
+      {
+        $set: {
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          phoneNumber: phoneNumber,
+          address: address
+        }
+      }
     );
 
-    if (!updateResult.modifiedCount) {
-      return res.status(404).json({ message: 'User not found or data not modified' });
+    if (mongoUpdateResult.matchedCount === 0) {
+      console.error('User not found in MongoDB');
     }
-
-    res.status(200).json({ message: 'Profile updated successfully' });
+    res.status(200).json({ message: 'Profile updated successfully', shopifyResponse });
   } catch (error) {
     console.error('Error in profile update:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: 'Internal server error', error: error.message });
   }
 }

@@ -68,7 +68,7 @@ export default function Login() {
           width={100}
           height={100}
           priority
-          objectFit="contain"
+          objectFit="cover"
           className="mr-4"
         />
       </div>

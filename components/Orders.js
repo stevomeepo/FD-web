@@ -1,83 +1,61 @@
-// components/Orders.js
-import { useState, useEffect, useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../context/userContext';
-import { useRouter } from 'next/router';
 
 export default function Orders() {
+  const { user } = useContext(UserContext);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useContext(UserContext);
-  const router = useRouter();
 
   useEffect(() => {
-    if (user) {
-      fetch('/api/orders')
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.success) {
-            setOrders(data.data || []);
-          } else {
-            setOrders([]);
-          }
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error('Error fetching orders:', error);
-          setOrders([]);
-          setLoading(false);
+    const fetchOrders = async () => {
+      if (!user) {
+        // Redirect to login or handle unauthenticated user
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/orders?customer_id=${user.customerId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            // Include any necessary headers for authentication
+          },
         });
-    } else {
-      setLoading(false);
-    }
+
+        if (!response.ok) {
+          throw new Error(`Error fetching orders: ${response.statusText}`);
+        }
+
+        const ordersData = await response.json();
+        setOrders(ordersData.orders);
+      } catch (error) {
+        console.error('Failed to fetch orders:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
   }, [user]);
 
   if (loading) {
-    return (
-        <div className="flex justify-center items-center h-screen">
-            <div className="loader"></div>
-        </div>
-    )
+    return <p>Loading orders...</p>;
   }
 
-  if (orders.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center h-screen">
-        <p className="mb-4 text-xl font-bold">
-            No <span className="text-red-500">Order</span> History...
-        </p>
-        <button 
-            type="button" 
-            className="px-6 py-2 rounded-md bg-black hover:bg-red-500 text-white font-bold uppercase border-red border-t border-b border-r"
-            onClick={() => router.push('/products')}
-        >
-            Shop now
-        </button>
-      </div>
-      
-    );
+  if (!orders.length) {
+    return <p>No order history available.</p>;
   }
 
   return (
-    <div className="orders-container">
-      <h2 className="text-lg font-semibold mb-4">Your Orders:</h2>
-      <ul className="orders-list">
-        {orders.map((order) => (
-          <li key={order._id} className="order-item mb-3 p-4 shadow-lg rounded-lg">
-            <h3 className="order-title font-bold mb-2">Order #{order._id}</h3>
-            <div className="order-details">
-              <p><strong>Date:</strong> {new Date(order.date).toLocaleDateString()}</p>
-              <p><strong>Total:</strong> ${order.total.toFixed(2)}</p>
-              <div className="order-items">
-                {order.items.map((item) => (
-                  <div key={item._id} className="order-item-details">
-                    <p>{item.name} - Qty: {item.quantity}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+    <div>
+      <h1>Order History</h1>
+      {orders.map((order) => (
+        <div key={order.id}>
+          {/* Render order details */}
+          <p>Order ID: {order.id}</p>
+          {/* Add more details as needed */}
+        </div>
+      ))}
     </div>
   );
 }

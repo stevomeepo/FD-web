@@ -6,17 +6,37 @@ export default function Profile() {
   const { user, setUser } = useContext(UserContext);
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
     phoneNumber: '',
-    streetAddress1: '',
-    streetAddress2: '',
-    country: 'United States',
-    state: '',
-    city: '',
-    zipcode: ''
+    addresses: [{
+      address1: '',
+      address2: '',
+      city: '',
+      province: '',
+      country: 'United States',
+      zip: ''
+    }]
   });
   const router = useRouter();
 
   useEffect(() => {
+    const fetchShopifyUserData = async (shopifyCustomerId) => {
+      try {
+        const response = await fetch(`/api/user/getCustomer?customerId=${shopifyCustomerId}`);
+    
+        if (!response.ok) {
+          throw new Error('Failed to fetch user data');
+        }
+    
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error fetching Shopify user data:', error);
+      }
+    };
+
     const checkUserAuthentication = async () => {
         try {
             const response = await fetch('/api/auth/check', {
@@ -26,18 +46,23 @@ export default function Profile() {
             if (response.ok) {
                 const data = await response.json();
                 setUser(data.user);
+                const shopifyUserData = await fetchShopifyUserData(data.user.shopifyCustomerId);
+                console.log(shopifyUserData);
                 setFormData({
-                  ...data.user,
-                  streetAddress1: data.user.address?.streetAddress1 || '',
-                  streetAddress2: data.user.address?.streetAddress2 || '',
-                  country: data.user.address?.country || 'United States',
-                  state: data.user.address?.state || '',
-                  city: data.user.address?.city || '',
-                  zipcode: data.user.address?.zipcode || ''
+                  ...shopifyUserData,
+                  addresses: [{
+                    address1: data.user.address?.address1 || '',
+                    address2: data.user.address?.address2 || '',
+                    city: data.user.address?.city || '',
+                    province: data.user.address?.province || '',
+                    country: data.user.address?.country || 'United States',
+                    zip: data.user.address?.zipcode || ''
+                  }]
                 });
+                console.log(formData);
             } else {
                 console.error('Authentication check failed', response.status);
-                // router.push('/login');
+                router.push('/login');
             }
         } catch (error) {
             console.error('Error during authentication check', error);
@@ -49,84 +74,118 @@ export default function Profile() {
       checkUserAuthentication();
     } else {
       setFormData({
-        ...formData,
-        phoneNumber: user.phoneNumber,
-        streetAddress1: user.address?.streetAddress1 || '',
-        streetAddress2: user.address?.streetAddress2 || '',
-        country: user.address?.country || 'United States',
-        state: user.address?.state || '',
-        city: user.address?.city || '',
-        zipcode: user.address?.zipcode || ''
+        firstName: user.firstName || '',
+        lastName: user.lastName || '',
+        email: user.email || '',
+        phoneNumber: user.phoneNumber || '',
+        addresses: user.addresses || [{
+          address1: '',
+          address2: '',
+          city: '',
+          province: '',
+          country: 'United States',
+          zip: ''
+        }]
       });
     }
-  }, [user, setUser, router]);
+  }, [user, router]);
 
   const handleEdit = () => {
     setEditMode(true);
+    console.log('Editing user:', user); // Debug: Log the user data being used
+    setFormData({
+      firstName: user.firstName || '',
+      lastName: user.lastName || '',
+      email: user.email || '',
+      phoneNumber: user.phoneNumber || '',
+      addresses: user.addresses || [{ // Make sure this is the correct path
+        address1: '',
+        address2: '',
+        city: '',
+        province: '',
+        country: 'United States',
+        zip: ''
+      }]
+    });
   };
 
   const handleCancel = () => {
     setFormData({
       ...user,
-      streetAddress1: user.address?.streetAddress1 || '',
-      streetAddress2: user.address?.streetAddress2 || '',
-      country: user.address?.country || 'United States',
-      state: user.address?.state || '',
-      city: user.address?.city || '',
-      zipcode: user.address?.zipcode || ''
+      addresses: [{
+        address1: user.addresses?.address1 || '',
+        address2: user.addresses?.address2 || '',
+        country: user.addresses?.country || 'United States',
+        province: user.addresses?.province || '',
+        city: user.addresses?.city || '',
+        zip: user.addresses?.zipcode || ''
+      }]
     });
     setEditMode(false);
   };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name in formData) {
+      setFormData(prevState => ({
+        ...prevState,
+        [name]: value
+      }));
+    } else {
+      setFormData(prevState => ({
+        ...prevState,
+        addresses: Array.isArray(prevState.addresses) ? prevState.addresses.map((address, index) => 
+          index === 0 ? { ...address, [name]: value } : address
+        ) : [{ [name]: value }]
+      }));
+    }
   };
 
-  const handleSave = async () => {
+  const handleSave = async (event) => {
+    event.preventDefault();
     try {
-      const response = await fetch('/api/user/update', {
-        method: 'POST',
+      const response = await fetch(`/api/user/update`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include',
         body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
           phoneNumber: formData.phoneNumber,
-          streetAddress1: formData.streetAddress1,
-          streetAddress2: formData.streetAddress2,
-          country: formData.country,
-          state: formData.state,
-          city: formData.city,
-          zipcode: formData.zipcode
+          address: formData.addresses[0],
         }),
-      })
-
+      });
+  
       if (response.ok) {
-        setUser({
-          ...user,
-          phoneNumber: formData.phoneNumber,
-          address: {
-            streetAddress1: formData.streetAddress1,
-            streetAddress2: formData.streetAddress2,
-            country: formData.country,
-            state: formData.state,
-            city: formData.city,
-            zipcode: formData.zipcode
-          }
-        });
+        // If the update is successful, fetch the latest Shopify user data
+        const shopifyUserData = await fetchShopifyUserData(user.shopifyCustomerId);
+        if (shopifyUserData) {
+          // Update the formData state with the new Shopify user data
+          setFormData({
+            ...formData,
+            ...shopifyUserData,
+            addresses: shopifyUserData.addresses || [],
+          });
+  
+          // Update the UserContext with the new user data
+          setUser(prevUser => ({
+            ...prevUser,
+            ...shopifyUserData,
+          }));
+        }
         setEditMode(false);
       } else {
-        const errorData = await response.json();
-        console.error('Error updating profile:', errorData.message);
+        console.error('Failed to fetch updated data from Shopify');
       }
     } catch (error) {
-      console.error('Error updating profile:', error);
+      console.error('Failed to update user data');
     }
   };
 
   if (!user) {
-    // Render nothing or a loading spinner until we have user data
-    return null;
+    return <div>Loading...</div>;
   }
 
   return (
@@ -204,41 +263,41 @@ export default function Profile() {
             )}
           </div>
             <div className="mb-4">
-              <label className="block text-black text-sm font-bold mb-2" htmlFor="streetAddress1">
+              <label className="block text-black text-sm font-bold mb-2" htmlFor="address1">
                 Street Address 1
               </label>
               {editMode ? (
                 <input
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
-                  id="streetAddress1"
+                  id="address1"
                   type="text"
-                  name="streetAddress1"
-                  value={formData.streetAddress1 || ''}
+                  name="address1"
+                  value={formData.addresses && formData.addresses[0] ? formData.addresses[0].address1 : ''}
                   onChange={handleChange}
                 />
               ) : (
-                <span className="text-black">{user.address?.streetAddress1}</span>
+                <span className="text-black">{formData.addresses && formData.addresses[0] ? formData.addresses[0].address1 : 'Not provided'}</span>
               )}
             </div>
             <div className="mb-4">
-              <label className="block text-black text-sm font-bold mb-2" htmlFor="streetAddress1">
+              <label className="block text-black text-sm font-bold mb-2" htmlFor="address2">
                 Street Address 2
               </label>
               {editMode ? (
                 <input
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
-                  id="streetAddress2"
+                  id="address2"
                   type="text"
-                  name="streetAddress2"
-                  value={formData.streetAddress2 || ''}
+                  name="address2"
+                  value={formData.addresses && formData.addresses[0] ? formData.addresses[0].address2 : ''}
                   onChange={handleChange}
                 />
               ) : (
-                <span className="text-black">{user.address?.streetAddress2}</span>
+                <span className="text-black">{formData.addresses && formData.addresses[0] ? formData.addresses[0].address2 : 'Not provided'}</span>
               )}
             </div>
             <div className="mb-4">
-              <label className="block text-black text-sm font-bold mb-2" htmlFor="streetAddress1">
+              <label className="block text-black text-sm font-bold mb-2" htmlFor="city">
                 City
               </label>
               {editMode ? (
@@ -247,23 +306,23 @@ export default function Profile() {
                   id="city"
                   type="text"
                   name="city"
-                  value={formData.city || ''}
+                  value={formData.addresses && formData.addresses[0] ? formData.addresses[0].city : ''}
                   onChange={handleChange}
                 />
               ) : (
-                <span className="text-black">{user.address?.city}</span>
+                <span className="text-black">{formData.addresses && formData.addresses[0] ? formData.addresses[0].city : 'Not provided'}</span>
               )}
             </div>
             <div className="mb-4">
-              <label className="block text-black text-sm font-bold mb-2" htmlFor="state">
+              <label className="block text-black text-sm font-bold mb-2" htmlFor="province">
                 State
               </label>
               {editMode ? (
                 <select
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
-                  id="state"
-                  name="state"
-                  value={formData.state || ''}
+                  id="province"
+                  name="province"
+                  value={formData.addresses && formData.addresses[0] ? formData.addresses[0].province : ''}
                   onChange={handleChange}
                 >
                   <option value="">Select a State</option>
@@ -319,24 +378,24 @@ export default function Profile() {
                   <option value="WY">Wyoming</option>
                 </select>
               ) : (
-                <span className="text-black">{user.address?.state}</span>
+                <span className="text-black">{formData.addresses && formData.addresses[0] ? formData.addresses[0].province : 'Not provided'}</span>
               )}
             </div>
             <div className="mb-4">
-              <label className="block text-black text-sm font-bold mb-2" htmlFor="zipcode">
+              <label className="block text-black text-sm font-bold mb-2" htmlFor="zip">
                 Zipcode
               </label>
               {editMode ? (
                 <input
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
-                  id="zipcode"
+                  id="zip"
                   type="text"
-                  name="zipcode"
-                  value={formData.zipcode || ''}
+                  name="zip"
+                  value={formData.addresses && formData.addresses[0] ? formData.addresses[0].zip : ''}
                   onChange={handleChange}
                 />
               ) : (
-                <span className="text-black">{user.address?.zipcode}</span>
+                <span className="text-black">{formData.addresses && formData.addresses[0] ? formData.addresses[0].zip : 'Not provided'}</span>
               )}
             </div>
             <div className="mb-4">
@@ -348,14 +407,14 @@ export default function Profile() {
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
                   id="country"
                   name="country"
-                  value={formData.country || ''}
+                  value={formData.addresses && formData.addresses[0] ? formData.addresses[0].country : ''}
                   onChange={handleChange}
                 >
                   <option value="">Select a Country</option>
                   <option value="USA">United States</option>
                 </select>
               ) : (
-                <span className="text-black">{user.address?.country}</span>
+                <span className="text-black">{formData.addresses && formData.addresses[0] ? formData.addresses[0].country : 'Not provided'}</span>
               )}
             </div>
             <div className="flex justify-between mt-6">
