@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../context/userContext';
 import { useRouter } from 'next/router';
+
 export default function Profile() {
   const { user, setUser } = useContext(UserContext);
   const [editMode, setEditMode] = useState(false);
@@ -48,16 +49,15 @@ export default function Profile() {
                 console.log(shopifyUserData);
                 setFormData({
                   ...shopifyUserData,
-                  addresses: [{
-                    address1: data.user.address?.address1 || '',
-                    address2: data.user.address?.address2 || '',
-                    city: data.user.address?.city || '',
-                    province: data.user.address?.province || '',
-                    country: data.user.address?.country || 'United States',
-                    zip: data.user.address?.zipcode || ''
+                  addresses: shopifyUserData.addresses || [{
+                    address1: '',
+                    address2: '',
+                    city: '',
+                    province: '',
+                    country: 'United States',
+                    zip: ''
                   }]
                 });
-                console.log(formData);
             } else {
                 console.error('Authentication check failed', response.status);
                 router.push('/login');
@@ -185,74 +185,76 @@ export default function Profile() {
       <div className="container mx-auto bg-white p-8 rounded-lg shadow-lg border border-gray-300 max-w-2xl">
         <h2 className="text-4xl font-bold text-black mb-4">PROFILE <span className='text-red-500'>DETAILS</span></h2>
         <form className="text-black">
-          <div className="mb-4">
-            <label className="block text-black text-sm font-bold mb-2" htmlFor="firstName">
-              First Name
-            </label>
-            {editMode ? (
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
-                id="firstName"
-                type="text"
-                name="firstName"
-                value={formData.firstName || ''}
-                onChange={handleChange}
-              />
-            ) : (
-              <span className="text-black">{user.firstName}</span>
-            )}
-          </div>
+          <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+              <label className="block text-black text-sm font-bold mb-2" htmlFor="firstName">
+                First Name
+              </label>
+              {editMode ? (
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
+                  id="firstName"
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName || ''}
+                  onChange={handleChange}
+                />
+              ) : (
+                <span className="text-black">{user.firstName}</span>
+              )}
+            </div>
           {/* Last Name Field */}
-          <div className="mb-4">
-            <label className="block text-black text-sm font-bold mb-2" htmlFor="lastName">
-              Last Name
-            </label>
-            {editMode ? (
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
-                id="lastName"
-                type="text"
-                name="lastName"
-                value={formData.lastName || ''}
-                onChange={handleChange}
-              />
-            ) : (
-              <span className="text-black">{user.lastName}</span>
-            )}
-          </div>
-          <div className="mb-4">
-            <label className="block text-black text-sm font-bold mb-2" htmlFor="email">
-              Email
-            </label>
-            {editMode ? (
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
-                id="email"
-                type="email"
-                name="email"
-                value={formData.email || ''}
-                onChange={handleChange}
-              />
-            ) : (
-              <span className="text-black">{user.email}</span>
-            )}
-          </div>
-          <div className="mb-4">
-            <label className="block text-black text-sm font-bold mb-2" htmlFor="phoneNumber">
-              Phone Number
-            </label>
-            {editMode ? (
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
-                id="phoneNumber"
-                type="tel"
-                name="phoneNumber"
-                value={formData.phoneNumber || ''}
-                onChange={handleChange}
-              />
-            ) : (
-              <span className="text-black">{user.phoneNumber}</span>
-            )}
+            <div className="mb-4">
+              <label className="block text-black text-sm font-bold mb-2" htmlFor="lastName">
+                Last Name
+              </label>
+              {editMode ? (
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
+                  id="lastName"
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName || ''}
+                  onChange={handleChange}
+                />
+              ) : (
+                <span className="text-black">{user.lastName}</span>
+              )}
+            </div>
+            <div className="w-full md:w-1/2 px-3">
+              <label className="block text-black text-sm font-bold mb-2" htmlFor="email">
+                Email
+              </label>
+              {editMode ? (
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
+                  id="email"
+                  type="email"
+                  name="email"
+                  value={formData.email || ''}
+                  onChange={handleChange}
+                />
+              ) : (
+                <span className="text-black">{user.email}</span>
+              )}
+            </div>
+            <div className="mb-4">
+              <label className="block text-black text-sm font-bold mb-2" htmlFor="phoneNumber">
+                Phone Number
+              </label>
+              {editMode ? (
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
+                  id="phoneNumber"
+                  type="tel"
+                  name="phoneNumber"
+                  value={formData.phoneNumber || ''}
+                  onChange={handleChange}
+                />
+              ) : (
+                <span className="text-black">{user.phoneNumber}</span>
+              )}
+            </div>
           </div>
             <div className="mb-4">
               <label className="block text-black text-sm font-bold mb-2" htmlFor="address1">

@@ -26,7 +26,7 @@ const ProductTabs = ({ product, activeTab, setActiveTab }) => {
       <div className={`tab-content transition-all duration-300 ease-in-out ${activeTab === 'description' ? 'max-h-screen' : 'max-h-0' } overflow-hidden`}>
         {activeTab === 'description' && (
           <div
-            className="description p-4 prose"
+          className="description p-4 prose max-h-96 overflow-auto"
             dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
           />
         )}

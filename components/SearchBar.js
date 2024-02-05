@@ -13,11 +13,12 @@ export default function SearchBar({ onSearch }) {
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
+    console.log('Submitting search for:', searchTerm);
     onSearch(searchTerm);
   }
 
   return (
-    <form onSubmit={handleSearchSubmit} className="flex justify-center items-center pt-6">
+    <form onSubmit={handleSearchSubmit} className="fixed top-15 left-0 right-0 z-10 flex justify-center items-center pt-6 pb-4 bg-gray-100">
         <input
         type="text"
         placeholder="Search products..."

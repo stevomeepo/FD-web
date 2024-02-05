@@ -6,7 +6,10 @@ export default async function handler(req, res) {
     }
   
     try {
-      const response = await fetch(`https://${process.env.SHOPIFY_STORE_DOMAIN}/admin/api/2022-01/orders.json?customer_id=${customerId}`, {
+      console.log(`Fetching orders for customer ID: ${customerId}`);
+      console.log(`Request URL: https://${process.env.SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders.json?customer_id=${customerId}`);
+
+      const response = await fetch(`https://${process.env.SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders.json?customer_id=${customerId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -19,10 +22,11 @@ export default async function handler(req, res) {
       }
   
       const data = await response.json();
+      console.log(`Received data: `, data);
       res.status(200).json(data.orders);
     } catch (error) {
-      console.error('Error fetching Shopify order data:', error);
+        console.error('Error in API route:', error);
       res.status(500).json({ message: error.message });
     }
   }
-  
+ 
