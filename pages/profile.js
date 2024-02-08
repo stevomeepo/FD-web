@@ -2,9 +2,12 @@ import { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../context/userContext';
 import { useRouter } from 'next/router';
 
+export const revalidate = 0;
+
 export default function Profile() {
   const { user, setUser } = useContext(UserContext);
   const [editMode, setEditMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -22,60 +25,17 @@ export default function Profile() {
   const router = useRouter();
 
   const fetchShopifyUserData = async (shopifyCustomerId) => {
+    setIsLoading(true);
     try {
       const response = await fetch(`/api/user/getCustomer?customerId=${shopifyCustomerId}`);
-
       if (!response.ok) {
         throw new Error('Failed to fetch user data');
       }
       const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Error fetching Shopify user data:', error);
-    }
-  };
-
-  useEffect(() => {
-    const checkUserAuthentication = async () => {
-        try {
-            const response = await fetch('/api/auth/check', {
-              method: 'GET',
-              credentials: 'include',
-            });
-            if (response.ok) {
-                const data = await response.json();
-                setUser(data.user);
-                const shopifyUserData = await fetchShopifyUserData(data.user.shopifyCustomerId);
-                console.log(shopifyUserData);
-                setFormData({
-                  ...shopifyUserData,
-                  addresses: shopifyUserData.addresses || [{
-                    address1: '',
-                    address2: '',
-                    city: '',
-                    province: '',
-                    country: 'United States',
-                    zip: ''
-                  }]
-                });
-            } else {
-                console.error('Authentication check failed', response.status);
-                router.push('/login');
-            }
-        } catch (error) {
-            console.error('Error during authentication check', error);
-            router.push('/login');
-        }
-    };
-    if (!user) {
-      checkUserAuthentication();
-    } else {
       setFormData({
-        firstName: user.firstName || '',
-        lastName: user.lastName || '',
-        email: user.email || '',
-        phoneNumber: user.phoneNumber || '',
-        addresses: user.addresses || [{
+        ...formData,
+        ...data,
+        addresses: data.addresses || [{
           address1: '',
           address2: '',
           city: '',
@@ -84,8 +44,53 @@ export default function Profile() {
           zip: ''
         }]
       });
+    } catch (error) {
+      console.error('Error fetching Shopify user data:', error);
+    } finally {
+      setIsLoading(false);
     }
-  }, [user, router]);
+  };
+
+  useEffect(() => {
+    if (user && user.shopifyCustomerId) {
+      fetchShopifyUserData(user.shopifyCustomerId);
+    }
+  }, [user, formData]);
+
+  useEffect(() => {
+    const checkUserAuthentication = async () => {
+      if (!user) {
+        setIsLoading(true);
+        try {
+          const response = await fetch('/api/auth/check', {
+            method: 'GET',
+            credentials: 'include',
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setUser(data.user);
+            // Now fetchShopifyUserData can be called here
+            await fetchShopifyUserData(data.user.shopifyCustomerId);
+          } else {
+            console.error('Authentication check failed', response.status);
+            router.push('/login');
+          }
+        } catch (error) {
+          console.error('Error during authentication check', error);
+          router.push('/login');
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    checkUserAuthentication();
+  }, [user, setUser, router, fetchShopifyUserData]); // Add fetchShopifyUserData as a dependency if it uses any state or props
+
+  if (isLoading) {
+    return <div>Loading profile...</div>;
+  }
+
   const handleEdit = () => {
     setEditMode(true);
     console.log('Editing user:', user); // Debug: Log the user data being used
@@ -94,7 +99,7 @@ export default function Profile() {
       lastName: user.lastName || '',
       email: user.email || '',
       phoneNumber: user.phoneNumber || '',
-      addresses: user.addresses || [{ // Make sure this is the correct path
+      addresses: user.addresses || [{
         address1: '',
         address2: '',
         city: '',
@@ -177,9 +182,7 @@ export default function Profile() {
       console.error('Failed to update user data');
     }
   };
-  if (!user) {
-    return <div>Loading...</div>;
-  }
+
   return (
     <div className="bg-gray-100 min-h-screen flex items-center justify-center p-4">
       <div className="container mx-auto bg-white p-8 rounded-lg shadow-lg border border-gray-300 max-w-2xl">
@@ -200,7 +203,7 @@ export default function Profile() {
                   onChange={handleChange}
                 />
               ) : (
-                <span className="text-black">{user.firstName}</span>
+                <span className="text-black">{user ? user.firstName : 'Loading...'}</span>
               )}
             </div>
           {/* Last Name Field */}
@@ -218,7 +221,7 @@ export default function Profile() {
                   onChange={handleChange}
                 />
               ) : (
-                <span className="text-black">{user.lastName}</span>
+                <span className="text-black">{user ? user.lastName : 'Loading...'}</span>
               )}
             </div>
             <div className="w-full md:w-1/2 px-3">
@@ -235,7 +238,7 @@ export default function Profile() {
                   onChange={handleChange}
                 />
               ) : (
-                <span className="text-black">{user.email}</span>
+                <span className="text-black">{user ? user.email : 'Loading...'}</span>
               )}
             </div>
             <div className="mb-4">
@@ -252,7 +255,7 @@ export default function Profile() {
                   onChange={handleChange}
                 />
               ) : (
-                <span className="text-black">{user.phoneNumber}</span>
+                <span className="text-black">{user ? user.phoneNumber  : 'Loading...'}</span>
               )}
             </div>
           </div>
