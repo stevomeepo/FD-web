@@ -12,8 +12,8 @@ export default function AuthProvider({ children }) {
       const data = await res.json();
       console.log('Data from /api/auth:', data);
       if (data.isAuthenticated) {
-        setUser({ ...data.user, accessToken: data.accessToken });
-        console.log('User set in AuthContext:', { ...data.user, accessToken: data.accessToken });
+        setUser({ ...data.user, customerAccessToken: data.accessToken });
+        console.log('User set in AuthContext:', { ...data.user, customerAccessToken: data.accessToken });
       } else {
         setUser(null);
       }

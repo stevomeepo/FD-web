@@ -19,46 +19,58 @@ export default function ProfilePage() {
     const [originalProfile, setOriginalProfile] = useState({});
 
     useEffect(() => {
-        if (user) {
-            setProfile({ ...profile, ...user });
-            setOriginalProfile({ ...profile, ...user });
-          }
-      }, [user]);
-  
-      const handleChange = (e) => {
-          const { name, value } = e.target;
-          setProfile(prevState => ({
-              ...prevState,
-              [name]: value
-          }));
-      };
+      // console.log("Current user:", user);
+      if (user) {
+          setProfile({ ...profile, ...user });
+          setOriginalProfile({ ...profile, ...user });
+        }
+    }, [user]);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setProfile(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
     
-      const handleSave = async (e) => {
-        e.preventDefault();
-        if (!user || !user.customerAccessToken) {
-          console.error("No user or customerAccessToken found");
-          return;
-        }
-        try {
-            await updateCustomer(user.customerAccessToken, {
-                firstName: profile.firstName,
-                lastName: profile.lastName,
-                email: profile.email,
+    const handleSave = async (e) => {
+      e.preventDefault();
+      console.log("Current user in ProfilePage:", user);
+      if (!user || !user.customerAccessToken) {
+        console.error("No user or customerAccessToken found");
+        return;
+      }
+      try {
+        const customerUpdateResponse = await updateCustomer(user.customerAccessToken, {
+              firstName: profile.firstName,
+              lastName: profile.lastName,
+              email: profile.email,
+          });
+
+          let addressUpdateResponse = {};
+          if (profile.address1 && profile.city && profile.zip) {
+            addressUpdateResponse = await updateCustomerAddress(user.customerAccessToken, profile.addressId, {
+              address1: profile.address1,
+              address2: profile.address2,
+              city: profile.city,
+              country: profile.country,
+              zip: profile.zip,
             });
-            if (profile.address1 && profile.city && profile.zip) {
-                await updateCustomerAddress(user.customerAccessToken, profile.addressId, {
-                    address1: profile.address1,
-                    address2: profile.address2,
-                    city: profile.city,
-                    country: "United States",
-                    zip: profile.zip,
-                });
-            }
-            setEditing(false);
-            setOriginalProfile(profile);
-        } catch (error) {
-            console.error("Failed to update profile:", error);
-        }
+          }
+
+          console.log("Profile updated with response:", customerUpdateResponse);
+
+          setUser((prevUser) => ({
+            ...prevUser,
+            ...customerUpdateResponse.customer,
+          }));
+
+          setEditing(false);
+          setOriginalProfile(customerUpdateResponse.customer);
+      } catch (error) {
+          console.error("Failed to update profile:", error);
+      }
     };
     
     const handleCancel = () => {
