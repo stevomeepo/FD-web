@@ -6,21 +6,21 @@ import Layout from '../components/Layout'
 import ShopProvider from '../context/shopContext'
 import { useRouter } from 'next/router'
 import { NextUIProvider } from '@nextui-org/react'
-import { UserProvider } from '../context/userContext';
+import AuthProvider from '../context/authContext';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
   
   return (
-    <NextUIProvider>
-      <ShopProvider>
-        <UserProvider>
+    <AuthProvider>
+      <NextUIProvider>
+        <ShopProvider>
           <Layout>
             <Component {...pageProps} key={router.asPath} />
           </Layout>
-        </UserProvider>
-      </ShopProvider>
-    </NextUIProvider>
+        </ShopProvider>
+      </NextUIProvider>
+    </AuthProvider>
   )
 }
 

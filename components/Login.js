@@ -1,46 +1,39 @@
-import { useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useRouter } from 'next/router';
+import { AuthContext } from '../context/authContext';
 import Image from 'next/image';
 import Link from 'next/link';
-import { UserContext } from '../context/userContext';
-import Cookies from 'js-cookie';
 
-export default function Login() {
+export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const [showMessage, setShowMessage] = useState(false);
   const router = useRouter();
-  const { setUser } = useContext(UserContext);
+  const { setUser } = useContext(AuthContext);
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+      event.preventDefault();
 
-    const response = await fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
+      try {
+          const response = await fetch('/api/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, password }),
+          });
+          const result = await response.json();
 
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-      setUser({ email: data.data.email, firstName: data.data.firstName });
-      Cookies.set('user', JSON.stringify({ email: data.data.email, firstName: data.data.firstName }));
-      setMessage("Logged in successfully!")
-      setShowMessage(true);
-      router.push("/");
-    } else {
-      const errorData = await response.json();
-      console.log('Error logging in:', errorData);
-      setMessage(errorData.message);
-      setShowMessage(true);
-    }
+          if (result.error) {
+              setMessage('Failed to login: ' + result.error);
+          } else {
+              setMessage('Login successful!');
+              // Redirect or do something upon successful login
+              setUser({ email });
+              router.push('/'); // Redirect to home or dashboard
+          }
+      } catch (error) {
+          console.error('Login failed:', error);
+          setMessage('Login failed. Please try again.');
+      }
   };
 
   return (
@@ -56,7 +49,7 @@ export default function Login() {
           Password
         </label>
         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-black mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="********" value={password} onChange={(e) => setPassword(e.target.value)} />
-        {showMessage && <p className="text-red-500 font-bold">{message}</p>}
+        {message && <p className="text-red-500 font-bold">{message}</p>}
       </div>
       <div className="flex items-center justify-between">
         <button className="bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">

@@ -9,11 +9,12 @@ import { Menu } from '@headlessui/react';
 import { UserContext } from '../context/userContext';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
+import { AuthContext } from '../context/authContext';
 
 export default function Nav() {
   const { cart, cartOpen, setCartOpen } = useContext(CartContext);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(AuthContext);
   const router = useRouter();
 
   let cartQuantity = 0;
@@ -22,11 +23,18 @@ export default function Nav() {
   });
 
   useEffect(() => {
-    const userCookie = Cookies.get('user');
-    if (userCookie) {
-      setUser(JSON.parse(userCookie));
-    }
-  }, []);
+    const fetchAuthState = async () => {
+      const res = await fetch('/api/auth', { credentials: 'include' });
+      const data = await res.json();
+      if (data.isAuthenticated) {
+        setUser(data.user);
+      } else {
+        setUser(null);
+      }
+    };
+  
+    fetchAuthState();
+  }, [user]);
 
   return (
     <header className="border-b sticky top-0 z-20 bg-white">

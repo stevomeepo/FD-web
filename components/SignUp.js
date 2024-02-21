@@ -1,71 +1,58 @@
-import { useState, useContext } from 'react';
-import { useRouter } from 'next/router';
+import React, { useState, useContext } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { UserContext } from '../context/userContext';
-import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
+import { AuthContext } from '../context/authContext';
 
-export default function Signup() {
+export default function SignUpForm() {
+  const { setUser } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
-  const [showMessage, setShowMessage] = useState(false);
-  const { setUser } = useContext(UserContext);
+  const [confirmPassword, setConfirmPassword] = useState('');
   const router = useRouter();
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+      event.preventDefault();
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setMessage("Please enter a valid email address.");
-      setShowMessage(true);
+      if (password !== confirmPassword) {
+        setMessage('Passwords do not match.');
+        return;
+    }
+
+    if (!/(?=.*[A-Z])(?=.*[0-9])/.test(password)) {
+      setMessage('Password must contain at least one uppercase letter and one number.');
       return;
-    }
+  }
 
-    if (password !== confirmPassword) {
-      setMessage("Password does not match. Please retry.");
-      setShowMessage(true);
-      return;
-    }
+    const customerInput = { email, password, firstName, lastName };
 
-    const passwordRegex = /^(?=.*[A-Z])(?=.*\d{2,}).{8,}$/;
-    if (!passwordRegex.test(password)) {
-      setMessage("Password must be at least 8 characters, include at least one uppercase letter, and include at least two numbers.");
-      setShowMessage(true);
-      return;
-    }
+      try {
+          const response = await fetch('/api/signup', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(customerInput),
+          });
+          const result = await response.json();
 
-    const response = await fetch('/api/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        firstName,
-        lastName,
-        email,
-        password,
-      }),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-      setUser({ email: data.data.email, firstName: data.data.firstName });
-      Cookies.set('user', JSON.stringify({ email: data.data.email, firstName: data.data.firstName }));
-      setMessage("User created successfully!")
-      setShowMessage(true);
-      router.push("/");
-    } else {
-      const errorData = await response.json();
-      console.log('Error submitting form:', errorData);
-      setMessage(errorData.message);
-      setShowMessage(true);
-    }
+          if (result.errors) {
+              setMessage('Error: ' + result.errors[0].message);
+          } else {
+            setUser(result.user);
+            setMessage('Signed up successfully!');
+            setEmail('');
+            setPassword('');
+            setFirstName('');
+            setLastName('');
+            setConfirmPassword('');
+            router.push('/');
+          }
+      } catch (error) {
+          console.error('Sign up failed:', error);
+          setMessage('Sign up failed. Please try again.');
+      }
   };
 
   return (
@@ -99,7 +86,7 @@ export default function Signup() {
           Confirm Password
         </label>
         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-black mb-3 leading-tight focus:outline-none focus:shadow-outline" id="confirmPassword" type="password" placeholder="********" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-        <p className={`transition duration-2000 text-red-500 font-bold ${showMessage ? 'opacity-100' : 'opacity-0'}`}>{message}</p>
+        <p className={`transition duration-2000 text-red-500 font-bold ${message ? 'opacity-100' : 'opacity-0'}`}>{message}</p>
       </div>
       <div className="flex items-center justify-between">
         <button className="bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
