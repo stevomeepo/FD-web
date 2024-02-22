@@ -27,7 +27,7 @@ export default function LoginForm() {
           } else {
               setMessage('Login successful!');
               // Redirect or do something upon successful login
-              setUser({ email });
+              setUser({ ...result.user, customerAccessToken: result.accessToken });
               router.push('/'); // Redirect to home or dashboard
           }
       } catch (error) {

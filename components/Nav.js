@@ -6,7 +6,6 @@ import MiniCart from './MiniCart';
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon, ShoppingCartIcon, UserIcon } from '@heroicons/react/outline';
 import { Menu } from '@headlessui/react';
-import { UserContext } from '../context/userContext';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import { AuthContext } from '../context/authContext';
@@ -27,7 +26,7 @@ export default function Nav() {
       const res = await fetch('/api/auth', { credentials: 'include' });
       const data = await res.json();
       if (data.isAuthenticated) {
-        setUser(data.user);
+        setUser({ ...data.user, customerAccessToken: data.accessToken });
       } else {
         setUser(null);
       }

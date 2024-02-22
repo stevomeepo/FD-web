@@ -10,7 +10,7 @@ export default function Signup() {
           <title>Sign Up - Forensic Drone</title>
         </Head>
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold text-black mb-6">New User</h2>
+        <h2 className="text-2xl font-bold text-black mb-4">Create Account</h2>
         <SignUp />
       </div>
     </div>

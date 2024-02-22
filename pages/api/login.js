@@ -1,9 +1,9 @@
-import { validateUserCredentials } from '../../lib/customer';
+import { createCustomerAccessToken } from '../../lib/customer';
 
 export default async function handler(req, res) {
   const { email, password } = req.body;
 
-  const validationResponse = await validateUserCredentials(email, password);
+  const validationResponse = await createCustomerAccessToken(email, password);
 
   if (validationResponse.success) {
     // Set the token in an httpOnly cookie with Secure attribute for HTTPS

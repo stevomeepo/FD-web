@@ -1,5 +1,4 @@
-// pages/api/SignUp.js
-import { createCustomer, validateUserCredentials } from '../../lib/customer';
+import { createCustomer, createCustomerAccessToken } from '../../lib/customer';
 
 export default async function handler(req, res) {
     const customerInput = req.body;
@@ -12,13 +11,12 @@ export default async function handler(req, res) {
         }
 
         const { email, password } = customerInput;
-        const validationResponse = await validateUserCredentials(email, password);
+        const validationResponse = await createCustomerAccessToken(email, password);
 
         if (validationResponse.success) {
             res.setHeader('Set-Cookie', `accessToken=${validationResponse.accessToken}; Path=/; HttpOnly; SameSite=Strict; Secure;`);
             res.status(200).json({ message: 'Signup successful' });
         } else {
-            // Handle failed login attempt after signup
             res.status(401).json({ error: 'Signup successful, but login failed. Please try logging in.' });
         }
     } catch (error) {
