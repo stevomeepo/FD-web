@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { AuthContext } from '../context/authContext';
 import Image from 'next/image';
@@ -8,8 +8,21 @@ export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-  const { setUser } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (user?.customerAccessToken) {
+      router.push('/profile').then(() => setIsLoading(false));
+    } else {
+      setIsLoading(false);
+    }
+  }, [user, router]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   const handleSubmit = async (event) => {
       event.preventDefault();

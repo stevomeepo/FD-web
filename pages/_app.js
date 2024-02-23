@@ -7,6 +7,7 @@ import ShopProvider from '../context/shopContext'
 import { useRouter } from 'next/router'
 import { NextUIProvider } from '@nextui-org/react'
 import AuthProvider from '../context/authContext';
+import '@fortawesome/fontawesome-svg-core/styles.css';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()

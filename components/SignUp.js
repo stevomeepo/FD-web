@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -14,7 +14,22 @@ export default function SignUpForm() {
   const [acceptsMarketing, setAcceptsMarketing] = useState(false);
   const [message, setMessage] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const { user } = useContext(AuthContext);
   const router = useRouter();
+
+  useEffect(() => {
+    if (user?.customerAccessToken) {
+      router.push('/profile').then(() => setIsLoading(false));
+    } else {
+      setIsLoading(false);
+    }
+  }, [user, router]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
