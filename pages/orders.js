@@ -54,7 +54,7 @@ const OrderHistory = () => {
             </div>
             <Link href={`/orders/${order.id}`} passHref>
               <button className="bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                View Order
+                View Order!
               </button>
             </Link>
           </div>
