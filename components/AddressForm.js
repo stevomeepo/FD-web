@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { updateCustomerAddress, createCustomerAddress } from '../lib/customer';
+import { US_STATES } from '../utils/states';
 
 const AddressForm = ({ customerAccessToken, onSaveSuccess, initialAddress, onCancel }) => {
   const [address, setAddress] = useState(initialAddress || {});
@@ -61,11 +62,34 @@ const AddressForm = ({ customerAccessToken, onSaveSuccess, initialAddress, onCan
         </div>
         <div className="mb-4">
           <label htmlFor="province" className="block text-sm font-bold text-black mb-2">State/Province</label>
-          <input name="province" value={address.province} onChange={handleChange} placeholder="State" className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline" required />
+          <select
+            name="province"
+            value={address.province}
+            onChange={handleChange}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
+            required
+          >
+            <option value="">Select a State</option>
+            {US_STATES.map((state) => (
+              <option key={state.abbreviation} value={state.abbreviation}>
+                {state.name}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="mb-4">
           <label htmlFor="country" className="block text-sm font-bold text-black mb-2">Country</label>
-          <input name="country" value={address.country} onChange={handleChange} placeholder="Country" className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline" required />
+          <select 
+          name="country" 
+          value={address.country} 
+          onChange={handleChange} 
+          placeholder="Country" 
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline" 
+          required
+          >
+            <option value="">Select a Country</option>
+            <option value="US">United States</option>
+          </select>
         </div>
         <div className="mb-4">
           <label htmlFor="zip" className="block text-sm font-bold text-black mb-2">Zip/Postal Code</label>

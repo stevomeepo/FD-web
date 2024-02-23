@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/authContext';
 import { fetchUserProfile } from "../lib/customer";
 import AddressForm from '../components/AddressForm';
-import Link from 'next/link';
 
 const ShippingAddressPage = () => {
   const { user } = useContext(AuthContext);
@@ -42,7 +41,7 @@ const ShippingAddressPage = () => {
   };
 
   if (!customerData) {
-    return <div className="p-4">Loading...</div>;
+    return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
   }
 
   const address = customerData.addresses?.edges[0]?.node;
@@ -54,12 +53,12 @@ const ShippingAddressPage = () => {
         {!isEditing ? (
           <>
             <div className="mb-4">
-              <p className="text-sm font-bold text-black">{address?.firstName} {address?.lastName}</p>
-              <p className="text-sm">{address?.address1}</p>
-              <p className="text-sm">{address?.address2}</p>
-              <p className="text-sm">{address?.city}, {address?.province} {address?.zip}</p>
-              <p className="text-sm">{address?.country}</p>
-              <p className="text-sm">{address?.phone}</p>
+              <p className="text-xl font-bold text-black">{address?.firstName} {address?.lastName}</p>
+              <p className="text-m">{address?.address1}</p>
+              <p className="text-m">{address?.address2}</p>
+              <p className="text-m">{address?.city}, {address?.province} {address?.zip}</p>
+              <p className="text-m">{address?.country}</p>
+              <p className="text-m">{address?.phone}</p>
             </div>
             <button onClick={() => setIsEditing(true)} className="w-full bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
               Edit Address

@@ -42,25 +42,32 @@ const ProfilePage = () => {
   };
 
   if (!customerData) {
-    return <div className="p-4">Loading...</div>;
+    return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
   }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <div className="w-full max-w-md p-8 border-2 border-gray-300 rounded-lg shadow-md">
-        <h1 className="mb-4 text-2xl font-bold text-center text-black">
-          {user ? `${user.firstName}'s Profile` : "Profile"}
+        <h1 className="mb-4 text-2xl font-bold text-center">
+          {user ? (
+            <>
+              <span className="text-red-500">{user.firstName}'s</span>
+              <span className="text-black"> Profile</span>
+            </>
+          ) : (
+            <span className="text-black">Profile</span>
+          )}
         </h1>
         {!showProfileForm ? (
           <>
             <div className="mb-4">
-              <p className="text-sm font-bold text-black">First Name: <span className="font-normal">{customerData.firstName}</span></p>
+              <p className="text-m font-bold text-black">First Name: <span className="font-normal">{customerData.firstName}</span></p>
             </div>
             <div className="mb-4">
-              <p className="text-sm font-bold text-black">Last Name: <span className="font-normal">{customerData.lastName}</span></p>
+              <p className="text-m font-bold text-black">Last Name: <span className="font-normal">{customerData.lastName}</span></p>
             </div>
             <div className="mb-4">
-              <p className="text-sm font-bold text-black">Email: <span className="font-normal">{customerData.email}</span></p>
+              <p className="text-m font-bold text-black">Email: <span className="font-normal">{customerData.email}</span></p>
             </div>
             <button 
               onClick={() => setShowProfileForm(true)}
