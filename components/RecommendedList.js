@@ -1,9 +1,6 @@
 import ProductCard from './ProductCard';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { Navigation } from 'swiper/core';
-
-
-SwiperCore.use([Navigation]);
+import { Navigation } from 'swiper/modules';
 
 const RecommendedList = ({ products, current }) => {
   return (
@@ -13,9 +10,12 @@ const RecommendedList = ({ products, current }) => {
           Recommended Products
         </h2>
         <Swiper
+          modules={[Navigation]}
           slidesPerView={4}
-          spaceBetween={10}
-          navigation={true}
+          spaceBetween={24}
+          loop={true}
+          style={{ '--swiper-navigation-color': '#000', '--swiper-pagination-color': '#000' }}
+          navigation
           className="mySwiper"
         >
           {products.map(product => (

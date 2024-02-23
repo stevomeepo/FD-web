@@ -127,7 +127,7 @@ export default function SignUpForm() {
       <div className="mb-6">
         <label className="flex items-center text-black text-sm font-bold mb-2" htmlFor="acceptsMarketing">
           <input
-            className="hidden" // Hide the default checkbox
+            className="hidden"
             id="acceptsMarketing"
             type="checkbox"
             checked={acceptsMarketing}

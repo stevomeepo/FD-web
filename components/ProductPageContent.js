@@ -2,9 +2,7 @@ import Image from 'next/image'
 import ProductForm from './ProductForm'
 import RecommendedList from './RecommendedList'
 import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { Navigation, Pagination } from 'swiper';
-
-SwiperCore.use([Navigation, Pagination]);
+import { Navigation, Pagination } from 'swiper/modules';
 
 export default function ProductPageContent({ product }) {
   
