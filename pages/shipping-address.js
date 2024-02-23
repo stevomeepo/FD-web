@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/authContext';
 import { fetchUserProfile } from "../lib/customer";
 import AddressForm from '../components/AddressForm';
+import Link from 'next/link';
 
 const ShippingAddressPage = () => {
   const { user } = useContext(AuthContext);
@@ -32,40 +33,47 @@ const ShippingAddressPage = () => {
   }, [user]);
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className="p-4 text-red-500 font-bold">Error: {error}</div>;
   }
 
   const handleCancelAddressEdit = () => {
-    setCustomerData(false);
+    setIsEditing(false);
+    window.scrollTo(0, 0);
   };
 
   if (!customerData) {
-    return <div>Loading...</div>;
+    return <div className="p-4">Loading...</div>;
   }
 
   const address = customerData.addresses?.edges[0]?.node;
 
   return (
-    <div>
-      <h1>Shipping Address</h1>
-      {!isEditing ? (
-        <>
-          <p>{address?.firstName} {address?.lastName}</p>
-          <p>{address?.address1}</p>
-          <p>{address?.address2}</p>
-          <p>{address?.city}, {address?.province} {address?.zip}</p>
-          <p>{address?.country}</p>
-          <p>{address?.phone}</p>
-          <button onClick={() => setIsEditing(true)}>Edit Address</button>
-        </>
-      ) : (
-        <AddressForm
-            customerAccessToken={user.customerAccessToken}
-            initialAddress={customerData.addresses?.edges[0]?.node}
-            onSaveSuccess={() => setCustomerData(false)}
-            onCancel={handleCancelAddressEdit}
-        />
-      )}
+    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+      <div className="w-full max-w-md p-8 border-2 border-gray-300 rounded-lg shadow-md">
+        <h1 className="mb-4 text-2xl font-bold text-center text-black">Shipping Address</h1>
+        {!isEditing ? (
+          <>
+            <div className="mb-4">
+              <p className="text-sm font-bold text-black">{address?.firstName} {address?.lastName}</p>
+              <p className="text-sm">{address?.address1}</p>
+              <p className="text-sm">{address?.address2}</p>
+              <p className="text-sm">{address?.city}, {address?.province} {address?.zip}</p>
+              <p className="text-sm">{address?.country}</p>
+              <p className="text-sm">{address?.phone}</p>
+            </div>
+            <button onClick={() => setIsEditing(true)} className="w-full bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              Edit Address
+            </button>
+          </>
+        ) : (
+          <AddressForm
+              customerAccessToken={user.customerAccessToken}
+              initialAddress={address}
+              onSaveSuccess={() => setIsEditing(false)}
+              onCancel={handleCancelAddressEdit}
+          />
+        )}
+      </div>
     </div>
   );
 };

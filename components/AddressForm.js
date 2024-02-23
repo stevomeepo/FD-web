@@ -20,14 +20,11 @@ const AddressForm = ({ customerAccessToken, onSaveSuccess, initialAddress, onCan
     e.preventDefault();
     let response;
   
-    // Destructure the address state to separate the id and the rest of the address fields
     const { id, ...addressInput } = address;
   
     if (id) {
-      // If an id is present, update the existing address
       response = await updateCustomerAddress(customerAccessToken, id, addressInput);
     } else {
-      // If no id is present, create a new address
       response = await createCustomerAddress(customerAccessToken, addressInput);
     }
   
@@ -39,19 +36,54 @@ const AddressForm = ({ customerAccessToken, onSaveSuccess, initialAddress, onCan
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      {successMessage && <div>{successMessage}</div>}
-      <input name="firstName" value={address.firstName} onChange={handleChange} placeholder="First Name" />
-      <input name="lastName" value={address.lastName} onChange={handleChange} placeholder="Last Name" />
-      <input name="address1" value={address.address1} onChange={handleChange} placeholder="Address Line 1" />
-      <input name="address2" value={address.address2} onChange={handleChange} placeholder="Address Line 2" />
-      <input name="city" value={address.city} onChange={handleChange} placeholder="City" />
-      <input name="province" value={address.province} onChange={handleChange} placeholder="State" />
-      <input name="country" value={address.country} onChange={handleChange} placeholder="Country" />
-      <input name="zip" value={address.zip} onChange={handleChange} placeholder="Zipcode" />
-      <input name="phone" value={address.phone} onChange={handleChange} placeholder="Phone Number" />
-      <button type="submit">Save Address</button>
-      <button type="button" onClick={onCancel}>Cancel</button>
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div>
+        {successMessage && <div className="mb-4 text-green-500">{successMessage}</div>}
+        <div className="mb-4">
+          <label htmlFor="firstName" className="block text-sm font-bold text-black mb-2">First Name</label>
+          <input name="firstName" value={address.firstName} onChange={handleChange} placeholder="First Name" className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline" required />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="lastName" className="block text-sm font-bold text-black mb-2">Last Name</label>
+          <input name="lastName" value={address.lastName} onChange={handleChange} placeholder="Last Name" className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline" required />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="address1" className="block text-sm font-bold text-black mb-2">Address Line 1</label>
+          <input name="address1" value={address.address1} onChange={handleChange} placeholder="Address Line 1" className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline" required />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="address2" className="block text-sm font-bold text-black mb-2">Address Line 2</label>
+          <input name="address2" value={address.address2} onChange={handleChange} placeholder="Address Line 2" className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline" />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="city" className="block text-sm font-bold text-black mb-2">City</label>
+          <input name="city" value={address.city} onChange={handleChange} placeholder="City" className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline" required />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="province" className="block text-sm font-bold text-black mb-2">State/Province</label>
+          <input name="province" value={address.province} onChange={handleChange} placeholder="State" className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline" required />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="country" className="block text-sm font-bold text-black mb-2">Country</label>
+          <input name="country" value={address.country} onChange={handleChange} placeholder="Country" className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline" required />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="zip" className="block text-sm font-bold text-black mb-2">Zip/Postal Code</label>
+          <input name="zip" value={address.zip} onChange={handleChange} placeholder="Zipcode" className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline" required />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="phone" className="block text-sm font-bold text-black mb-2">Phone Number</label>
+          <input name="phone" value={address.phone} onChange={handleChange} placeholder="Phone Number" className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline" required />
+        </div>
+        <div className="flex items-center justify-between">
+          <button type="submit" className="bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Save Address
+          </button>
+          <button type="button" onClick={onCancel} className="bg-black hover:bg-gray-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Cancel
+          </button>
+        </div>
+      </div>
     </form>
   );
 };
