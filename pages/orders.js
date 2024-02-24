@@ -52,7 +52,7 @@ const OrderHistory = () => {
               <h2 className="text-lg font-semibold">Order #{order.orderNumber}</h2>
               <p className="mb-2">{formatter.format(order.totalPrice.amount)}</p>
             </div>
-            <Link href={`/orders/${order.id}`} passHref>
+            <Link href={`/orders/${encodeURIComponent(order.id)}`} passHref>
               <button className="bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                 View Order
               </button>

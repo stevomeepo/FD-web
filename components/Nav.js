@@ -53,7 +53,7 @@ export default function Nav() {
         <nav className="hidden lg:flex justify-center space-x-7">
           <Link href="/" passHref className="text-md font-bold cursor-pointer hover:text-red-500">Home</Link>
           <Link href="/products" passHref className="text-md font-bold cursor-pointer hover:text-red-500">Products</Link>
-          <Link href="/classes" passHref className="text-md font-bold cursor-pointer hover:text-red-500">Training</Link>
+          <Link href="/classes" passHref className="text-md font-bold cursor-pointer hover:text-red-500">Classes</Link>
         </nav>
         <div className="flex items-center space-x-4">
           <Menu as="div" className="relative inline-block text-left">
@@ -192,6 +192,7 @@ export default function Nav() {
           <nav className="flex flex-col space-y-4">
             <Link href="/" passHref className="text-md font-bold cursor-pointer" onClick={() => setSidebarOpen(false)}>Home</Link>
             <Link href="/products" passHref className="text-md font-bold cursor-pointer" onClick={() => setSidebarOpen(false)}>Products</Link>
+            <Link href="/signup" passHref className="text-md font-bold cursor-pointer hover:text-red-500" onClick={() => setSidebarOpen(false)}>Signup</Link>
           </nav>
         </div>
       )}

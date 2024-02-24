@@ -26,7 +26,8 @@ export default function Footer() {
             ))
           }
         </nav>
-        <div className="flex justify-center space-x-4 mt-8">
+        <div className="flex justify-center space-x-4 mt-8 text-gray-700">Follow Us!</div>
+        <div className="flex justify-center space-x-4 mt-2">
           <a href="https://www.facebook.com/Forensicdrone" className="text-gray-500 hover:text-blue-500" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
             <FontAwesomeIcon icon={faFacebook} size="2x" />
           </a>

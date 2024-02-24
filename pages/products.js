@@ -32,7 +32,9 @@ export default function Products({ products: initialProducts }) {
                 <title>Products - Forensic Drone</title>
             </Head>
             <SearchBar onSearch={handleSearch} />
-            <ProductList products={filteredProducts} />
+            <div className="pt-10 sm:pt-10">
+                <ProductList products={filteredProducts} />
+            </div>
         </div>
     );
 }
