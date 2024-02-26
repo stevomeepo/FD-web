@@ -44,6 +44,7 @@ const ShippingAddressPage = () => {
     return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
   }
 
+  const hasAddresses = customerData.addresses?.edges?.length > 0;
   const address = customerData.addresses?.edges[0]?.node;
 
   return (
@@ -52,16 +53,20 @@ const ShippingAddressPage = () => {
         <h1 className="mb-4 text-2xl font-bold text-center text-black">Shipping Address</h1>
         {!isEditing ? (
           <>
-            <div className="mb-4">
-              <p className="text-xl font-bold text-black">{address?.firstName} {address?.lastName}</p>
-              <p className="text-m">{address?.address1}</p>
-              <p className="text-m">{address?.address2}</p>
-              <p className="text-m">{address?.city}, {address?.province} {address?.zip}</p>
-              <p className="text-m">{address?.country}</p>
-              <p className="text-m">{address?.phone}</p>
-            </div>
+            {hasAddresses ? (
+              <div className="mb-4">
+                <p className="text-xl font-bold text-black">{address.firstName} {address.lastName}</p>
+                <p className="text-m">{address.address1}</p>
+                <p className="text-m">{address.address2}</p>
+                <p className="text-m">{address.city}, {address.province} {address.zip}</p>
+                <p className="text-m">{address.country}</p>
+                <p className="text-m">{address.phone}</p>
+              </div>
+            ) : (
+              <div className="mb-4 text-center text-m">No Address Saved Yet...</div>
+            )}
             <button onClick={() => setIsEditing(true)} className="w-full bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-              Edit Address
+              {hasAddresses ? 'Edit Address' : 'Add Address'}
             </button>
           </>
         ) : (

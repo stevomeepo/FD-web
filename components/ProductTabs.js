@@ -6,11 +6,6 @@ const ProductTabs = ({ product, activeTab, setActiveTab }) => {
     setActiveTab(activeTab === tabName ? null : tabName);
   };
 
-  // Function to create markup from the description
-  const createMarkup = (htmlContent) => {
-    return { __html: htmlContent };
-  };
-
   return (
     <div className="product-tabs-container">
       <div className="tabs flex border-b">
