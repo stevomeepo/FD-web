@@ -13,13 +13,20 @@ module.exports = {
   ],
   theme: {
     extend: {
-      typography: {
-        DEFAULT: {
-          css: {
-            color: '#000',
-            '--tw-prose-bullets': '#000',
-            'ul > li::before': { backgroundColor: 'var(--tw-prose-bullets)' },
-          },
+      backdropFilter: {
+        'none': 'none',
+        'blur': 'blur(20px)',
+      },
+      backgroundOpacity: {
+        '25': '0.25',
+      },
+    },
+    typography: {
+      DEFAULT: {
+        css: {
+          color: '#000',
+          '--tw-prose-bullets': '#000',
+          'ul > li::before': { backgroundColor: 'var(--tw-prose-bullets)' },
         },
       },
     },
@@ -27,5 +34,6 @@ module.exports = {
   darkMode: "class",
   plugins: [
     nextui(),
-    typography],
+    typography,
+  ],
 }

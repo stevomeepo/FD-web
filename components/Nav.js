@@ -38,8 +38,10 @@ export default function Nav() {
   return (
     <header className="border-b sticky top-0 z-20 bg-white">
       <div className="flex items-center justify-between max-w-6xl pt-4 pb-2 px-4 mx-auto lg:max-w-screen-xl">
-        <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden">
-          <Image src="https://cdn.shopify.com/s/files/1/0852/4529/6941/files/menu.png?v=1704455760" alt="Menu" width={20} height={20} />
+        <button onClick={() => setSidebarOpen(!sidebarOpen)} className={`hamburger hamburger--spin ${sidebarOpen ? 'is-active' : ''}`} type="button">
+          <span className="hamburger-box">
+            <span className="hamburger-inner"></span>
+          </span>
         </button>
         <Link href="/" passHref className="cursor-pointer">
           <Image src="https://cdn.shopify.com/s/files/1/0852/4529/6941/files/Forensic-Drone-Logo.jpg?v=1704444978"

@@ -11,7 +11,7 @@ export default function ShippingAndReturns() {
             <div className="mx-auto w-full max-w-4xl p-2">
                 <div className="mx-auto w-full max-w-4xl p-2 text-center">
                     <span className="text-4xl font-bold">Shipping, Return & Refund Policy</span>
-                    <p className="pt-5">Thank you for visiting and shopping at ForensicDrone.</p>
+                    <p className="pt-5">Thank you for visiting and shopping at <span className="font-bold">Forensic<span className="text-red-500">Drone</span></span>.</p>
                     <p className="pb-5">Following are the terms and conditions that constitute our Shipping Policy.</p>
                 </div>
                 <Disclosure as="div" className="mt-2">
@@ -25,7 +25,7 @@ export default function ShippingAndReturns() {
                                 />
                             </Disclosure.Button>
                             <Disclosure.Panel className="px-4 pt-4 pb-2 text-black">
-                                <p className="pb-5">ForensicDrone uses rate by weight system to calculate how much shipping would cost to ship to your area.
+                                <p className="pb-5"><span className="font-bold">Forensic<span className="text-red-500">Drone</span></span> uses rate by weight system to calculate how much shipping would cost to ship to your area.
                                     After check out the website's system calculates your order weight.</p>
                                 <p>There are three section of calculated shipment. First is the standard shipment of orders that weight less than 20lbs. 
                                     Each will vary of different price depending of the weight of the order - no more than $20. 
@@ -66,7 +66,7 @@ export default function ShippingAndReturns() {
                                 />
                             </Disclosure.Button>
                             <Disclosure.Panel className="px-4 pt-4 pb-2 text-black">
-                                <p>ForensicDrone ships to addresses within the U.S., U.S. Territories, and APO/FPO/DPO addresses. </p>
+                                <p><span className="font-bold">Forensic<span className="text-red-500">Drone</span></span> ships to addresses within the U.S., U.S. Territories, and APO/FPO/DPO addresses. </p>
                             </Disclosure.Panel>
                         </>
                     )}
@@ -96,7 +96,7 @@ export default function ShippingAndReturns() {
                                 />
                             </Disclosure.Button>
                             <Disclosure.Panel className="px-4 pt-4 pb-2 text-black">
-                                <p>ForensicDrone is not responsible for any customs and taxes applied to your order. All fees imposed during or after shipping are the responsibility of the customer (tariffs, taxes, etc.).</p>
+                                <p><span className="font-bold">Forensic<span className="text-red-500">Drone</span></span> is not responsible for any customs and taxes applied to your order. All fees imposed during or after shipping are the responsibility of the customer (tariffs, taxes, etc.).</p>
                             </Disclosure.Panel>
                         </>
                     )}
@@ -111,7 +111,7 @@ export default function ShippingAndReturns() {
                                 />
                             </Disclosure.Button>
                             <Disclosure.Panel className="px-4 pt-4 pb-2 text-black">
-                                <p>ForensicDrone is not liable for any products damaged or lost during shipping. If you received your order damaged, please contact the shipment carrier to file a claim. Please save all packaging materials and damaged goods before filing a claim.</p>
+                                <p><span className="font-bold">Forensic<span className="text-red-500">Drone</span></span> is not liable for any products damaged or lost during shipping. If you received your order damaged, please contact the shipment carrier to file a claim. Please save all packaging materials and damaged goods before filing a claim.</p>
                             </Disclosure.Panel>
                         </>
                     )}

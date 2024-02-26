@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 import Image from 'next/image';
 import { PhoneIcon, LocationMarkerIcon } from '@heroicons/react/outline';
 import Head from 'next/head'
+import { Dialog, Transition } from '@headlessui/react';
+import '../styles/global.css';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -11,10 +13,16 @@ export default function Contact() {
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    window.location.reload();
   };
 
   const handleSubmit = async (e) => {
@@ -35,6 +43,7 @@ export default function Contact() {
       });
       setSubmitted(true);
       setError(null);
+      setIsModalOpen(true);
     } catch (error) {
       console.error(error);
       setError('Failed to submit form.');
@@ -66,7 +75,7 @@ export default function Contact() {
         <div className="w-full lg:w-1/2 p-4">
           <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-300">
             {submitted ? (
-              <p>Thanks for your inquiry!</p>
+              <p></p>
             ) : (
               <form onSubmit={handleSubmit}>
                 <div className="mb-4">
@@ -88,6 +97,59 @@ export default function Contact() {
           </div>
         </div>
       </div>
+      <Transition appear show={isModalOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black/25 backdrop-blur-md" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all animate-circular-shake">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
+                    ✅ Thanks for your inquiry!
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-500">
+                      Your message has been successfully submitted. We will get back to you as soon as possible.
+                    </p>
+                  </div>
+
+                  <div className="mt-4">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      onClick={closeModal}
+                    >
+                      Got it, thanks!
+                    </button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
     </div>
   );
 }

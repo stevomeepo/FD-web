@@ -2,3 +2,22 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 @import "hamburgers/dist/hamburgers.min.css";
+
+@keyframes circular-shake {
+    0%, 100% {
+      transform: rotate(0);
+    }
+    25% {
+      transform: rotate(5deg);
+    }
+    50% {
+      transform: rotate(-5deg);
+    }
+    75% {
+      transform: rotate(5deg);
+    }
+  }
+  
+  .animate-circular-shake {
+    animation: circular-shake 0.5s ease-in-out both;
+  }
