@@ -5,6 +5,7 @@ import { US_STATES } from '../utils/states';
 const AddressForm = ({ customerAccessToken, onSaveSuccess, initialAddress, onCancel }) => {
   const [address, setAddress] = useState(initialAddress || {});
   const [successMessage, setSuccessMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSaveSuccess = () => {
     setAddress({});
@@ -19,6 +20,7 @@ const AddressForm = ({ customerAccessToken, onSaveSuccess, initialAddress, onCan
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     let response;
   
     const { id, ...addressInput } = address;
@@ -64,7 +66,7 @@ const AddressForm = ({ customerAccessToken, onSaveSuccess, initialAddress, onCan
           <label htmlFor="province" className="block text-sm font-bold text-black mb-2">State/Province</label>
           <select
             name="province"
-            value={address.province}
+            value={address.province || ''}
             onChange={handleChange}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
             required
@@ -81,7 +83,7 @@ const AddressForm = ({ customerAccessToken, onSaveSuccess, initialAddress, onCan
           <label htmlFor="country" className="block text-sm font-bold text-black mb-2">Country</label>
           <select 
           name="country" 
-          value={address.country} 
+          value={address.country || ''} 
           onChange={handleChange} 
           placeholder="Country" 
           className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline" 
@@ -100,10 +102,14 @@ const AddressForm = ({ customerAccessToken, onSaveSuccess, initialAddress, onCan
           <input name="phone" value={address.phone} onChange={handleChange} placeholder="Phone Number" className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline" required />
         </div>
         <div className="flex items-center justify-between">
-          <button type="submit" className="bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-            Save Address
+          <button className="bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" disabled={isLoading}>
+            {isLoading ? (
+              <div className="spinner"></div>
+            ) : (
+              "Save Address"
+            )}
           </button>
-          <button type="button" onClick={onCancel} className="bg-black hover:bg-gray-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          <button className="bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={onCancel} disabled={isLoading}>
             Cancel
           </button>
         </div>

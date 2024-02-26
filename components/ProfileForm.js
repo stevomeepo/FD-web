@@ -10,6 +10,7 @@ const ProfileForm = ({ customerAccessToken, onSaveSuccess, initialData, onCancel
     email: initialData.email || '',
     acceptsMarketing: initialData.acceptsMarketing || false,
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,6 +23,7 @@ const ProfileForm = ({ customerAccessToken, onSaveSuccess, initialData, onCancel
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const response = await updateCustomer(customerAccessToken, formData);
 
     if (response.customerUserErrors && response.customerUserErrors.length > 0) {
@@ -69,11 +71,19 @@ const ProfileForm = ({ customerAccessToken, onSaveSuccess, initialData, onCancel
           </Switch>
         </div>
         <div className="flex items-center justify-between">
-          <button type="submit" className="bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-            Save Profile
+        <button className="bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" disabled={isLoading}>
+            {isLoading ? (
+              <div className="spinner"></div>
+            ) : (
+              "Save Profile"
+            )}
           </button>
-          <button type="button" onClick={onCancel} className="bg-black hover:bg-gray-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-            Cancel
+          <button className="bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" disabled={isLoading}>
+            {isLoading ? (
+              <div className="spinner"></div>
+            ) : (
+              "Cancel"
+            )}
           </button>
         </div>
       </div>

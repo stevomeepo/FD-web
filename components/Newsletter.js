@@ -12,6 +12,7 @@ export default function Newsletter() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
     const email = event.target.elements[0].value;
   
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -81,7 +82,13 @@ export default function Newsletter() {
         {!isSubmitted ? (
           <form onSubmit={handleSubmit} className="flex">
             <input input type="email" placeholder="Your email" className="flex-grow max-w-lg rounded-l-md p-2 border-t mr-0 border-b border-l border-gray-200 focus:outline" />
-            <button type="submit" className="px-6 rounded-r-md bg-black hover:hover:bg-red-500 text-white hover:text-white font-bold p-2 uppercase border-red border-t border-b border-r">Subscribe</button>
+            <button type="submit" className="px-6 rounded-r-md bg-black hover:bg-red-500 text-white font-bold p-2 uppercase border-red border-t border-b border-r" disabled={isLoading}>
+            {isLoading ? (
+              <div className="spinner"></div>
+            ) : (
+              "Subscribe"
+            )}
+          </button>
           </form>
         ) : null}
         <p className={`transition duration-2000 ${showMessage ? 'opacity-100' : 'opacity-0'}`}>{message}</p>

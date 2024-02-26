@@ -14,7 +14,7 @@ export default function SignUpForm() {
   const [acceptsMarketing, setAcceptsMarketing] = useState(false);
   const [message, setMessage] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const { user } = useContext(AuthContext);
   const router = useRouter();
 
@@ -26,13 +26,10 @@ export default function SignUpForm() {
     }
   }, [user, router]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
 
     if (password !== confirmPassword) {
       setMessage('Passwords do not match.');
@@ -159,8 +156,12 @@ export default function SignUpForm() {
         </label>
       </div>
       <div className="flex items-center justify-between">
-        <button className="bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-          Create
+        <button className="bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" disabled={isLoading}>
+          {isLoading ? (
+            <div className="spinner"></div>
+          ) : (
+            "Create"
+          )}
         </button>
         <Image 
           src="https://cdn.shopify.com/s/files/1/0852/4529/6941/files/Forensic-Drone-Logo.jpg?v=1704444978"
