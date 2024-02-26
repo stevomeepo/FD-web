@@ -17,14 +17,14 @@ export default function ShippingAndReturns() {
                 <Disclosure as="div" className="mt-2">
                     {({ open }) => (
                         <>
-                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-black bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-red-500 focus-visible:ring-opacity-75">
+                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 font-medium text-left text-black bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-red-500 focus-visible:ring-opacity-75">
                                 <span className="font-bold">Shipment Rate Calculations</span>
                                 <ChevronUpIcon
                                     className={`${open ? 'transform rotate-180' : ''
                                         } w-5 h-5 text-red-500`}
                                 />
                             </Disclosure.Button>
-                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-black">
+                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-black">
                                 <p className="pb-5">ForensicDrone uses rate by weight system to calculate how much shipping would cost to ship to your area.
                                     After check out the website's system calculates your order weight.</p>
                                 <p>There are three section of calculated shipment. First is the standard shipment of orders that weight less than 20lbs. 
@@ -39,14 +39,14 @@ export default function ShippingAndReturns() {
                 <Disclosure as="div" className="mt-2">
                     {({ open }) => (
                         <>
-                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-black bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-red-500 focus-visible:ring-opacity-75">
+                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 font-medium text-left text-black bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-red-500 focus-visible:ring-opacity-75">
                                 <span className="font-bold">Shipment Processing Time</span>
                                 <ChevronUpIcon
                                     className={`${open ? 'transform rotate-180' : ''
                                         } w-5 h-5 text-red-500`}
                                 />
                             </Disclosure.Button>
-                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-black">
+                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-black">
                                 <p>All orders are processed within 2-5 business days. 
                                     Orders are not shipped or delivered on weekends or holidays. 
                                     If we are experiencing a high volume of orders, shipments may be delayed by a few days. 
@@ -59,13 +59,13 @@ export default function ShippingAndReturns() {
                 <Disclosure as="div" className="mt-2">
                     {({ open }) => (
                         <>
-                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-black bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-red-500 focus-visible:ring-opacity-75">
+                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 font-medium text-left text-black bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-red-500 focus-visible:ring-opacity-75">
                                 <span className="font-bold">Shipment to P.O. boxes or APO/FPO addresses</span>
                                 <ChevronUpIcon
                                     className={`${open ? 'transform rotate-180' : ''} w-5 h-5 text-red-500`}
                                 />
                             </Disclosure.Button>
-                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-black">
+                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-black">
                                 <p>ForensicDrone ships to addresses within the U.S., U.S. Territories, and APO/FPO/DPO addresses. </p>
                             </Disclosure.Panel>
                         </>
@@ -74,13 +74,13 @@ export default function ShippingAndReturns() {
                 <Disclosure as="div" className="mt-2">
                     {({ open }) => (
                         <>
-                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-black bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-red-500 focus-visible:ring-opacity-75">
+                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 font-medium text-left text-black bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-red-500 focus-visible:ring-opacity-75">
                                 <span className="font-bold">Shipment confirmation & Order tracking</span>
                                 <ChevronUpIcon
                                     className={`${open ? 'transform rotate-180' : ''} w-5 h-5 text-red-500`}
                                 />
                             </Disclosure.Button>
-                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-black">
+                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-black">
                                 <p>You will receive a Shipment Confirmation email once your order has shipped containing your tracking number(s). The tracking number will be active within 24 hours.</p>
                             </Disclosure.Panel>
                         </>
@@ -89,13 +89,13 @@ export default function ShippingAndReturns() {
                 <Disclosure as="div" className="mt-2">
                     {({ open }) => (
                         <>
-                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-black bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-red-500 focus-visible:ring-opacity-75">
+                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 font-medium text-left text-black bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-red-500 focus-visible:ring-opacity-75">
                                 <span className="font-bold">Customs, Duties and Taxes  </span>
                                 <ChevronUpIcon
                                     className={`${open ? 'transform rotate-180' : ''} w-5 h-5 text-red-500`}
                                 />
                             </Disclosure.Button>
-                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-black">
+                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-black">
                                 <p>ForensicDrone is not responsible for any customs and taxes applied to your order. All fees imposed during or after shipping are the responsibility of the customer (tariffs, taxes, etc.).</p>
                             </Disclosure.Panel>
                         </>
@@ -104,13 +104,13 @@ export default function ShippingAndReturns() {
                 <Disclosure as="div" className="mt-2">
                     {({ open }) => (
                         <>
-                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-black bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-red-500 focus-visible:ring-opacity-75">
+                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 font-medium text-left text-black bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-red-500 focus-visible:ring-opacity-75">
                                 <span className="font-bold">Damages</span>
                                 <ChevronUpIcon
                                     className={`${open ? 'transform rotate-180' : ''} w-5 h-5 text-red-500`}
                                 />
                             </Disclosure.Button>
-                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-black">
+                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-black">
                                 <p>ForensicDrone is not liable for any products damaged or lost during shipping. If you received your order damaged, please contact the shipment carrier to file a claim. Please save all packaging materials and damaged goods before filing a claim.</p>
                             </Disclosure.Panel>
                         </>
@@ -119,13 +119,13 @@ export default function ShippingAndReturns() {
                 <Disclosure as="div" className="mt-2">
                     {({ open }) => (
                         <>
-                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-black bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-red-500 focus-visible:ring-opacity-75">
+                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 font-medium text-left text-black bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-red-500 focus-visible:ring-opacity-75">
                                 <span className="font-bold">International Shipping Policy</span>
                                 <ChevronUpIcon
                                     className={`${open ? 'transform rotate-180' : ''} w-5 h-5 text-red-500`}
                                 />
                             </Disclosure.Button>
-                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-black">
+                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-black">
                                 <p>We currently do not ship outside the U.S.</p>
                             </Disclosure.Panel>
                         </>
@@ -134,13 +134,13 @@ export default function ShippingAndReturns() {
                 <Disclosure as="div" className="mt-2">
                     {({ open }) => (
                         <>
-                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-black bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-red-500 focus-visible:ring-opacity-75">
+                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 font-medium text-left text-black bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-red-500 focus-visible:ring-opacity-75">
                                 <h1 className="font-bold">Return & Refund Policy</h1>
                                 <ChevronUpIcon
                                     className={`${open ? 'transform rotate-180' : ''} w-5 h-5 text-red-500`}
                                 />
                             </Disclosure.Button>
-                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-black">
+                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-black">
                                 <p className="pb-5">You have 30 days to return an item from the date you received it. 
                                     To be eligible for a return, your item must be unused and in the same condition that you received it. 
                                     Your item must be in the original packaging. Your item needs to have the proof of purchase.</p>
