@@ -30,8 +30,8 @@ const OrderHistory = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen py-2">
         <div className="w-full max-w-md p-8 border-2 border-gray-300 rounded-lg shadow-md">
-          <h1 className="mb-4 text-2xl font-bold text-center">No Order History!</h1>
-          <p className="text-center mb-4">You haven't placed any orders yet.</p>
+          <h1 className="text-4xl font-bold text-black mb-4 text-center">No Order History!</h1>
+          <p className="text-center text-xl mb-4">You haven't placed any orders yet.</p>
           <Link href="/products" passHref>
             <button className="w-full bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
               Shop Now
@@ -51,7 +51,7 @@ const OrderHistory = () => {
             <div>
               <h2 className="text-lg font-semibold">Order #{order.orderNumber}</h2>
               <p className="mb-2">{formatter.format(order.totalPrice.amount)}</p>
-            </div>
+            </div>s
             <Link href={`/orders/${encodeURIComponent(order.id)}`} passHref>
               <button className="bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                 View Order

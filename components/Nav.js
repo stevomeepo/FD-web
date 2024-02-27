@@ -16,6 +16,7 @@ export default function Nav() {
   const { cart, cartOpen, setCartOpen } = useContext(CartContext);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user, setUser } = useContext(AuthContext);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const router = useRouter();
 
   let cartQuantity = 0;
@@ -36,6 +37,39 @@ export default function Nav() {
   
     fetchAuthState();
   }, [user]);
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      const response = await fetch('/api/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      const data = await response.json();
+  
+      if (data.success) {
+        setUser(null);
+        Cookies.remove('accessToken');
+        router.push('/');
+      } else {
+        console.error('Logout failed');
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+    setIsLoggingOut(false);
+  };
+
+  if (isLoggingOut) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
+        <p>Logging out...</p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -157,33 +191,13 @@ export default function Nav() {
                           <Menu.Item>
                           {({ active }) => (
                             <button
-                              onClick={async () => {
-                                const response = await fetch('/api/logout', {
-                                  method: 'POST',
-                                  headers: {
-                                    'Content-Type': 'application/json',
-                                  },
-                                });
-
-                                const data = await response.json();
-
-                                if (data.success) {
-                                  setUser(null);
-                                  Cookies.remove('user');
-                                  if (router.pathname === '/') {
-                                    window.location.reload();
-                                  } else {
-                                    router.push('/');
-                                  }
-                                } else {
-                                  console.error('Logout failed');
-                                }
-                              }}
+                              onClick={handleLogout}
+                              disabled={isLoggingOut}
                               className={`${
                                 active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
                               } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                             >
-                              Logout
+                              {isLoggingOut ? 'Logging Out...' : 'Logout'}
                             </button>
                           )}
                         </Menu.Item>
@@ -216,11 +230,21 @@ export default function Nav() {
       )}
       {sidebarOpen && (
         <div className="absolute top-0 left-0 h-screen bg-white p-8" style={{ width: '300px', zIndex: 40, paddingTop: '6rem'}}>
-            <nav className="flex flex-col space-y-4">
+          <div className="flex flex-col h-full">
+            <nav className="flex flex-col space-y-4 flex-grow">
               <Link href="/" passHref className="text-md font-bold cursor-pointer hover:text-red-500" onClick={() => setSidebarOpen(false)}>Home</Link>
               <Link href="/products" passHref className="text-md font-bold cursor-pointer hover:text-red-500" onClick={() => setSidebarOpen(false)}>Products</Link>
-              <Link href="/signup" passHref className="text-md font-bold cursor-pointer hover:text-red-500" onClick={() => setSidebarOpen(false)}>Signup</Link>
+              {!user && (
+                <>
+                  <Link href="/login" passHref className="text-md font-bold cursor-pointer hover:text-red-500" onClick={() => setSidebarOpen(false)}>Login</Link>
+                  <Link href="/signup" passHref className="text-md font-bold cursor-pointer hover:text-red-500" onClick={() => setSidebarOpen(false)}>Signup</Link>
+                </>
+              )}
+              {user && (
+                <div onClick={handleLogout} className="text-md font-bold cursor-pointer hover:text-red-500">Logout</div>
+              )}
             </nav>
+          </div>
         </div>
       )}
     </>

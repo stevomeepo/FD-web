@@ -34,15 +34,16 @@ export default function LoginForm() {
 
           if (result.error) {
               setMessage('Failed to login: ' + result.error);
+              setIsLoading(false);
           } else {
               setMessage('Login successful!');
-              // Redirect or do something upon successful login
               setUser({ ...result.user, customerAccessToken: result.accessToken });
-              router.push('/'); // Redirect to home or dashboard
+              router.push('/');
           }
       } catch (error) {
           console.error('Login failed:', error);
           setMessage('Login failed. Please try again.');
+          setIsLoading(false);
       }
   };
 
@@ -66,7 +67,7 @@ export default function LoginForm() {
           {isLoading ? (
             <div className="spinner"></div>
           ) : (
-            "Create"
+            "Sign In"
           )}
         </button>
         <Image 

@@ -33,6 +33,7 @@ export default function SignUpForm() {
 
     if (password !== confirmPassword) {
       setMessage('Passwords do not match.');
+      setIsLoading(false);
       return;
     }
 
@@ -65,6 +66,7 @@ export default function SignUpForm() {
 
           if (result.errors) {
               setMessage('Error: ' + result.errors[0].message);
+              setIsLoading(false);
           } else {
             setUser({ ...result.user, customerAccessToken: result.accessToken });
             setMessage('Signed up successfully!');
@@ -78,6 +80,7 @@ export default function SignUpForm() {
       } catch (error) {
           console.error('Sign up failed:', error);
           setMessage('Sign up failed. Please try again.');
+          setIsLoading(false);
       }
   };
 

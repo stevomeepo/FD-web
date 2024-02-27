@@ -4,11 +4,11 @@ export const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // Add a loading state
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchAuthState = async () => {
-      setIsLoading(true); // Set loading to true when starting to fetch
+      setIsLoading(true);
       const res = await fetch('/api/auth');
       const data = await res.json();
       console.log("Loaded data:", data);
