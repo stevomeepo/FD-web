@@ -5,15 +5,13 @@ import { formatter } from '../utils/helpers'
 const ProductCard = ({ product }) => {
   const { handle, title, images, priceRange } = product.node;
 
-  // Safely access the images and edges
   const imageEdge = images && images.edges && images.edges.length > 0 ? images.edges[0].node : null;
-  const imageUrl = imageEdge ? imageEdge.url : '/default-image.jpg'; // Provide a default image URL
+  const imageUrl = imageEdge ? imageEdge.url : '/default-image.jpg';
   const imageAltText = imageEdge ? imageEdge.altText : 'Default image alt text';
 
-  // Safely access the price
   const price = priceRange && priceRange.minVariantPrice && priceRange.minVariantPrice.amount
     ? formatter.format(priceRange.minVariantPrice.amount)
-    : 'Price not available'; // Provide a default price message
+    : 'Price not available';
 
   return (
     <Link href={`/products/${handle}`} className="group">
@@ -33,4 +31,4 @@ const ProductCard = ({ product }) => {
   )
 }
 
-export default ProductCard
+export default ProductCard;

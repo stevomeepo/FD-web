@@ -19,7 +19,7 @@ export default function Footer() {
           {
             navigation.map((item, i) => (
               <div key={i} className="px-6 py-2">
-                <a href={item.href} className="text-gray-500 hover:text-gray-900">
+                <a href={item.href} className="cursor-pointer text-gray-500 hover: footer-underline">
                   {item.name}
                 </a>
               </div>

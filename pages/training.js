@@ -1,6 +1,13 @@
-export default function Classes() {
+import { Disclosure } from '@headlessui/react';
+import { ChevronUpIcon } from '@heroicons/react/solid';
+import Head from 'next/head';
+
+export default function Training() {
     return (
         <div className="items-center h-screen">
+            <Head>
+                <title>Training - Forensic Drone</title>
+            </Head>
             <h1 className="text-center">
                 Cell Phone Class
             </h1>

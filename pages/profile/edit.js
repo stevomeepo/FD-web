@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import ProfileForm from '../components/ProfileForm';
-import { AuthContext } from '../context/authContext';
-import { fetchUserProfile } from "../lib/customer";
+import ProfileForm from '../../components/ProfileForm';
+import { AuthContext } from '../../context/authContext';
+import { fetchUserProfile } from "../../lib/customer";
 
 const EditProfilePage = () => {
   const { user } = useContext(AuthContext);

@@ -9,11 +9,9 @@ export default function Products({ products: initialProducts }) {
 
     const handleSearch = (searchTerm) => {
         if (!searchTerm.trim()) {
-            // Use initialProducts here instead of products
             setFilteredProducts(initialProducts);
             return;
         }
-        // Also use initialProducts here
         setFilteredProducts(
             initialProducts.filter((product) =>
                 product.node && product.node.title && product.node.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -22,9 +20,8 @@ export default function Products({ products: initialProducts }) {
     };
 
     useEffect(() => {
-        // And here, make sure to use initialProducts
         setFilteredProducts(initialProducts);
-    }, [initialProducts]); // Make sure to depend on initialProducts
+    }, [initialProducts]);
 
     return (
         <div>
@@ -43,6 +40,6 @@ export async function getStaticProps() {
   const products = await getProductInCollection()
 
   return {
-    props: { products }, // will be passed to the page component as props
+    props: { products },
   }
 }

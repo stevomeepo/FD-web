@@ -117,8 +117,8 @@ export default function LoginForm() {
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline mb-4"
                 />
                 <div className="flex justify-end space-x-2 mt-4">
-                    <button onClick={() => setShowResetModal(false)} className="px-4 py-2 rounded focus:outline-none focus:shadow-outline border border-gray-300 text-black hover:bg-gray-100">CANCEL</button>
-                    <button onClick={handlePasswordRecovery} className="px-4 py-2 rounded focus:outline-none focus:shadow-outline bg-black text-white hover:bg-red-500">SEND</button>
+                <button onClick={() => setShowResetModal(false)} className="bg-white hover:bg-gray-200 text-black font-bold py-2 px-4 rounded border border-black focus:outline-none focus:shadow-outline">Cancel</button>
+                    <button onClick={handlePasswordRecovery} className="bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Send</button>
                 </div>
             </div>
         </div>

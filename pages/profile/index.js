@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../context/authContext';
-import { fetchUserProfile } from "../lib/customer";
-import ProfileForm from '../components/ProfileForm';
+import { AuthContext } from '../../context/authContext';
+import { fetchUserProfile } from "../../lib/customer";
+import ProfileForm from '../../components/ProfileForm';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -126,14 +126,22 @@ const ProfilePage = () => {
             onCancel={handleCancelProfileEdit}
           />
         )}
-        <p className="mt-2 text-center">
+        <div className="mt-2 text-center">
           <Link href="/" className="text-md font-bold cursor-pointer hover:text-red-500">
             Return to Home
           </Link>
-        </p>
-        {user && (
-          <div onClick={handleLogout} className="mt-2 text-center text-md font-bold cursor-pointer hover:text-red-500">Logout</div>
-        )}
+        </div>
+        <div className="flex justify-between items-center w-full pt-5">
+          <Link href="/address" className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">
+            Address
+          </Link>
+          <Link href="/orders" className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">
+            Orders
+          </Link>
+          {user && (
+            <div onClick={handleLogout} className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">Logout</div>
+          )}
+        </div>
       </div>
     </div>
   );

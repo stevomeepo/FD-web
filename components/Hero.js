@@ -28,7 +28,7 @@ export default function Hero() {
             </div>
             <div className="space-x-4">
               <Link
-                className="px-8 rounded-r-md bg-black hover:bg-red-500 text-white hover:text-white font-bold p-2 uppercase border-red border-t border-b border-r"
+                className="bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 href="/about-us"
               >
                 Learn More

@@ -35,3 +35,63 @@ animation: spin 1s linear infinite;
 0% { transform: rotate(0deg); }
 100% { transform: rotate(360deg); }
 }
+
+.sidebar {
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px;
+  background-color: white;
+  padding-top: 6rem;
+  z-index: 40;
+  overflow-y: auto;
+}
+
+.link-underline {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: red;
+  transition: all 0.3s ease-in-out;
+  transform: translateX(-50%);
+}
+
+.link-underline:hover::after {
+  width: 100%;
+  left: 0;
+  transform: translateX(0%);
+}
+
+.footer-underline {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.footer-underline::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: rgb(185, 185, 185);
+  transition: all 0.3s ease-in-out;
+  transform: translateX(-50%);
+}
+
+.footer-underline:hover::after {
+  width: 100%;
+  left: 0;
+  transform: translateX(0%);
+}

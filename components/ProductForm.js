@@ -53,14 +53,14 @@ export default function ProductForm({ product }) {
   }, [productInventory, selectedVariant])
 
   return (
-    <div className={`flex flex-col w-full p-4 shadow-lg rounded-2xl ${activeTab === 'description' ? 'md:w-full' : 'md:w-1/3'}`}>
-      <h2 className="text-2xl font-bold">{product.title}</h2>
-      <span className="pb-3">{formatter.format(product.variants.edges[0].node.price.amount)}</span>
-      <div className="flex justify-center md:justify-start"> {/* Add this wrapper */}
+    <div className={`flex flex-col w-full p-4 shadow-lg rounded-2xl ${activeTab === 'description' ? 'md:w-full' : 'md:w-2/3'}`}>
+      <h2 className="text-2xl font-bold text-center">{product.title}</h2>
+      <span className="pb-3 text-center pt-5">{formatter.format(product.variants.edges[0].node.price.amount)}</span>
+      <div className="pb-3 flex justify-center">
         {
           available ?
             <button
-              onClick={() => {
+              onClick={() => {  
                 addToCart(selectedVariant)
               }}
               className="px-2 py-3 mt-3 text-white bg-black rounded-lg hover:bg-red-500 w-auto md:w-40">Add To Cart

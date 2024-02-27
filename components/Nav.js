@@ -96,9 +96,9 @@ export default function Nav() {
             </Link>
           </div>
           <nav className="hidden lg:flex justify-center space-x-7">
-            <Link href="/" passHref className="text-md font-bold cursor-pointer hover:text-red-500">Home</Link>
-            <Link href="/products" passHref className="text-md font-bold cursor-pointer hover:text-red-500">Products</Link>
-            <Link href="/classes" passHref className="text-md font-bold cursor-pointer hover:text-red-500">Classes</Link>
+            <Link href="/" passHref className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">Home</Link>
+            <Link href="/products" passHref className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">Products</Link>
+            <Link href="/training" passHref className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">Training</Link>
           </nav>
           <div className="flex items-center space-x-4">
             <Menu as="div" className="relative inline-block text-left">
@@ -179,7 +179,7 @@ export default function Nav() {
                           <Menu.Item>
                             {({ active }) => (
                               <Link
-                                href="/shipping-address"
+                                href="/address"
                                 passHref
                                 className={`${
                                   active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
@@ -230,8 +230,8 @@ export default function Nav() {
         <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm z-20" onClick={() => setSidebarOpen(false)}></div>
       )}
       {sidebarOpen && (
-        <div className="absolute top-0 left-0 h-screen bg-white p-8" style={{ width: '300px', zIndex: 40, paddingTop: '6rem'}}>
-          <div className="flex flex-col h-full">
+        <div className="sidebar">
+          <div className="flex flex-col h-full text-center">
             <nav className="flex flex-col space-y-4 flex-grow">
               <Link href="/" passHref className="text-md font-bold cursor-pointer hover:text-red-500" onClick={() => setSidebarOpen(false)}>Home</Link>
               <Link href="/products" passHref className="text-md font-bold cursor-pointer hover:text-red-500" onClick={() => setSidebarOpen(false)}>Products</Link>
