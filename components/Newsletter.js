@@ -19,10 +19,10 @@ export default function Newsletter() {
     if (!emailRegex.test(email)) {
       setMessage("Please enter a valid email.");
       setShowMessage(true);
+      setIsLoading(false);
       return;
     }
-  
-    // Check if email already exists in Airtable
+
     base('Email').select({
       filterByFormula: `{Email} = '${email}'`,
     }).firstPage((err, records) => {
