@@ -53,6 +53,7 @@ export default function Nav() {
       if (data.success) {
         setUser(null);
         Cookies.remove('accessToken');
+        setSidebarOpen(false);
         router.push('/');
       } else {
         console.error('Logout failed');
