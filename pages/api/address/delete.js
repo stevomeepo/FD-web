@@ -1,4 +1,4 @@
-import { deleteCustomerAddress } from '../../lib/customer';
+import { deleteCustomerAddress } from '../../../lib/customer';
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
