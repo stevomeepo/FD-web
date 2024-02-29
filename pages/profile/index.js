@@ -111,7 +111,7 @@ const ProfilePage = () => {
             <p className="text-m font-bold text-black">Marketing Updates: <span className="font-normal">{customerData.acceptsMarketing ? '✅' : '❌'}</span></p>
             </div>
             <div className="flex justify-center w-full pt-7">
-              <Link href="/edit-profile">
+              <Link href="/profile/edit">
                 <div className="px-4 py-2 mb-4 font-bold text-white bg-black rounded hover:bg-red-500 focus:outline-none focus:shadow-outline">
                   Edit Profile
                 </div>
