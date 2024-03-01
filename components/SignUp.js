@@ -130,14 +130,14 @@ export default function SignUpForm() {
             checked={acceptsTerms}
             onChange={setAcceptsTerms}
             className={`${acceptsTerms ? 'bg-red-500' : 'bg-gray-300'
-            } relative inline-flex h-6 w-11 items-center rounded-full mr-4`}
+            } relative inline-flex align-middle h-6 w-11 items-center rounded-full mr-4`}
           >
             <span
               className={`${acceptsTerms ? 'translate-x-6' : 'translate-x-1'
               } inline-block h-4 w-4 transform rounded-full bg-white transition flex justify-center items-center`}
             >
             {acceptsTerms && (
-              <FontAwesomeIcon icon={faCheck} className="text-red-500" style={{ fontSize: '1em' }} />
+              <FontAwesomeIcon icon={faCheck} className="text-red-500" style={{ fontSize: '1em', width: '16px', height: '16px' }} />
             )}
             </span>
           </Switch>
@@ -145,23 +145,23 @@ export default function SignUpForm() {
         </label>
       </div>
       <div className="mb-6">
-        <label className="flex items-center text-black text-sm font-bold mb-2" htmlFor="acceptsMarketing">
+        <label className="grid grid-cols-[auto,1fr] items-center gap-4 text-black text-sm font-bold mb-2" htmlFor="acceptsMarketing">
           <Switch
             checked={acceptsMarketing}
             onChange={setAcceptsMarketing}
             className={`${acceptsMarketing ? 'bg-red-500' : 'bg-gray-300'
-            } relative inline-flex h-6 w-11 items-center rounded-full mr-4`}
+            } relative h-6 w-11 rounded-full`}
           >
             <span
               className={`${acceptsMarketing ? 'translate-x-6' : 'translate-x-1'
               } inline-block h-4 w-4 transform rounded-full bg-white transition flex justify-center items-center`}
             >
               {acceptsMarketing && (
-                <FontAwesomeIcon icon={faCheck} className="text-red-500" style={{ fontSize: '1em' }} />
+                <FontAwesomeIcon icon={faCheck} className="text-red-500" style={{ fontSize: '1em', width: '16px', height: '16px' }} />
               )}
             </span>
           </Switch>
-          I wish to keep updated on future Forensic Products
+          <span>I wish to keep updated on Forensic Drone products!</span>
         </label>
       </div>
       <div className="flex items-center justify-between">
