@@ -41,7 +41,7 @@ const AddressFormEdit = ({ customerAccessToken, onSaveSuccess, initialAddress, o
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <form onSubmit={handleSubmit} className="w-full max-w-md p-8">
+      <form onSubmit={handleSubmit} className="w-full max-w-md p-5">
         <div>
             <h1 className="text-lg font-bold mb-4">Editing Address...</h1>
             {successMessage && <div className="mb-4 text-green-500">{successMessage}</div>}
@@ -104,7 +104,7 @@ const AddressFormEdit = ({ customerAccessToken, onSaveSuccess, initialAddress, o
                 <label htmlFor="phone" className="block text-sm font-bold text-black mb-2">Phone Number</label>
                 <input name="phone" value={address.phone} onChange={handleChange} placeholder="Phone Number" className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline" required />
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between pt-5">
                 <button className="bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" disabled={isLoading}>
                 {isLoading ? (
                     <div className="spinner"></div>

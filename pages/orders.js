@@ -49,9 +49,11 @@ const OrderHistory = () => {
         {orders.map(({ node: order }) => (
           <div key={order.id} className="mb-6 flex justify-between items-center">
             <div>
-              <h2 className="text-lg font-semibold">Order #{order.orderNumber}</h2>
-              <p className="mb-2">{formatter.format(order.totalPrice.amount)}</p>
-            </div>s
+              <h2 className="text-lg font-semibold">Order <span className="text-red-500 font-bold">#FD{order.orderNumber}</span></h2>
+              <p className="mb-2">Total: {formatter.format(order.totalPrice.amount)}</p>
+              <p className="mb-2">Purchased on: {new Date(order.processedAt).toLocaleDateString()}</p>
+              <p className="mb-2">Fulfillment: {order.fulfillmentStatus ? order.fulfillmentStatus : 'Unfulfilled'}</p>
+            </div>
             <Link href={`/orders/${encodeURIComponent(order.id)}`} passHref>
               <button className="bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                 View Order

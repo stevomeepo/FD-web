@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
 import AddressFormEdit from '../../components/AddressEdit';
+import Loader from '../../components/Loader';
 
 const ShippingAddressPage = () => {
   const { user, isLoading } = useContext(AuthContext);
@@ -88,7 +89,9 @@ const ShippingAddressPage = () => {
   }
 
   if (!customerData) {
-    return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
+    return <div className="flex justify-center items-center min-h-screen">
+      <Loader />
+      </div>
   }
 
   const handleLogout = async () => {
@@ -118,8 +121,8 @@ const ShippingAddressPage = () => {
 
   if (isLoggingOut) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
-        <p>Logging out...</p>
+      <div className="flex justify-center items-center min-h-screen">
+        <Loader />
       </div>
     );
   }
@@ -149,8 +152,8 @@ const ShippingAddressPage = () => {
   const hasAddresses = customerData.addresses?.edges?.length > 0;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <div className="w-full max-w-md p-8 border-2 border-gray-300 rounded-lg shadow-md">
+    <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-100">
+      <div className="w-full max-w-md p-8 border-2 border-gray-300 rounded-lg shadow-md bg-white">
         <h1 className="text-4xl font-bold text-black mb-4 text-center">Shipping <span className="text-red-500">Address</span></h1>
         {!isEditing ? (
           <>
@@ -196,7 +199,7 @@ const ShippingAddressPage = () => {
             onCancel={handleCancelEdit}
           />
         )}
-        <div className="mt-8 text-center">
+        <div className="mt-3 text-center">
           <Link href="/" className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">
             Return to Home
           </Link>

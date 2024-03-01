@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { AuthContext } from '../context/authContext';
 import { Switch } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 
 export default function SignUpForm() {
@@ -20,6 +20,7 @@ export default function SignUpForm() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useContext(AuthContext);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -113,18 +114,41 @@ export default function SignUpForm() {
         </label>
         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline" id="email" type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
       </div>
-      <div className="mb-6">
-        <label className="block text-black text-sm font-bold mb-2" htmlFor="password">
+      <div className="mb-6 relative">
+        <label htmlFor="password" className="block text-black text-sm font-bold mb-2">
           Password
         </label>
-        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-black mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="********" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <div className="relative">
+          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline pr-10" 
+                id="password" 
+                type={isPasswordVisible ? "text" : "password"} 
+                placeholder="********" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} />
+          <button type="button" 
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                  onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
+            <FontAwesomeIcon icon={isPasswordVisible ? faEyeSlash : faEye} className="text-gray-700" />
+          </button>
+        </div>
       </div>
-      <div className="mb-6">
-        <label className="block text-black text-sm font-bold mb-2" htmlFor="confirmPassword">
+      <div className="mb-6 relative">
+        <label htmlFor="confirmPassword" className="block text-black text-sm font-bold mb-2">
           Confirm Password
         </label>
-        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-black mb-3 leading-tight focus:outline-none focus:shadow-outline" id="confirmPassword" type="password" placeholder="********" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-        <p className={`transition duration-2000 text-red-500 font-bold ${message ? 'opacity-100' : 'opacity-0'}`}>{message}</p>
+        <div className="relative">
+          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline pr-10" 
+                id="confirmPassword" 
+                type={isPasswordVisible ? "text" : "password"} 
+                placeholder="********" 
+                value={confirmPassword} 
+                onChange={(e) => setConfirmPassword(e.target.value)} />
+          <button type="button" 
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                  onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
+            <FontAwesomeIcon icon={isPasswordVisible ? faEyeSlash : faEye} className="text-gray-700" />
+          </button>
+        </div>
       </div>
       <div className="mb-6">
         <label className="flex items-center text-black text-sm font-bold mb-2" htmlFor="acceptsTerms">

@@ -10,7 +10,8 @@ import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import { AuthContext } from '../context/authContext';
 import '../styles/hamburger.css';
-import '../styles/homepage.css'
+import '../styles/homepage.css';
+import Loader from './Loader';
 
 
 export default function Nav() {
@@ -67,8 +68,8 @@ export default function Nav() {
 
   if (isLoggingOut) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
-        <p>Logging out...</p>
+      <div className="flex justify-center items-center min-h-screen">
+        <Loader />
       </div>
     );
   }
@@ -201,7 +202,7 @@ export default function Nav() {
                                 active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
                               } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                             >
-                              {isLoggingOut ? 'Logging Out...' : 'Logout'}
+                              {isLoggingOut ? <div className="flex justify-center items-center min-h-screen"><Loader /></div> : 'Logout'}
                             </button>
                           )}
                         </Menu.Item>

@@ -43,8 +43,8 @@ const ProfileForm = ({ customerAccessToken, onSaveSuccess, initialData, onCancel
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <form onSubmit={handleSubmit} className="w-full max-w-md p-8 border-2 border-gray-300 rounded-lg shadow-md">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <form onSubmit={handleSubmit} className="w-full max-w-md p-8 border-2 border-gray-300 rounded-lg shadow-md bg-white">
         <div className="text-4xl font-bold text-black mb-4 text-center">
           Edit <span className='text-red-500'>Profile</span>
         </div>
