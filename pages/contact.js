@@ -57,11 +57,11 @@ export default function Contact() {
     };
 
   return (
-    <div className="bg-black-600 min-h-screen flex items-center justify-center">
+    <div className="bg-black-600 min-h-screen flex items-center justify-center p-4">
       <Head>
         <title>Contact Us - Forensic Drone</title>
       </Head>
-      <div className="container mx-auto p-4 flex flex-wrap items-start">
+      <div className="bg-white m-4 sm:m-8">
         <div className="w-full lg:w-1/2 p-4">
           <h2 className="text-4xl font-bold text-black mb-4">CONTACT <span className='text-red-500'>US</span></h2>
           <div className="text-black">

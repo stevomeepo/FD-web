@@ -76,39 +76,3 @@ animation: spin 1s linear infinite;
   left: 0;
   transform: translateX(0%);
 }
-
-.contact-submit-button {
-  font-family: inherit;
-  font-size: 18px;
-  background: linear-gradient(to bottom, #000000 0%, #252525 100%);
-  color: white;
-  padding: 0.8em 1.2em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  border-radius: 25px;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s;
-}
-
-/* .contact-submit-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
-} */
-.contact-submit-button:active {
-  transform: scale(0.95);
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.contact-submit-button .svg-wrapper {
-  transition: transform 0.3s ease-in-out;
-}
-
-.contact-submit-button:hover .svg-wrapper {
-  transform: rotate(45deg);
-}
-
-.submit-text {
-  margin-left: 8px;
-}
