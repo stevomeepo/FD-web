@@ -20,7 +20,6 @@ const AddAddressPage = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Add New Address</h1>
       <AddressForm
         customerAccessToken={user.customerAccessToken}
         onSaveSuccess={handleSaveSuccess}
