@@ -57,7 +57,7 @@ export default function Contact() {
     };
 
   return (
-    <div className="bg-black-600 min-h-screen flex items-center justify-center pb-40">
+    <div className="min-h-screen md:flex md:justify-center pt-40 sm:pb-40">
       <Head>
         <title>Contact Us - Forensic Drone</title>
       </Head>
