@@ -4,12 +4,15 @@ import { fetchUserProfile, deleteCustomerAddress } from "../../lib/customer";
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
+import AddressForm from '../../components/AddressForm';
 
 const ShippingAddressPage = () => {
   const { user, isLoading } = useContext(AuthContext);
   const [customerData, setCustomerData] = useState(null);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingAddress, setEditingAddress] = useState(null);
   const [error, setError] = useState('');
   const router = useRouter();
 
@@ -121,9 +124,27 @@ const ShippingAddressPage = () => {
     );
   }
 
-  if (!customerData) {
-    return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
-  }
+    const handleEdit = (address) => {
+    setIsEditing(true);
+    setEditingAddress(address);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setEditingAddress(null);
+  };
+
+  const handleSaveSuccess = () => {
+    setIsEditing(false);
+    setEditingAddress(null);
+    fetchUserProfile(user.customerAccessToken).then(response => {
+      if (response.success) {
+        setCustomerData(response.data);
+      } else {
+        setError(response.error);
+      }
+    });
+  };
 
   const hasAddresses = customerData.addresses?.edges?.length > 0;
 
@@ -131,51 +152,66 @@ const ShippingAddressPage = () => {
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <div className="w-full max-w-md p-8 border-2 border-gray-300 rounded-lg shadow-md">
         <h1 className="text-4xl font-bold text-black mb-4 text-center">Shipping <span className="text-red-500">Address</span></h1>
-        {hasAddresses ? (
-        customerData.addresses.edges.map(({ node: address }) => {
-          return (
-            <div key={address.id} className="mb-6">
-              <p className="text-xl font-bold text-black">{address.firstName} {address.lastName}</p>
-              <p className="text-m">{address.address1}</p>
-              <p className="text-m">{address.address2}</p>
-              <p className="text-m">{address.city}, {address.province} {address.zip}</p>
-              <p className="text-m">{address.country}</p>
-              <p className="text-m">{address.phone}</p>
-              <button 
-                className="text-md font-bold cursor-pointer hover:text-red-500 link-underline" 
-                onClick={() => router.push(`/address/edit/${address.id}`)}
-              >
-                Edit
-              </button>
-              <span className="mx-2">|</span>
-              <button className="text-md font-bold cursor-pointer hover:text-red-500 link-underline" onClick={() => debouncedHandleDeleteAddress(address.id)} disabled={isDeleting}>
-                Delete
-              </button>
+        {!isEditing ? (
+          <>
+            {hasAddresses ? (
+              customerData.addresses.edges.map(({ node: address }) => (
+                <div key={address.id} className="mb-6">
+                  <p className="text-xl font-bold text-black">{address.firstName} {address.lastName}</p>
+                  <p className="text-m">{address.address1}</p>
+                  <p className="text-m">{address.address2}</p>
+                  <p className="text-m">{address.city}, {address.province} {address.zip}</p>
+                  <p className="text-m">{address.country}</p>
+                  <p className="text-m">{address.phone}</p>
+                  <button 
+                    className="text-md font-bold cursor-pointer hover:text-red-500" 
+                    onClick={() => handleEdit(address)}
+                  >
+                    Edit
+                  </button>
+                  <span className="mx-2">|</span>
+                  <button 
+                    className="text-md font-bold cursor-pointer hover:text-red-500" 
+                    onClick={() => debouncedHandleDeleteAddress(address.id)} 
+                    disabled={isDeleting}
+                  >
+                    Delete
+                  </button>
+                </div>
+              ))
+            ) : (
+              <div className="mb-4 text-center text-m">No Address Saved Yet...</div>
+            )}
+            <div className="mt-4 text-center">
+              <Link href="/address/add" className="px-4 py-2 mb-4 font-bold text-white bg-black rounded hover:bg-red-500 focus:outline-none focus:shadow-outline">
+                Add Address
+              </Link>
             </div>
-          );
-        })
+          </>
         ) : (
-          <div className="mb-4 text-center text-m">No Address Saved Yet...</div>
+          <AddressForm
+            customerAccessToken={user.customerAccessToken}
+            initialAddress={editingAddress}
+            onSaveSuccess={handleSaveSuccess}
+            onCancel={handleCancelEdit}
+          />
         )}
-        <div className="mt-4 text-center">
-          <Link href="/address/add" className="px-4 py-2 mb-4 font-bold text-white bg-black rounded hover:bg-red-500 focus:outline-none focus:shadow-outline">
-            Add Address
-          </Link>
-        </div>
         <div className="mt-8 text-center">
           <Link href="/" className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">
-              Return to Home
+            Return to Home
           </Link>
         </div>
         <div className="flex justify-between items-center w-full pt-5">
           <Link href="/profile" className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">
-            Profile
+              Profile
           </Link>
           <Link href="/orders" className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">
             Orders
           </Link>
           {user && (
-            <div onClick={handleLogout} className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">Logout</div>
+            <div onClick={handleLogout} className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">
+              Logout
+            </div>
           )}
         </div>
       </div>
