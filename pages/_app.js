@@ -9,20 +9,27 @@ import { NextUIProvider } from '@nextui-org/react'
 import AuthProvider from '../context/authContext';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import '../styles/global.css';
+import Head from 'next/head';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
   
   return (
-    <AuthProvider>
-      <NextUIProvider>
-        <ShopProvider>
-          <Layout>
-            <Component {...pageProps} key={router.asPath} />
-          </Layout>
-        </ShopProvider>
-      </NextUIProvider>
-    </AuthProvider>
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Forensic Drone</title>
+      </Head>
+      <AuthProvider>
+        <NextUIProvider>
+          <ShopProvider>
+            <Layout>
+              <Component {...pageProps} key={router.asPath} />
+            </Layout>
+          </ShopProvider>
+        </NextUIProvider>
+      </AuthProvider>
+    </>
   )
 }
 
