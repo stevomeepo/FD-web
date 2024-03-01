@@ -76,7 +76,7 @@ export default function Newsletter() {
   };
   
     return (
-      <div className="newsletter bg-gray-100 p-10 rounded-md mt-10">
+      <div className="newsletter bg-gray-100 p-10 rounded-md mt-10 mb-10">
         <h2 className="text-2xl font-bold mb-2">Newsletters 📰</h2>
         <p className="text-gray-700 mb-5">Sign up to receive updates on new arrivals and special offers.</p>
         {!isSubmitted ? (

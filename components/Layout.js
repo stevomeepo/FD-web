@@ -9,7 +9,7 @@ export default function Layout({ children }) {
     <Providers>
       <div className="flex flex-col justify-between min-h-screen">
           <Nav />
-          <main>
+          <main className="pb-20">
               {children}
           </main>
           <Newsletter />
