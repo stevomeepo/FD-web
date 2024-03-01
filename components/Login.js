@@ -98,11 +98,11 @@ export default function LoginForm() {
         </div>
         <a
           onClick={() => setShowResetModal(true)}
-          className="inline-block align-baseline font-bold text-sm text-red-500 hover:text-red-300 cursor-pointer"
+          className="inline-block align-baseline font-bold text-sm text-red-500 hover:text-red-600 cursor-pointer"
         >
             Forgot Password?
         </a>
-        <p className="mt-4 text-center">Don't have an account? <Link href="/signup" className="text-red-500 font-bold">Sign Up Here!</Link></p>
+        <p className="mt-4 text-center">Don't have an account? <Link href="/signup" className="text-red-500 font-bold hover:text-red-600 cursor-pointer">Sign Up Here!</Link></p>
       </form>
       {showResetModal && (
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-10">

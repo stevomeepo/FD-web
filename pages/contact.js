@@ -14,6 +14,7 @@ export default function Contact() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
   const handleChange = (e) => {
@@ -32,6 +33,8 @@ export default function Contact() {
         setError('Please fill in all fields.');
         return;
       }
+
+      setIsSubmitting(true);
 
     try {
       await fetch('/api/contact', {
@@ -91,7 +94,19 @@ export default function Contact() {
                   <textarea name="message" placeholder="Type your message here..." className="w-full p-2 border border-gray-300 rounded h-32" onChange={handleChange}></textarea>
                 </div>
                 {error && <p>{error}</p>}
-                <button type="submit" className="w-full px-6 rounded-r-md bg-black hover:hover:bg-red-500 text-white hover:text-white font-bold p-2 uppercase border-red border-t border-b border-r">Submit</button>
+                <div className="flex justify-center">
+                <button type="submit" className="contact-submit-button flex items-center justify-center space-x-2" onClick={handleSubmit}>
+                  <div className="svg-wrapper-1">
+                    <div className={`svg-wrapper flex items-center justify-center ${isSubmitting ? 'icon-animating icon-rotated' : ''}`} >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" className={`fill-current ${isSubmitting ? 'icon-rotated' : ''}`}>
+                        <path fill="none" d="M0 0h24v24H0z"></path>
+                        <path d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <span className={`submit-text ${isSubmitting ? 'submit-text-animating' : ''}`}>Submit</span>
+                </button>
+                </div>
               </form>
             )}
           </div>
@@ -138,7 +153,7 @@ export default function Contact() {
                   <div className="mt-4">
                     <button
                       type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-black px-4 py-2 text-sm font-medium text-white hover:bg-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       onClick={closeModal}
                     >
                       Got it, thanks!

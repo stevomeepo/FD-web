@@ -9,6 +9,7 @@ const ShippingAddressPage = () => {
   const { user, isLoading } = useContext(AuthContext);
   const [customerData, setCustomerData] = useState(null);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
 
@@ -29,34 +30,62 @@ const ShippingAddressPage = () => {
       }
     };
   
-    if (!isLoading && user) {
-      getCustomerData();
-    } else {
-      router.push('/login');
+    if (isLoading) {
+      return;
     }
-  }, [user, isLoading]);
+  
+    if (!user) {
+      router.push('/login');
+      return;
+    }
+  
+    getCustomerData();
+  }, [user, isLoading, router]);
+
+  const debounce = (func, wait) => {
+    let timeout;
+    return function executedFunction(...args) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        func.apply(this, args);
+      }, wait);
+    };
+  };
 
   const handleDeleteAddress = async (addressId) => {
+    console.log(`Deleting address with ID: ${addressId}`);
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    console.log(`Deleted address with ID: ${addressId}`);
+
     if (!user || !user.customerAccessToken) {
       console.error("User is not authenticated.");
       return;
     }
 
+    setIsDeleting(true);
     const customerAccessToken = user.customerAccessToken;
     try {
       const response = await deleteCustomerAddress(customerAccessToken, addressId);
       if (response && response.success) {
-        getCustomerData();
+        await getCustomerData();
       } else {
         console.error("Failed to delete address:", response.errors);
       }
     } catch (error) {
       console.error("Error deleting address:", error);
     }
+    setIsDeleting(false);
   };
+
+  const debouncedHandleDeleteAddress = debounce(handleDeleteAddress, 300);
 
   if (error) {
     return <div className="p-4 text-red-500 font-bold">Error: {error}</div>;
+  }
+
+  if (!customerData) {
+    return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
   }
 
   const handleLogout = async () => {
@@ -112,7 +141,14 @@ const ShippingAddressPage = () => {
               <p className="text-m">{address.city}, {address.province} {address.zip}</p>
               <p className="text-m">{address.country}</p>
               <p className="text-m">{address.phone}</p>
-              <button className="text-md font-bold cursor-pointer hover:text-red-500 link-underline" onClick={() => handleDeleteAddress(address.id)}>
+              <button 
+                className="text-md font-bold cursor-pointer hover:text-red-500 link-underline" 
+                onClick={() => router.push(`/address/edit/${address.id}`)}
+              >
+                Edit
+              </button>
+              <span className="mx-2">|</span>
+              <button className="text-md font-bold cursor-pointer hover:text-red-500 link-underline" onClick={() => debouncedHandleDeleteAddress(address.id)} disabled={isDeleting}>
                 Delete
               </button>
             </div>

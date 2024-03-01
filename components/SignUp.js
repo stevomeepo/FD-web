@@ -3,6 +3,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { AuthContext } from '../context/authContext';
+import { Switch } from '@headlessui/react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+
 
 export default function SignUpForm() {
   const { setUser } = useContext(AuthContext);
@@ -122,39 +126,41 @@ export default function SignUpForm() {
       </div>
       <div className="mb-6">
         <label className="flex items-center text-black text-sm font-bold mb-2" htmlFor="acceptsTerms">
-          <input
-            className="hidden"
-            id="acceptsTerms"
-            type="checkbox"
+          <Switch
             checked={acceptsTerms}
-            onChange={(e) => setAcceptsTerms(e.target.checked)}
-          />
-          <div className={`w-3 h-3 flex justify-center items-center mr-3 border-1 border-black ${acceptsTerms ? 'bg-red-500' : 'bg-white'} rounded-sm`}>
+            onChange={setAcceptsTerms}
+            className={`${acceptsTerms ? 'bg-red-500' : 'bg-gray-300'
+            } relative inline-flex h-6 w-11 items-center rounded-full mr-4`}
+          >
+            <span
+              className={`${acceptsTerms ? 'translate-x-6' : 'translate-x-1'
+              } inline-block h-4 w-4 transform rounded-full bg-white transition flex justify-center items-center`}
+            >
             {acceptsTerms && (
-              <svg className="w-4 h-4 text-white fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" />
-              </svg>
+              <FontAwesomeIcon icon={faCheck} className="text-red-500" style={{ fontSize: '1em' }} />
             )}
-          </div>
-          <p>I agree to the<Link href="/terms" className="text-red-500 font-bold"> Terms & Conditions</Link></p>
+            </span>
+          </Switch>
+          Accept Terms & Conditions
         </label>
       </div>
       <div className="mb-6">
         <label className="flex items-center text-black text-sm font-bold mb-2" htmlFor="acceptsMarketing">
-          <input
-            className="hidden"
-            id="acceptsMarketing"
-            type="checkbox"
+          <Switch
             checked={acceptsMarketing}
-            onChange={(e) => setAcceptsMarketing(e.target.checked)}
-          />
-          <div className={`w-3 h-3 flex justify-center items-center mr-3 border-1 border-black ${acceptsMarketing ? 'bg-red-500' : 'bg-white'} rounded-sm`}>
-            {acceptsMarketing && (
-              <svg className="w-4 h-4 text-white fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" />
-              </svg>
-            )}
-          </div>
+            onChange={setAcceptsMarketing}
+            className={`${acceptsMarketing ? 'bg-red-500' : 'bg-gray-300'
+            } relative inline-flex h-6 w-11 items-center rounded-full mr-4`}
+          >
+            <span
+              className={`${acceptsMarketing ? 'translate-x-6' : 'translate-x-1'
+              } inline-block h-4 w-4 transform rounded-full bg-white transition flex justify-center items-center`}
+            >
+              {acceptsMarketing && (
+                <FontAwesomeIcon icon={faCheck} className="text-red-500" style={{ fontSize: '1em' }} />
+              )}
+            </span>
+          </Switch>
           I wish to keep updated on future Forensic Products
         </label>
       </div>
@@ -176,7 +182,7 @@ export default function SignUpForm() {
           className="mr-4"
         />
       </div>
-      <p className="mt-4 text-center">Already have an account? <Link href="/login" className="text-red-500 font-bold">Login Here!</Link></p>
+      <p className="mt-4 text-center">Already have an account? <Link href="/login" className="text-red-500 font-bold hover:text-red-600 cursor-pointer">Login Here!</Link></p>
     </form>
   );
 }
