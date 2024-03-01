@@ -1,0 +1,44 @@
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+  
+@keyframes flyThroughAndRotate {
+    0% { 
+      transform: translateX(0) rotate(45deg); 
+      opacity: 1;
+    }
+    100% { 
+      transform: translateX(100px) rotate(45deg); 
+      opacity: 0; 
+    }
+}
+  
+.icon-animating {
+animation: flyThroughAndRotate 1s forwards;
+}
+
+.icon-rotated {
+transform: rotate(90deg);
+}
+  
+.submit-text-animating {
+animation: fadeOut 1s forwards;
+}
+
+.contact-submit-button:active {
+transform: scale(0.95);
+box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.contact-submit-button .svg-wrapper {
+transition: transform 0.3s ease-in-out;
+}
+
+.contact-submit-button:hover .svg-wrapper {
+transform: rotate(45deg);
+}
+
+.submit-text {
+margin-left: 8px;
+}

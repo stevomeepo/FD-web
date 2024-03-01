@@ -4,7 +4,7 @@ import { fetchUserProfile, deleteCustomerAddress } from "../../lib/customer";
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
-import AddressForm from '../../components/AddressForm';
+import AddressFormEdit from '../../components/AddressEdit';
 
 const ShippingAddressPage = () => {
   const { user, isLoading } = useContext(AuthContext);
@@ -189,7 +189,7 @@ const ShippingAddressPage = () => {
             </div>
           </>
         ) : (
-          <AddressForm
+          <AddressFormEdit
             customerAccessToken={user.customerAccessToken}
             initialAddress={editingAddress}
             onSaveSuccess={handleSaveSuccess}

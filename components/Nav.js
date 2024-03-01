@@ -9,7 +9,8 @@ import { Menu } from '@headlessui/react';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import { AuthContext } from '../context/authContext';
-import '../styles/global.css';
+// import '../styles/global.css';
+import '../styles/hamburger.css';
 
 
 export default function Nav() {
@@ -85,15 +86,17 @@ export default function Nav() {
                 <span className="hamburger-inner"></span>
               </span>
             </button>
-            <Link href="/" passHref className="cursor-pointer">
-              <Image src="https://cdn.shopify.com/s/files/1/0852/4529/6941/files/Forensic-Drone-Logo.jpg?v=1704444978"
-                alt="Forensic Drone Logo" 
-                width={120}
-                height={120}
-                priority
-                objectFit="contain"
-              />
-            </Link>
+            <div className="logo">
+              <Link href="/" passHref className="cursor-pointer">
+                <Image src="https://cdn.shopify.com/s/files/1/0852/4529/6941/files/Forensic-Drone-Logo.jpg?v=1704444978"
+                  alt="Forensic Drone Logo" 
+                  width={120}
+                  height={120}
+                  priority
+                  objectFit="contain"
+                />
+              </Link>
+            </div>
           </div>
           <nav className="hidden lg:flex justify-center space-x-7">
             <Link href="/" passHref className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">Home</Link>

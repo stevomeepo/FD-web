@@ -3,53 +3,6 @@
 @import "tailwindcss/utilities";
 @import "hamburgers/dist/hamburgers.min.css";
 
-@keyframes fadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-
-@keyframes flyThroughAndRotate {
-  0% { 
-    transform: translateX(0) rotate(45deg); 
-    opacity: 1;
-  }
-  100% { 
-    transform: translateX(100px) rotate(45deg); 
-    opacity: 0; 
-  }
-}
-
-.icon-animating {
-  animation: flyThroughAndRotate 1s forwards;
-}
-
-.icon-rotated {
-  transform: rotate(90deg);
-}
-
-.submit-text-animating {
-  animation: fadeOut 1s forwards;
-}
-
-@keyframes circular-shake {
-    0%, 100% {
-      transform: rotate(0);
-    }
-    25% {
-      transform: rotate(5deg);
-    }
-    50% {
-      transform: rotate(-5deg);
-    }
-    75% {
-      transform: rotate(5deg);
-    }
-  }
-  
-  .animate-circular-shake {
-    animation: circular-shake 0.5s ease-in-out both;
-  }
-
 .spinner {
 border: 4px solid rgba(255, 255, 255, 0.3);
 border-top: 4px solid #fff;

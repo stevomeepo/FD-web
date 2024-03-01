@@ -3,7 +3,8 @@ import Image from 'next/image';
 import { PhoneIcon, LocationMarkerIcon } from '@heroicons/react/outline';
 import Head from 'next/head'
 import { Dialog, Transition } from '@headlessui/react';
-import '../styles/global.css';
+import '../styles/submit.css';
+import '../styles/confirmation.css'
 
 export default function Contact() {
   const [formData, setFormData] = useState({

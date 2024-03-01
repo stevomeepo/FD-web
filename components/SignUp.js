@@ -43,11 +43,13 @@ export default function SignUpForm() {
 
     if (!/(?=.*[A-Z])(?=.*[0-9])/.test(password)) {
       setMessage('Password must contain at least one uppercase letter and one number.');
+      setIsLoading(false)
       return;
     }
 
     if (!acceptsTerms) {
       setMessage('You must accept the terms and conditions to sign up.');
+      setIsLoading(false)
       return;
     }
 

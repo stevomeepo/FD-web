@@ -1,0 +1,52 @@
+@import "hamburgers/dist/hamburgers.min.css";
+
+.hamburger {
+    display: none;
+    z-index: 50;
+    transform: scale(0.8);
+}
+
+@media (max-width: 1023.90px) {
+    .hamburger {
+      display: block;
+    }
+}
+
+.sidebar {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    background-color: white;
+    padding-top: 6rem;
+    z-index: 40;
+    overflow-y: auto;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+  margin-left: 20px;
+}
+
+@media (max-width: 1023.90px) {
+    .header-container {
+        justify-content: center;
+    }
+
+    .header-container > *:not(.logo) {
+        display: none;
+    }
+
+    .logo {
+        margin-left: 0;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
