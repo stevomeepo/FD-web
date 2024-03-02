@@ -53,7 +53,7 @@ export default function ProductForm({ product }) {
   }, [productInventory, selectedVariant])
 
   return (
-    <div className={`flex flex-col w-full p-4 shadow-lg rounded-2xl ${activeTab === 'description' ? 'md:w-full' : 'md:w-2/3'}`}>
+    <div className={`flex flex-col w-full p-4 shadow-lg rounded-2xl ${activeTab === 'description' ? 'md:w-full' : 'md:w-2/3'} min-h-[500px]`}>
       <h2 className="text-2xl font-bold text-center">{product.title}</h2>
       <span className="pb-3 text-center pt-5">{formatter.format(product.variants.edges[0].node.price.amount)}</span>
       <div className="pb-3 flex justify-center">

@@ -1,28 +1,64 @@
 import React from 'react';
-import { Disclosure } from '@headlessui/react';
-import { ChevronUpIcon } from '@heroicons/react/solid';
+import { Tab } from '@headlessui/react';
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ');
+}
 
 const ProductTabs = ({ product }) => {
   return (
-    <div className="product-tabs-container">
-      <Disclosure as="div" className="mt-2">
-        {({ open }) => (
-          <>
-            <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-black bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-red-500 focus-visible:ring-opacity-75">
-              <span>Description</span>
-              <ChevronUpIcon
-                className={`${open ? 'transform rotate-180' : ''} w-5 h-5 text-red-500`}
-              />
-            </Disclosure.Button>
-            <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-black">
-              <div
-                className="description p-4 prose overflow-auto"
-                dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
-              />
-            </Disclosure.Panel>
-          </>
-        )}
-      </Disclosure>
+    <div className="w-full max-w-2xl px-2 py-16 sm:px-0">
+      <Tab.Group>
+        <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1">
+          {['Description', 'Additional Information', 'Reviews'].map((category) => (
+            <Tab
+              key={category}
+              className={({ selected }) =>
+                classNames(
+                  'w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-red-500',
+                  'focus:outline-none',
+                  selected
+                    ? 'bg-white shadow'
+                    : 'text-red-500 hover:bg-white/[0.12] hover:text-black'
+                )
+              }
+            >
+              {category}
+            </Tab>
+          ))}
+        </Tab.List>
+        <Tab.Panels className="mt-2">
+          <Tab.Panel
+            className={classNames(
+              'rounded-xl bg-white p-3',
+              'focus:outline-none'
+            )}
+          >
+            <div
+              className="description p-4 prose overflow-auto"
+              dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+            />
+          </Tab.Panel>
+          <Tab.Panel
+            className={classNames(
+              'rounded-xl bg-white p-3',
+              'focus:outline-none'
+            )}
+          >
+            {/* Placeholder for additional information */}
+            <p>Additional information about the product will go here.</p>
+          </Tab.Panel>
+          <Tab.Panel
+            className={classNames(
+              'rounded-xl bg-white p-3',
+              'focus:outline-none'
+            )}
+          >
+            {/* Placeholder for additional information */}
+            <p>Reviews for this product will go here.</p>
+          </Tab.Panel>
+        </Tab.Panels>
+      </Tab.Group>
     </div>
   );
 };
