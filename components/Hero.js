@@ -25,7 +25,7 @@ export default function Hero() {
               </div>
             </div>
           </div>
-          <div class="mt-4">
+          <div class="mt-8">
             <Link href="/products" passHref>
               <button className="w-full bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                 Shop Now!

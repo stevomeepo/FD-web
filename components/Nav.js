@@ -103,6 +103,7 @@ export default function Nav() {
             <Link href="/" passHref className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">Home</Link>
             <Link href="/products" passHref className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">Products</Link>
             <Link href="/training" passHref className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">Training</Link>
+            <Link href="/contact" passHref className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">Contact</Link>
           </nav>
           <div className="flex items-center space-x-4">
             <Menu as="div" className="relative inline-block text-left">
@@ -240,6 +241,7 @@ export default function Nav() {
               <Link href="/" passHref className="text-md font-bold cursor-pointer hover:text-red-500" onClick={() => setSidebarOpen(false)}>Home</Link>
               <Link href="/products" passHref className="text-md font-bold cursor-pointer hover:text-red-500" onClick={() => setSidebarOpen(false)}>Products</Link>
               <Link href="/training" passHref className="text-md font-bold cursor-pointer hover:text-red-500" onClick={() => setSidebarOpen(false)}>Training</Link>
+              <Link href="/contact" passHref className="text-md font-bold cursor-pointer hover:text-red-500" onClick={() => setSidebarOpen(false)}>Contact</Link>
               {!user && (
                 <>
                   <Link href="/login" passHref className="text-md font-bold cursor-pointer hover:text-red-500" onClick={() => setSidebarOpen(false)}>Login</Link>
