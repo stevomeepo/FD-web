@@ -3,7 +3,7 @@
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
     width: 100%; /* Take full width of its parent to allow centering */
-    height: 200px; /* Adjust height as needed */
+    height: 70px; /* Adjust height as needed */
   }
 
 .content {
@@ -51,9 +51,9 @@
 .content__container__text {
     display: inline;
     float: left;
-    margin: 0;
+    margin: 0;  
     color:rgb(0, 0, 0);
-    font-size: 42px; /* Adjusted font size */
+    font-size: 40px; /* Adjusted font size */
     line-height: 48px; /* Adjusted line height for better spacing */
 }
 
@@ -74,7 +74,7 @@
 
 .content__container__list__item {
     line-height: 48px; /* Ensure this matches the container's height if one item should fit at a time */
-    font-size: 42px; /* Adjusted font size */
+    font-size: 40px; /* Adjusted font size */
     padding: 0 125px; /* Optional: Add padding to each item if needed for spacing */
 }
 

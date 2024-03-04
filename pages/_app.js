@@ -10,9 +10,26 @@ import AuthProvider from '../context/authContext';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import '../styles/global.css';
 import Head from 'next/head';
+import { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 
 function MyApp({ Component, pageProps }) {
-  const router = useRouter()
+  const router = useRouter();
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: false,
+    });
+
+    window.addEventListener('scroll', () => {
+      AOS.refresh();
+    });
+
+    return () => window.removeEventListener('scroll', () => AOS.refresh());
+  }, []);
   
   return (
     <>
