@@ -1,117 +1,116 @@
 .container {
-    display: flex; /* Use Flexbox */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    width: 100%; /* Take full width of its parent to allow centering */
-    height: 40px; /* Adjust height as needed */
-    padding: 0 15px;
-  }
+  display: flex; /* Use Flexbox */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  width: 100%; /* Take full width of its parent to allow centering */
+  height: 40px; /* Adjust height as needed */
+  padding: 0 15px;
+}
 
 .content {
-    display: block;
-    position: relative;
-    overflow: hidden;
-    font-family: 'Lato', sans-serif;
-    color: #000000;
-    width: auto; /* Example width */
-    max-width: 600px; /* Maximum width */
-    margin: 0 auto; /* Centers the content horizontally */
+  display: block;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Lato', sans-serif;
+  color: #000000;
+  width: auto; /* Example width */
+  max-width: 600px; /* Maximum width */
+  margin: 0 auto; /* Centers the content horizontally */
 }
 
 .content__container {
-    font-weight: 600;
-    overflow: hidden;
-    height: 48px;
-    padding: 0 80px;
+  font-weight: 600;
+  overflow: hidden;
+  height: 48px;
+  padding: 0 80px;
 }
-  
+
 
 .content__container:before {
-  left: 0;
+left: 0;
 }
 
 .content__container:after {
-  position: absolute;
-  right: 0;
+position: absolute;
+right: 0;
 }
 
 .content__container:after, .content__container:before {
-  position: absolute;
-  top: -2px;
-  color: #000000;
-  font-size: 42px;
-  line-height: 40px;
-  -webkit-animation-name: opacity;
-  -webkit-animation-duration: 2s;
-  -webkit-animation-iteration-count: infinite;
-  animation-name: opacity;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
+position: absolute;
+top: -2px;
+color: #000000;
+font-size: 42px;
+line-height: 40px;
+-webkit-animation-name: opacity;
+-webkit-animation-duration: 2s;
+-webkit-animation-iteration-count: infinite;
+animation-name: opacity;
+animation-duration: 2s;
+animation-iteration-count: infinite;
 }
 
 .content__container__text {
-    display: inline;
-    float: left;
-    margin: 0;  
-    color:rgb(0, 0, 0);
-    font-size: 40px; /* Adjusted font size */
-    line-height: 48px; /* Adjusted line height for better spacing */
+  display: inline;
+  float: left;
+  margin: 0;  
+  color:rgb(0, 0, 0);
+  font-size: 40px; /* Adjusted font size */
+  line-height: 48px; /* Adjusted line height for better spacing */
 }
 
 .content__container__list {
-  margin-top: 0;
-  padding-left: 0;
-  color: #e51c1c;
-  padding-left: 110px;
-  text-align: left;
-  list-style: none;
-  -webkit-animation-name: change;
-  -webkit-animation-duration: 10s;
-  -webkit-animation-iteration-count: infinite;
-  animation-name: change;
-  animation-duration: 10s;
-  animation-iteration-count: infinite;
+margin-top: 0;
+padding-left: 0;
+color: #e51c1c;
+padding-left: 110px;
+text-align: left;
+list-style: none;
+-webkit-animation-name: change;
+-webkit-animation-duration: 10s;
+-webkit-animation-iteration-count: infinite;
+animation-name: change;
+animation-duration: 10s;
+animation-iteration-count: infinite;
 }
 
 .content__container__list__item {
-    line-height: 48px; /* Ensure this matches the container's height if one item should fit at a time */
-    font-size: 40px; /* Adjusted font size */
-    padding: 0 125px; /* Optional: Add padding to each item if needed for spacing */
+  line-height: 48px; /* Ensure this matches the container's height if one item should fit at a time */
+  font-size: 40px; /* Adjusted font size */
+  padding: 0 125px; /* Optional: Add padding to each item if needed for spacing */
 }
 
 @keyframes opacity {
-  0%, 100% {
-    opacity: 0;
-  }
+0%, 100% {
+  opacity: 0;
+}
 
-  50% {
-    opacity: 1;
-  }
+50% {
+  opacity: 1;
+}
 }
 
 @keyframes change {
-  0%, 12.66%, 100% {
-    transform: translate3d(0, 0, 0);
-  }
-
-  16.66%, 29.32% {
-    transform: translate3d(0, -25%, 0);
-  }
-
-  33.32%, 45.98% {
-    transform: translate3d(0, -50%, 0);
-  }
-
-  49.98%, 62.64% {
-    transform: translate3d(0, -75%, 0);
-  }
-
-  66.64%, 79.3% {
-    transform: translate3d(0, -50%, 0);
-  }
-
-  83.3%, 95.96% {
-    transform: translate3d(0, -25%, 0);
-  }
+0%, 12.66%, 100% {
+  transform: translate3d(0, 0, 0);
 }
- 
+
+16.66%, 29.32% {
+  transform: translate3d(0, -25%, 0);
+}
+
+33.32%, 45.98% {
+  transform: translate3d(0, -50%, 0);
+}
+
+49.98%, 62.64% {
+  transform: translate3d(0, -75%, 0);
+}
+
+66.64%, 79.3% {
+  transform: translate3d(0, -50%, 0);
+}
+
+83.3%, 95.96% {
+  transform: translate3d(0, -25%, 0);
+}
+}

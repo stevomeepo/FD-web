@@ -10,7 +10,7 @@ const ProductTabs = ({ product }) => {
     <div className="w-full max-w-2xl px-2 py-16 sm:px-0">
       <Tab.Group>
         <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1">
-          {['Description', 'Configuration', 'Reviews'].map((category) => (
+          {['Description', 'Additional Information', 'Reviews'].map((category) => (
             <Tab
               key={category}
               className={({ selected }) =>

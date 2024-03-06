@@ -6,27 +6,17 @@ const RecommendedList = ({ products, current }) => {
   return (
     <div className="bg-white">
       <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
-        <h2 className="text-2xl font-bold text-black mb-8">
-          Recommended <span className='text-red-500'>Products</span>
+        <h2 className="text-2xl font-extrabold text-gray-900 mb-6">
+          Recommended Products
         </h2>
         <Swiper
           modules={[Navigation]}
-          slidesPerView={4} // Default to 4 slides per view
+          slidesPerView={4}
           spaceBetween={24}
           loop={true}
+          style={{ '--swiper-navigation-color': '#000', '--swiper-pagination-color': '#000' }}
           navigation
           className="mySwiper"
-          style={{ '--swiper-navigation-color': '#000', '--swiper-pagination-color': '#000' }}
-          breakpoints={{
-            // When the viewport width is >= 640px (sm breakpoint in Tailwind)
-            640: {
-              slidesPerView: 4,
-            },
-            // For smaller viewports
-            0: {
-              slidesPerView: 2,
-            },
-          }}
         >
           {products.map(product => (
             product.node.id === current ? null : 
@@ -39,4 +29,4 @@ const RecommendedList = ({ products, current }) => {
     </div>
   )
 }
-export default RecommendedList;
+export default RecommendedList
