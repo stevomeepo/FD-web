@@ -3,7 +3,8 @@
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
     width: 100%; /* Take full width of its parent to allow centering */
-    height: 70px; /* Adjust height as needed */
+    height: 40px; /* Adjust height as needed */
+    padding: 0 15px;
   }
 
 .content {

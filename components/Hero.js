@@ -29,9 +29,9 @@ export default function Hero() {
       <section 
         className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 flex justify-center items-center relative overflow-hidden"
       >
-        <div class="flex flex-col items-center bg-gray-100 p-10 rounded-md mt-10">
+        <div className="flex flex-col items-center bg-gray-100 p-10 rounded-md mt-10">
           <div 
-            class="w-full md:w-500 bg-white border-2 border-gray-300 rounded-lg shadow-md"
+            className="w-full md:w-500 bg-white border-2 border-gray-300 rounded-lg shadow-md"
             data-aos="fade-down"
             >
             <div class="container">
@@ -51,7 +51,7 @@ export default function Hero() {
               </div>
             </div>
           </div>
-          <div class="mt-8">
+          <div className="mt-8">
             <Link href="/products" passHref>
               <button 
                 className="w-full bg-black hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -65,7 +65,7 @@ export default function Hero() {
       </section>
       <section  
       >
-        <div>
+        <div className="w-full overflow-hidden">
           <h2 
             className="text-4xl font-bold text-black p-8"
             data-aos="fade-left"

@@ -12,7 +12,15 @@
       transform: rotate(5deg);
     }
 }
-  
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Allows container to grow */
+  overflow-x: hidden; /* Keeps horizontal scrolling disabled */
+  align-items: center; /* Center children horizontally */
+}
+
 .animate-circular-shake {
 animation: circular-shake 0.5s ease-in-out both;
 }
@@ -30,4 +38,15 @@ animation: circular-shake 0.5s ease-in-out both;
     border-radius: 25px;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
     transition: all 0.3s;
+}
+
+@media screen and (max-height: 600px) {
+  .text-4xl, .text-lg, .text-sm {
+    font-size: smaller; /* Adjust font sizes for smaller heights */
+  }
+
+  .container, .p-4, .p-6, .my-4, .mb-4 {
+    padding: 0.5rem; /* Reduce padding for smaller heights */
+    margin: 0.5rem; /* Reduce margins for smaller heights */
+  }
 }
