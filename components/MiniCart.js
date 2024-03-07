@@ -134,7 +134,6 @@ export default function MiniCart({ cart }) {
                               <p>Nothing in your cart!</p>
                             </div>
                         }
-
                       </div>
                     </div>
                   </div>
