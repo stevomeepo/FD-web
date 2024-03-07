@@ -37,6 +37,11 @@ export default function ProductForm({ product }) {
   const basePrice = parseFloat(product.variants.edges[0]?.node.price.amount) || 0;
   const [totalPrice, setTotalPrice] = useState(parseFloat(basePrice));
 
+  const generateConfigIdentifier = (variant, configurations) => {
+    const configString = JSON.stringify(configurations) || Date.now().toString();
+    return `${variant.id}-${configString}`;
+  };
+
   const allVariantOptions = product.variants.edges?.map(variant => {
     return {
       id: variant.node.id,
@@ -71,8 +76,9 @@ export default function ProductForm({ product }) {
         {
           available ?
             <button
-              onClick={() => {  
-                addToCart(selectedVariant)
+              onClick={() => {
+                const configIdentifier = generateConfigIdentifier(selectedVariant, { totalPrice });
+                addToCart({ ...selectedVariant, variantPrice: totalPrice, uniqueId: configIdentifier });
               }}
               className="px-2 py-3 mt-3 text-white bg-black rounded-lg hover:bg-red-500 w-auto md:w-40">Add To Cart
             </button> :

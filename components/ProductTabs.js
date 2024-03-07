@@ -53,7 +53,7 @@ const ProductTabs = ({ product, totalPrice, setTotalPrice }) => {
         {configurations.map((config, index) => (
           <div
             key={index}
-            className={`configuration-option cursor-pointer p-2 rounded-full text-center mb-4 ${isSelectedConfiguration(configType, config) ? 'bg-green-200' : 'bg-blue-200'}`}
+            className={`configuration-option cursor-pointer p-2 rounded-full text-center mb-4 hover:bg-red-200 ${isSelectedConfiguration(configType, config) ? 'bg-red-300' : 'bg-gray-200'}`}
             onClick={() => handleSelectConfiguration(configType, config)}
           >
             {config.name} (+${config.price})

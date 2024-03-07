@@ -101,7 +101,7 @@ export default function MiniCart({ cart }) {
                                       <div className={`border`}>
                                         <button 
                                           className="px-2" 
-                                          onClick={() => decrementCartItem(product)}
+                                          onClick={() => decrementCartItem(product.uniqueId)}
                                           disabled={cartLoading}
                                         >
                                           -
@@ -109,7 +109,7 @@ export default function MiniCart({ cart }) {
                                         <span className="px-2 border-l border-r">{product.variantQuantity}</span>
                                         <button 
                                           className="px-2" 
-                                          onClick={() => incrementCartItem(product)}
+                                          onClick={() => incrementCartItem(product.uniqueId)}
                                           disabled={cartLoading}
                                         >
                                           +
@@ -117,7 +117,7 @@ export default function MiniCart({ cart }) {
                                       </div>
                                       <div className="flex">
                                         <button
-                                          onClick={() => removeCartItem(product.id)}
+                                          onClick={() => removeCartItem(product.uniqueId)}
                                           type="button"
                                           className="font-medium text-gray-500 hover:text-gray-800"
                                           disabled={cartLoading}

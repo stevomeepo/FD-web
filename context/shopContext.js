@@ -29,96 +29,69 @@ export default function ShopProvider({ children }) {
 
 
   async function addToCart(variant) {
-    const newItem = {
-      ...variant,
-      price: variant.variantPrice,
-    };
-    setCartOpen(true)
-    if (cart.length === 0) {
-      setCart([newItem])
-
-      const checkout = await createCheckout(newItem.id, 1)
-
-      setCheckoutId(checkout.id)
-      setCheckoutUrl(checkout.webUrl)
-
-      localStorage.setItem("checkout_id", JSON.stringify([newItem, checkout]))
+    setCartOpen(true);
+    let newCart = [...cart];
+    let itemIndex = newCart.findIndex(item => item.uniqueId === variant.uniqueId);
+  
+    if (itemIndex === -1) {
+      // Item does not exist, add as new
+      newCart.push({ ...variant, variantQuantity: 1 });
     } else {
-      let newCart = []
-      let added = false
+      // Item exists, update the quantity
+      newCart[itemIndex].variantQuantity += 1;
+    }
+  
+    setCart(newCart);
+    // Update checkout and localStorage as before
+    const newCheckout = await updateCheckout(checkoutId, newCart);
+    localStorage.setItem("checkout_id", JSON.stringify([newCart, newCheckout]));
+  }
 
-      cart.map(item => {
-        if (item.id === newItem.id) {
-          item.variantQuantity++
-          newCart = [...cart]
-          added = true
-        }
-      })
+  async function removeCartItem(uniqueIdToRemove) {
+    const updatedCart = cart.filter(item => item.uniqueId !== uniqueIdToRemove);
+    setCartLoading(true);
+  
+    setCart(updatedCart);
+  
+    const newCheckout = await updateCheckout(checkoutId, updatedCart);
+    localStorage.setItem("checkout_id", JSON.stringify([updatedCart, newCheckout]));
+    setCartLoading(false);
+  
+    if (updatedCart.length === 0) {
+      setCartOpen(false);
+    }
+  }
 
-      if (!added) {
-        newCart = [...cart, newItem]
+  async function incrementCartItem(uniqueId) {
+    setCartLoading(true);
+
+    let newCart = cart.map(item => {
+      if (item.uniqueId === uniqueId) {
+        return { ...item, variantQuantity: item.variantQuantity + 1 };
       }
+      return item;
+    });
 
-      setCart(newCart)
-      const newCheckout = await updateCheckout(checkoutId, newCart)
-      localStorage.setItem("checkout_id", JSON.stringify([newCart, newCheckout]))
-    }
+    setCart(newCart);
+    const newCheckout = await updateCheckout(checkoutId, newCart);
+    localStorage.setItem("checkout_id", JSON.stringify([newCart, newCheckout]));
+    setCartLoading(false);
   }
 
-  async function removeCartItem(itemToRemove) {
-    const updatedCart = cart.filter(item => item.id !== itemToRemove)
-    setCartLoading(true)
+  async function decrementCartItem(uniqueId) {
+    setCartLoading(true);
 
-    setCart(updatedCart)
-
-    const newCheckout = await updateCheckout(checkoutId, updatedCart)
-
-    localStorage.setItem("checkout_id", JSON.stringify([updatedCart, newCheckout]))
-    setCartLoading(false)
-
-    if (cart.length === 1) {
-      setCartOpen(false)
-    }
-  }
-
-  async function incrementCartItem(item) {
-    setCartLoading(true)
-
-    let newCart = []
-
-    cart.map(cartItem => {
-      if (cartItem.id === item.id) {
-        cartItem.variantQuantity++
-        newCart = [...cart]
+    let newCart = cart.map(item => {
+      if (item.uniqueId === uniqueId && item.variantQuantity > 1) {
+        return { ...item, variantQuantity: item.variantQuantity - 1 };
       }
-    })
-    setCart(newCart)
-    const newCheckout = await updateCheckout(checkoutId, newCart)
+      return item;
+    }).filter(item => item.variantQuantity > 0); // Remove the item if quantity becomes 0
 
-    localStorage.setItem("checkout_id", JSON.stringify([newCart, newCheckout]))
-    setCartLoading(false)
-  }
-
-  async function decrementCartItem(item) {
-    setCartLoading(true)
-
-    if (item.variantQuantity === 1) {
-      removeCartItem(item.id)
-    } else {
-      let newCart = []
-      cart.map(cartItem => {
-        if (cartItem.id === item.id) {
-          cartItem.variantQuantity--
-          newCart = [...cart]
-        }
-      })
-
-      setCart(newCart)
-      const newCheckout = await updateCheckout(checkoutId, newCart)
-
-      localStorage.setItem("checkout_id", JSON.stringify([newCart, newCheckout]))
-    }
-    setCartLoading(false)
+    setCart(newCart);
+    const newCheckout = await updateCheckout(checkoutId, newCart);
+    localStorage.setItem("checkout_id", JSON.stringify([newCart, newCheckout]));
+    setCartLoading(false);
   }
 
   async function clearCart() {
