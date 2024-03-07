@@ -32,19 +32,26 @@ export default function ShopProvider({ children }) {
     setCartOpen(true);
     let newCart = [...cart];
     let itemIndex = newCart.findIndex(item => item.uniqueId === variant.uniqueId);
-  
+
     if (itemIndex === -1) {
-      // Item does not exist, add as new
       newCart.push({ ...variant, variantQuantity: 1 });
     } else {
-      // Item exists, update the quantity
       newCart[itemIndex].variantQuantity += 1;
     }
-  
+
     setCart(newCart);
-    // Update checkout and localStorage as before
-    const newCheckout = await updateCheckout(checkoutId, newCart);
-    localStorage.setItem("checkout_id", JSON.stringify([newCart, newCheckout]));
+
+    if (checkoutId === '') {
+      const checkout = await createCheckout(variant.id, 1);
+      setCheckoutId(checkout.id);
+      setCheckoutUrl(checkout.webUrl);
+      localStorage.setItem("checkout_id", JSON.stringify({ cart: newCart, checkoutId: checkout.id, checkoutUrl: checkout.webUrl }));
+    } else {
+      const newCheckout = await updateCheckout(checkoutId, newCart);
+      // Assuming newCheckout contains the updated checkout object with an id and webUrl
+      setCheckoutUrl(newCheckout.webUrl);
+      localStorage.setItem("checkout_id", JSON.stringify({ cart: newCart, checkoutId, checkoutUrl: newCheckout.webUrl }));
+    }
   }
 
   async function removeCartItem(uniqueIdToRemove) {
