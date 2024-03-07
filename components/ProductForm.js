@@ -22,9 +22,20 @@ export default function ProductForm({ product }) {
     { errorRetryCount: 3 }
   )
 
+      const cpuConfigurations = product.metafields?.find(m => m && m.key === "cpu")?.value;
+  if (cpuConfigurations) {
+    try {
+      product.cpuConfigurations = JSON.parse(cpuConfigurations);
+    } catch (error) {
+      console.error("Error parsing CPU configurations:", error);
+    }
+  }
+
   const [available, setAvailable] = useState(true)
   const [activeTab, setActiveTab] = useState(null);
-  const { addToCart } = useContext(CartContext)
+  const { addToCart } = useContext(CartContext);
+  const basePrice = parseFloat(product.variants.edges[0]?.node.price.amount) || 0;
+  const [totalPrice, setTotalPrice] = useState(parseFloat(basePrice));
 
   const allVariantOptions = product.variants.edges?.map(variant => {
     return {
@@ -55,7 +66,7 @@ export default function ProductForm({ product }) {
   return (
     <div className={`flex flex-col w-full p-4 shadow-lg rounded-2xl ${activeTab === 'description' ? 'md:w-full' : 'md:w-2/3'} min-h-[500px]`}>
       <h2 className="text-2xl font-bold text-center">{product.title}</h2>
-      <span className="pb-3 text-center pt-5">{formatter.format(product.variants.edges[0].node.price.amount)}</span>
+      <span className="pb-3 text-center pt-5">{formatter.format(totalPrice)}</span>
       <div className="pb-3 flex justify-center">
         {
           available ?
@@ -71,7 +82,7 @@ export default function ProductForm({ product }) {
             </button>
         }
       </div>
-      <ProductTabs product={product} activeTab={activeTab} setActiveTab={setActiveTab} />
+      <ProductTabs product={product} activeTab={activeTab} setActiveTab={setActiveTab} totalPrice={totalPrice} setTotalPrice={setTotalPrice} />
     </div>
   )
 }

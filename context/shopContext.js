@@ -12,27 +12,27 @@ export default function ShopProvider({ children }) {
 
 
   useEffect(() => {
-    if (localStorage.checkout_id) {
-      const cartObject = JSON.parse(localStorage.checkout_id)
-      if (cartObject[0].id && typeof cartObject[0] === 'object' && 'id' in cartObject[0]) {
-        setCart([cartObject[0]])
-      } else if (Array.isArray(cartObject[0]) && cartObject[0].length > 0) {
-        setCart(cartObject[0]);
+    const cartFromStorage = localStorage.getItem("checkout_id");
+    if (cartFromStorage) {
+      const cartObject = JSON.parse(cartFromStorage);
+      if (cartObject.cart && Array.isArray(cartObject.cart)) {
+        setCart(cartObject.cart);
       }
-
-      if (cartObject[1] && typeof cartObject[1] === 'object') {
-        setCheckoutId(cartObject[1].id);
-        setCheckoutUrl(cartObject[1].webUrl);
-      } else {
-        setCheckoutId('');
-        setCheckoutUrl('');
+      if (cartObject.checkoutId) {
+        setCheckoutId(cartObject.checkoutId);
+      }
+      if (cartObject.checkoutUrl) {
+        setCheckoutUrl(cartObject.checkoutUrl);
       }
     }
-  }, [])
+  }, []);
 
 
-  async function addToCart(addedItem) {
-    const newItem = {...addedItem}
+  async function addToCart(variant) {
+    const newItem = {
+      ...variant,
+      price: variant.variantPrice,
+    };
     setCartOpen(true)
     if (cart.length === 0) {
       setCart([newItem])
