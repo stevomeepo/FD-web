@@ -185,7 +185,7 @@ const ShippingAddressPage = () => {
             ) : (
               <div className="mb-4 text-center text-m">No Address Saved Yet...</div>
             )}
-            <div className="mt-4 text-center">
+            <div className="flex justify-center w-full pt-7">
               <Link href="/address/add" className="px-4 py-2 mb-4 font-bold text-white bg-black rounded hover:bg-red-500 focus:outline-none focus:shadow-outline">
                 Add Address
               </Link>

@@ -73,7 +73,7 @@ export default function MiniCart({ cart }) {
 
                             <ul role="list" className="-my-6 divide-y divide-gray-200">
                               {cart.map((product) => (
-                                <li key={product.id + Math.random()} className="relative flex py-6">
+                                <li key={product.uniqueId} className="relative flex py-6">
                                   <div className={`top-0 left-0 right-0 z-50 w-full h-full absolute ${cartLoading ? "bg-white opacity-60" : "hidden"}`}></div>
                                   <div className="relative flex-shrink-0 w-24 h-24 overflow-hidden border border-gray-200 rounded-md">
                                     <Image
@@ -97,7 +97,6 @@ export default function MiniCart({ cart }) {
                                       <p className="mt-1 text-sm text-gray-500">{product.variantTitle}</p>
                                     </div>
                                     <div className="flex items-end justify-between flex-1 text-sm">
-                                      {/* <p className="text-gray-500">Qty {product.variantQuantity}</p> */}
                                       <div className={`border`}>
                                         <button 
                                           className="px-2" 
@@ -127,6 +126,9 @@ export default function MiniCart({ cart }) {
                                       </div>
                                     </div>
                                   </div>
+                                  {product.configurations && Object.entries(product.configurations).map(([key, config]) => (
+                                    config && config.name ? <p key={key}>{`${key}: ${config.name}`}</p> : null
+                                  ))}
                                 </li>
                               ))}
                             </ul> :
@@ -183,3 +185,4 @@ export default function MiniCart({ cart }) {
     </Transition.Root>
   )
 }
+

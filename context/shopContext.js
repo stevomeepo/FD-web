@@ -34,7 +34,7 @@ export default function ShopProvider({ children }) {
     let itemIndex = newCart.findIndex(item => item.uniqueId === variant.uniqueId);
 
     if (itemIndex === -1) {
-      newCart.push({ ...variant, variantQuantity: 1 });
+      newCart.push(variant);
     } else {
       newCart[itemIndex].variantQuantity += 1;
     }
@@ -114,7 +114,7 @@ export default function ShopProvider({ children }) {
 
   async function getCheckoutStatus(checkoutId) {
     try {
-      const response = await fetch(`https://${process.env.SHOPIFY_STORE_DOMAIN}.myshopify.com/admin/api/2023-01/checkouts/${checkoutId}.json`, {
+      const response = await fetch(`https://${process.env.SHOPIFY_STORE_DOMAIN}/admin/api/2023-01/checkouts/${checkoutId}.json`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -144,6 +144,28 @@ export default function ShopProvider({ children }) {
     }
   }
 
+  async function initiateCheckout() {
+    setCartLoading(true);
+    try {
+      const response = await fetch('/api/createDraftOrder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ cartItems: cart }),
+      });
+      const data = await response.json();
+      if (data.invoiceUrl) {
+        window.location.href = data.invoiceUrl; // Redirect to Shopify's checkout page
+      } else {
+        console.error('Failed to initiate checkout:', data.error);
+      }
+    } catch (error) {
+      console.error('Failed to initiate checkout:', error);
+    }
+    setCartLoading(false);
+  }
+
 
   return (
     <CartContext.Provider value={{
@@ -155,6 +177,7 @@ export default function ShopProvider({ children }) {
       removeCartItem,
       clearCart,
       cartLoading,
+      initiateCheckout,
       incrementCartItem,
       decrementCartItem,
       checkAndClearCartAfterCheckout,

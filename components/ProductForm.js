@@ -16,6 +16,9 @@ const fetchInventory = (url, id) =>
 
 export default function ProductForm({ product }) {
 
+  const [selectedCpuConfiguration, setSelectedCpuConfiguration] = useState(null);
+  const [selectedMemoryConfiguration, setSelectedMemoryConfiguration] = useState(null);
+
   const { data: productInventory } = useSWR(
     ['/api/available', product.handle],
     (url, id) => fetchInventory(url, id),
@@ -68,6 +71,19 @@ export default function ProductForm({ product }) {
     }
   }, [productInventory, selectedVariant])
 
+  const handleAddToCart = () => {
+    const configIdentifier = generateConfigIdentifier(selectedVariant, { totalPrice });
+    addToCart({
+      ...selectedVariant,
+      variantPrice: totalPrice,
+      configurations: {
+        CPU: selectedCpuConfiguration,
+        Memory: selectedMemoryConfiguration
+      },
+      uniqueId: configIdentifier
+    });
+  };
+
   return (
     <div className={`flex flex-col w-full p-4 shadow-lg rounded-2xl ${activeTab === 'description' ? 'md:w-full' : 'md:w-2/3'} min-h-[500px]`}>
       <h2 className="text-2xl font-bold text-center">{product.title}</h2>
@@ -76,10 +92,7 @@ export default function ProductForm({ product }) {
         {
           available ?
             <button
-              onClick={() => {
-                const configIdentifier = generateConfigIdentifier(selectedVariant, { totalPrice });
-                addToCart({ ...selectedVariant, variantPrice: totalPrice, uniqueId: configIdentifier });
-              }}
+              onClick={handleAddToCart}
               className="px-2 py-3 mt-3 text-white bg-black rounded-lg hover:bg-red-500 w-auto md:w-40">Add To Cart
             </button> :
             <button
