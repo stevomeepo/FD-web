@@ -56,7 +56,7 @@ const ProductTabs = ({ product, totalPrice, setTotalPrice }) => {
             className={`configuration-option cursor-pointer p-2 rounded-full text-center mb-4 hover:bg-red-200 ${isSelectedConfiguration(configType, config) ? 'bg-red-300' : 'bg-gray-200'}`}
             onClick={() => handleSelectConfiguration(configType, config)}
           >
-            {config.name} (+${config.price})
+            {config.name} (${config.price})
           </div>
         ))}
       </div>

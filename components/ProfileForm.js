@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { updateCustomer } from '../lib/customer';
 import { Switch } from '@headlessui/react'
 import { useRouter } from 'next/router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 const ProfileForm = ({ customerAccessToken, onSaveSuccess, initialData, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -71,8 +73,12 @@ const ProfileForm = ({ customerAccessToken, onSaveSuccess, initialData, onCancel
             >
               <span
                 className={`${formData.acceptsMarketing ? 'translate-x-6' : 'translate-x-1'
-                } inline-block h-4 w-4 transform rounded-full bg-white transition`}
-              />
+                } inline-block h-4 w-4 transform rounded-full bg-white transition flex justify-center items-center`}
+              >
+                {formData.acceptsMarketing && (
+                  <FontAwesomeIcon icon={faCheck} className="text-red-500" style={{ fontSize: '1em', width: '16px', height: '16px' }} />
+                )}
+              </span>
             </Switch>
           </div>
           <div className="flex items-center justify-between">
