@@ -59,11 +59,11 @@ export default function Contact() {
           <h2 className="text-4xl font-bold text-black mb-4">CONTACT <span className='text-red-500'>US</span></h2>
           <div className="text-black">
             <p className="flex items-center">
-              <LocationMarkerIcon className="h-5 w-5 mr-2" />
+              <LocationMarkerIcon className="h-5 w-5 mr-2 text-red-500" />
               1200 N. Van Buren St. STE A, Anaheim, CA 92807
             </p>
             <p className="my-4 flex items-center">
-              <PhoneIcon className="h-5 w-5 mr-2" />
+              <PhoneIcon className="h-5 w-5 mr-2 text-red-500" />
               Call us (714)-238-8888
             </p>
           </div>

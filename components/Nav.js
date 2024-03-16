@@ -1,21 +1,22 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { useContext, useState, useRef, useEffect } from 'react';
+import { useContext, useState, useRef, useEffect, Fragment } from 'react';
 import { CartContext } from '../context/shopContext';
 import MiniCart from './MiniCart';
-import { Dialog, Transition } from '@headlessui/react';
-import { XIcon, ShoppingCartIcon, UserIcon } from '@heroicons/react/outline';
-import { Menu } from '@headlessui/react';
+import { Dialog, Transition, Menu } from '@headlessui/react';
+import { XIcon, ShoppingCartIcon, UserIcon, ChevronDownIcon } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import { AuthContext } from '../context/authContext';
 import '../styles/hamburger.css';
 import '../styles/homepage.css';
 import Loader from './Loader';
+import '../styles/navbar.css';
 
 
 export default function Nav() {
   const { cart, cartOpen, setCartOpen } = useContext(CartContext);
+  const [isHovering, setIsHovering] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user, setUser } = useContext(AuthContext);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -100,10 +101,69 @@ export default function Nav() {
             </div>
           </div>
           <nav className="hidden lg:flex justify-center space-x-7">
-            <Link href="/" passHref className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">Home</Link>
-            <Link href="/products" passHref className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">Products</Link>
-            <Link href="/training" passHref className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">Training</Link>
-            <Link href="/contact" passHref className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">Contact</Link>
+            <>
+              <Link href="/" passHref className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">Home</Link>
+              <Link href="/products" passHref className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">Products</Link>
+              <Link href="/training" passHref className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">Training</Link>
+              <Link href="/contact" passHref className="text-md font-bold cursor-pointer hover:text-red-500 link-underline">Contact</Link>
+              <Menu as="div" className="relative inline-block text-left">
+                {({ open }) => (
+                  <>
+                    <Menu.Button className="flex items-center text-md font-bold cursor-pointer hover:text-red-500 link-underline" 
+                      onMouseEnter={() => setIsHovering(true)} 
+                      onMouseLeave={() => setIsHovering(false)}>
+                        <div className="flex items-center">
+                          About Us
+                          <ChevronDownIcon
+                            className={`ml-2 w-5 h-5 transform transition-transform duration-200 ${open || isHovering ? 'rotate-0' : '-rotate-180'}`}
+                            aria-hidden="true"
+                          />
+                        </div>
+                    </Menu.Button>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                      <Menu.Items className="absolute right-0 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <div className="py-1">
+                          <Menu.Item>
+                            {({ active }) => (
+                              <Link
+                                href="/shipping-and-returns"
+                                passHref
+                                className={`${
+                                  active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                                } group flex rounded-md items-center w-full px-2 py-2 text-sm font-bold cursor-pointer`}
+                              >
+                                Shipping & Returns
+                              </Link>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <Link
+                                href="/terms"
+                                passHref
+                                className={`${
+                                  active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                                } group flex rounded-md items-center w-full px-2 py-2 text-sm font-bold cursor-pointer`}
+                              >
+                                Terms & Conditions
+                              </Link>
+                            )}
+                          </Menu.Item>
+                        </div>
+                      </Menu.Items>
+                    </Transition>
+                  </>
+                )}
+              </Menu>
+            </>
           </nav>
           <div className="flex items-center space-x-4">
             <Menu as="div" className="relative inline-block text-left">
@@ -242,16 +302,71 @@ export default function Nav() {
               <Link href="/products" passHref className="text-md font-bold cursor-pointer hover:text-red-500" onClick={() => setSidebarOpen(false)}>Products</Link>
               <Link href="/training" passHref className="text-md font-bold cursor-pointer hover:text-red-500" onClick={() => setSidebarOpen(false)}>Training</Link>
               <Link href="/contact" passHref className="text-md font-bold cursor-pointer hover:text-red-500" onClick={() => setSidebarOpen(false)}>Contact</Link>
+              <Menu as="div" className="relative inline-block text-left w-full">
+                {({ open }) => (
+                  <>
+                    <Menu.Button className="w-full text-md font-bold cursor-pointer hover:text-red-500 text-center" 
+                      onMouseEnter={() => setIsHovering(true)} 
+                      onMouseLeave={() => setIsHovering(false)}>
+                        About Us
+                        <ChevronDownIcon
+                          className={`inline ml-2 w-5 h-5 transform transition-transform duration-200 ${open || isHovering ? 'rotate-0' : '-rotate-180'}`}
+                          aria-hidden="true"
+                        />
+                    </Menu.Button>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                      <Menu.Items className="origin-top-right absolute left-0 mt-1 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <div className="py-1">
+                          <Menu.Item>
+                            {({ active }) => (
+                              <Link
+                                href="/shipping-and-returns"
+                                passHref
+                                className={`${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'} group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                                onClick={() => setSidebarOpen(false)}
+                              >
+                                Shipping & Returns
+                              </Link>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <Link
+                                href="/terms"
+                                passHref
+                                className={`${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'} group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                                onClick={() => setSidebarOpen(false)}
+                              >
+                                Terms & Conditions
+                              </Link>
+                            )}
+                          </Menu.Item>
+                        </div>
+                      </Menu.Items>
+                    </Transition>
+                  </>
+                )}
+              </Menu>
+            </nav>
+            <div className="space-y-4 pb-12">
               {!user && (
                 <>
-                  <Link href="/login" passHref className="text-md font-bold cursor-pointer hover:text-red-500" onClick={() => setSidebarOpen(false)}>Login</Link>
-                  <Link href="/signup" passHref className="text-md font-bold cursor-pointer hover:text-red-500" onClick={() => setSidebarOpen(false)}>Signup</Link>
+                  <Link href="/login" passHref className="text-md font-bold cursor-pointer hover:text-red-500 block" onClick={() => setSidebarOpen(false)}>Login</Link>
+                  <Link href="/signup" passHref className="text-md font-bold cursor-pointer hover:text-red-500 block" onClick={() => setSidebarOpen(false)}>Signup</Link>
                 </>
               )}
               {user && (
-                <div onClick={handleLogout} className="text-md font-bold cursor-pointer hover:text-red-500">Logout</div>
+                <div onClick={handleLogout} className="text-md font-bold cursor-pointer hover:text-red-500 block">Logout</div>
               )}
-            </nav>
+            </div>
           </div>
         </div>
       )}

@@ -63,6 +63,13 @@ export default function Hero() {
           </div>
         </div>
       </section>
+      <section className="flex w-full items-center">
+        <div className="w-1/2 flex flex-col justify-center items-start p-4">
+          <h2 className="text-2xl font-bold mb-4">Your Product Title</h2>
+          <p className="mb-4">Here's a short description of your product. Highlight the key features and benefits to entice viewers.</p>
+          <a href="/your-link" className="inline-block bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition-colors">Learn More</a>
+        </div>
+      </section>
       <section  
       >
         <div>

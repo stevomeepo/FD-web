@@ -7,7 +7,7 @@ const navigation = [
     { name: 'Products', href: '/products' },
     { name: 'Contact Us', href: '/contact' },
     { name: 'Shipping & Returns', href: "/shipping-and-returns" },
-    { name: 'Terms and Conditions', href: '/terms' }
+    { name: 'Terms & Conditions', href: '/terms' }
 
   ]
   
